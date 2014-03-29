@@ -6,17 +6,23 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
+import ppc.signalize.perspectives.content.Signalize;
+
 
 /**
  * An activity representing a single Perspective detail screen. This
  * activity is only used on handset devices. On tablet-size devices,
  * item details are presented side-by-side with a list of items
  * in a {@link PerspectiveListActivity}.
- * <p>
+ * <p/>
  * This activity is mostly just a 'shell' activity containing nothing
  * more than a {@link PerspectiveDetailFragment}.
  */
 public class PerspectiveDetailActivity extends FragmentActivity {
+
+    public static Signalize mySig;
+    private String TAG = "PerspectiveDetailActivity";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,13 +47,14 @@ public class PerspectiveDetailActivity extends FragmentActivity {
             Bundle arguments = new Bundle();
             arguments.putString(PerspectiveDetailFragment.ARG_ITEM_ID,
                     getIntent().getStringExtra(PerspectiveDetailFragment.ARG_ITEM_ID));
-            PerspectiveDetailFragment fragment = new PerspectiveDetailFragment();
+            PerspectiveDetailFragment fragment = new PerspectiveDetailFragment(mySig);
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.perspective_detail_container, fragment)
                     .commit();
         }
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

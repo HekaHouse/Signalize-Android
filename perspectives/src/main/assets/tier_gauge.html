@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <script type="text/javascript">
+
+var sma;
+var chart;
+
+function restore(bundle) {
+    bundle = bundle.replace(/'/g,'"');
+    json = JSON.parse(bundle);
+    tier_one = json.one;
+    tier_two = json.two;
+    tier_three = json.three;
+    index = json.index;
+    active = true;
+    
+    return index;
+    }
+function pause() {
+    active = false;
+    }
+function setStore() {
+    if (index) {
+            window.Signalize.setStore("tier_gauge","{'one': '"+tier_one+"','two': '"+tier_two+"','three': '"+tier_three+"', 'index': '"+index+"' }");
+        }
+    }
+
+window.onload = function () {
+
+    sma = simple_moving_averager(5);
+
+    chart = buildTierGauge();
+
+    chart.render();
+
+    var xVal = 0;
+
+    (function loop() {
+        if (active) {
+            var rand = Math.round(Math.random() * (1000 - 100)) + 100;
+            setTimeout(function() {               
+              chart = buildTierGauge();
+              collectTier(sma,chart); 
+              loop(); 
+            }, rand);
+        }
+    }());
+
+}    
+
+
+
+    </script>
+    <script type="text/javascript" src="canvasjs.min.js"></script>
+    <script type="text/javascript" src="signalize.js"></script>
+</head>
+<body>
+<div id="chartContainer" style="height: 100px; width: 100%;">
+</div>
+</body>
+</html>

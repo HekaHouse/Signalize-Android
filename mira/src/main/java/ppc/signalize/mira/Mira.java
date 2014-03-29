@@ -28,12 +28,13 @@ public class Mira implements Runnable {
 
     private static final String TAG = "ppc/signalize/mira";
     public MyVoice _world;
-    protected String _name = "MIRA";
-    protected String _AIML_path;
     public boolean _is_awake;
-    private int _sleeping_check = 0;
     public int _result;
     public Brain _brain;
+    protected String _name = "MIRA";
+    protected String _AIML_path;
+    private int _sleeping_check = 0;
+    private boolean withPrompt;
 
     public Mira(MyVoice c) {
         _world = c;
@@ -45,7 +46,7 @@ public class Mira implements Runnable {
         }
         _AIML_path = bots.getAbsolutePath();
 
-        _brain = createBrain();
+
     }
 
     private Brain createBrain() {
@@ -54,13 +55,12 @@ public class Mira implements Runnable {
             FragmentManager fm = _world.getFragmentManager();
             BrainFragment frag = new BrainFragment();
             fm.beginTransaction().add(frag, "data").commit();
-            _brain = new Brain(_name,_AIML_path);
+            _brain = new Brain(_name, _AIML_path);
             frag.setData(_brain);
             _world.set_brainStore(frag);
         }
         // restore previous brain
-        else
-        {
+        else {
             _brain = _world.get_brainStore();
         }
         return _brain;
@@ -117,7 +117,8 @@ public class Mira implements Runnable {
 
     @Override
     public void run() {
-        new Intuition(false,_world);
+
+        new Intuition(false, _world);
         Log.d(TAG, "run ppc.signalize.mira");
         _brain.init();
         _is_awake = true;
@@ -143,14 +144,14 @@ public class Mira implements Runnable {
     }
 
     public void allLoaded() {
-        new AsyncMouth(_world).execute(_world.getString(R.string.all_loaded));
+
+        new AsyncMouth(_world, withPrompt).execute(_world.getString(R.string.all_loaded));
     }
 
 
-
-
-    public void init() {
-
+    public void init(boolean prompt_when_done) {
+        withPrompt = prompt_when_done;
+        _brain = createBrain();
         new Thread(this).start();
     }
 
@@ -159,13 +160,18 @@ public class Mira implements Runnable {
     }
 
 
-
-
-
     public Consideration consider(String s) {
-        String raw =  _brain.process(s);
+        String raw = _brain.process(s);
         JointClassification sent = Intuition.classify(s, Intuition.SENTIMENT);
         JointClassification sever = Intuition.classify(s, Intuition.SEVERITY);
-        return new Consideration(sent,sever,raw,s);
+        return new Consideration(sent, sever, _world, raw, s);
+    }
+
+    public void listen() {
+        new AsyncMouth(_world, true).execute("Hello");
+    }
+
+    public void stop_listen() {
+        new AsyncMouth(_world, false).execute("Goodbye");
     }
 }

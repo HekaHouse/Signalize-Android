@@ -8,14 +8,16 @@ import java.util.HashMap;
 
 import ppc.signalize.mira.MyVoice;
 import ppc.signalize.mira.R;
+import ppc.signalize.mira.body.MiraAbstractActivity;
 
 /**
  * Created by Aron on 3/17/14.
  */
-public class AsyncMouth extends AsyncTask<String,Integer,Long> {
+public class AsyncMouth extends AsyncTask<String, Integer, Long> {
     private static final String TAG = "AsyncMouth";
-    protected final MyVoice mWorld;
     private static boolean speech_cycle_active = false;
+    public final boolean withPrompt;
+    protected final MyVoice mWorld;
 
     /**
      * Override this method to perform a computation on a background thread. The
@@ -30,8 +32,9 @@ public class AsyncMouth extends AsyncTask<String,Integer,Long> {
      * @see #onPostExecute
      * @see #publishProgress
      */
-    public AsyncMouth(MyVoice mv) {
+    public AsyncMouth(MyVoice mv, boolean p) {
         mWorld = mv;
+        withPrompt = p;
     }
 
     @Override
@@ -42,14 +45,15 @@ public class AsyncMouth extends AsyncTask<String,Integer,Long> {
 
     @Override
     protected Long doInBackground(String... params) {
-        for (String s: params) {
+        for (String s : params) {
             speechCycle(s);
         }
         return 0L;
     }
-    public void speechCycle(String considered) {
 
-        while (mWorld.getTTS().isSpeaking() || speech_cycle_active) {
+    public String speechCycle(String considered) {
+
+        while (!mWorld.hasTTS() || mWorld.getTTS().isSpeaking() || speech_cycle_active) {
             mWorld.pause(10);
         }
         speech_cycle_active = true;
@@ -58,7 +62,11 @@ public class AsyncMouth extends AsyncTask<String,Integer,Long> {
         //AudioManager.STREAM_MUSIC
         params.put("streamType", "3");
         params.put("utteranceId", "MIR_Response");
-        params.put("embeddedTts","true");
+        params.put("embeddedTts", "true");
+
+
+        mWorld.appendText(considered, MiraAbstractActivity.ALIGN_MIRA);
+
         mWorld.getTTS().speak(considered, TextToSpeech.QUEUE_FLUSH, params);
 
         while (mWorld.getTTS().isSpeaking()) {
@@ -68,9 +76,12 @@ public class AsyncMouth extends AsyncTask<String,Integer,Long> {
         Log.d(TAG, "end speech cycle");
         mWorld.pause(500);
         speech_cycle_active = false;
+        return considered;
     }
+
     @Override
     protected void onPostExecute(Long result) {
-        new AsyncEarOpener(mWorld).execute(mWorld.getString(R.string.all_loaded));
+        if (withPrompt)
+            new AsyncEarOpener(mWorld).execute(mWorld.getString(R.string.all_loaded));
     }
 }

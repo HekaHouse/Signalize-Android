@@ -9,7 +9,6 @@ import android.util.Log;
 
 import java.util.List;
 
-
 import ppc.signalize.mira.MyVoice;
 import ppc.signalize.mira.body.parts.nervous.concurrent.AsyncMiraResponse;
 import ppc.signalize.mira.body.parts.skeleton.text.MiraWordList;
@@ -23,29 +22,25 @@ import root.gast.speech.text.match.SoundsLikeWordMatcher;
  */
 public class MiraActivator implements SpeechActivator, RecognitionListener {
     private static final String TAG = "WordActivator";
-
-    private MyVoice context;
     public SpeechRecognizer recognizer;
+    private MyVoice context;
     private SoundsLikeWordMatcher matcher;
     private Class mService;
     private SpeechActivationListener resultListener;
     private boolean activation = false;
 
-    public MiraActivator(MyVoice context, SpeechActivationListener resultListener, String... targetWords)
-    {
+    public MiraActivator(MyVoice context, SpeechActivationListener resultListener, String... targetWords) {
         this.context = context;
         this.matcher = new SoundsLikeWordMatcher(targetWords);
         this.resultListener = resultListener;
     }
 
     @Override
-    public void detectActivation()
-    {
+    public void detectActivation() {
         recognizeSpeechDirectly();
     }
 
-    private void recognizeSpeechDirectly()
-    {
+    private void recognizeSpeechDirectly() {
         Intent recognizerIntent =
                 new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
@@ -56,10 +51,8 @@ public class MiraActivator implements SpeechActivator, RecognitionListener {
                 recognizerIntent, this, getSpeechRecognizer());
     }
 
-    public void stop()
-    {
-        if (getSpeechRecognizer() != null)
-        {
+    public void stop() {
+        if (getSpeechRecognizer() != null) {
             getSpeechRecognizer().stopListening();
             getSpeechRecognizer().cancel();
             getSpeechRecognizer().destroy();
@@ -68,15 +61,13 @@ public class MiraActivator implements SpeechActivator, RecognitionListener {
     }
 
     @Override
-    public void onResults(Bundle results)
-    {
+    public void onResults(Bundle results) {
         Log.d(TAG, "full results");
         receiveResults(results);
     }
 
     @Override
-    public void onPartialResults(Bundle partialResults)
-    {
+    public void onPartialResults(Bundle partialResults) {
         Log.d(TAG, "partial results");
         //receivePartialResults(partialResults);
     }
@@ -84,35 +75,28 @@ public class MiraActivator implements SpeechActivator, RecognitionListener {
     /**
      * common method to process any results bundle from {@link android.speech.SpeechRecognizer}
      */
-    private void receiveResults(Bundle results)
-    {
+    private void receiveResults(Bundle results) {
         if ((results != null)
-                && results.containsKey(SpeechRecognizer.RESULTS_RECOGNITION))
-        {
+                && results.containsKey(SpeechRecognizer.RESULTS_RECOGNITION)) {
             List<String> heard =
                     results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
             float[] scores =
                     results.getFloatArray(SpeechRecognizer.CONFIDENCE_SCORES);
             receiveWhatWasHeard(heard, scores);
-        }
-        else
-        {
+        } else {
             Log.d(TAG, "no results");
         }
     }
 
-    private void receiveWhatWasHeard(List<String> heard, float[] scores)
-    {
-        Log.d(TAG, "processing "+ heard.get(0));
+    private void receiveWhatWasHeard(List<String> heard, float[] scores) {
+        Log.d(TAG, "processing " + heard.get(0));
         boolean heardTargetWord = false;
         // find the target word
         String recognized = "";
-        for (String possible : heard)
-        {
+        for (String possible : heard) {
             Log.d(TAG, possible);
             MiraWordList wordList = new MiraWordList(possible);
-            if (matcher.isIn(new String[] {possible}))
-            {
+            if (matcher.isIn(new String[]{possible})) {
                 Log.d(TAG, "HEARD IT!");
                 heardTargetWord = true;
                 recognized = possible;
@@ -120,8 +104,7 @@ public class MiraActivator implements SpeechActivator, RecognitionListener {
             }
         }
 
-        if (heardTargetWord)
-        {
+        if (heardTargetWord) {
             Log.d(TAG, "heard target word");
             if (recognized.contains("hello"))
                 activation = true;
@@ -131,11 +114,10 @@ public class MiraActivator implements SpeechActivator, RecognitionListener {
             new AsyncMiraResponse(context).execute(recognized);
             //stop();
             //resultListener.activated(true);
-        }
-        else
-        {
+        } else {
             if (activation) {
                 Log.d(TAG, "making considerate response");
+
                 new AsyncMiraResponse(context).execute(heard.get(0));
             } else {
                 Log.d(TAG, "ignoring because inactive");
@@ -149,31 +131,26 @@ public class MiraActivator implements SpeechActivator, RecognitionListener {
     }
 
     @Override
-    public void onError(int errorCode)
-    {
+    public void onError(int errorCode) {
         if ((errorCode == SpeechRecognizer.ERROR_NO_MATCH)
-                || (errorCode == SpeechRecognizer.ERROR_SPEECH_TIMEOUT))
-        {
+                || (errorCode == SpeechRecognizer.ERROR_SPEECH_TIMEOUT)) {
             Log.d(TAG, "didn't recognize anything");
             // keep going
             recognizeSpeechDirectly();
-        }
-        else
-        {
+        } else {
             Log.d(TAG,
                     "FAILED "
                             + SpeechRecognitionUtil
-                            .diagnoseErrorCode(errorCode));
+                            .diagnoseErrorCode(errorCode)
+            );
         }
     }
 
     /**
      * lazy initialize the speech recognizer
      */
-    private SpeechRecognizer getSpeechRecognizer()
-    {
-        if (recognizer == null)
-        {
+    private SpeechRecognizer getSpeechRecognizer() {
+        if (recognizer == null) {
             recognizer = SpeechRecognizer.createSpeechRecognizer(context.getApplicationContext());
         }
         return recognizer;
@@ -182,36 +159,30 @@ public class MiraActivator implements SpeechActivator, RecognitionListener {
     // other unused methods from RecognitionListener...
 
     @Override
-    public void onReadyForSpeech(Bundle params)
-    {
+    public void onReadyForSpeech(Bundle params) {
         Log.d(TAG, "ready for speech " + params);
     }
 
     @Override
-    public void onEndOfSpeech()
-    {
+    public void onEndOfSpeech() {
     }
 
     /**
      * @see android.speech.RecognitionListener#onBeginningOfSpeech()
      */
     @Override
-    public void onBeginningOfSpeech()
-    {
+    public void onBeginningOfSpeech() {
     }
 
     @Override
-    public void onBufferReceived(byte[] buffer)
-    {
+    public void onBufferReceived(byte[] buffer) {
     }
 
     @Override
-    public void onRmsChanged(float rmsdB)
-    {
+    public void onRmsChanged(float rmsdB) {
     }
 
     @Override
-    public void onEvent(int eventType, Bundle params)
-    {
+    public void onEvent(int eventType, Bundle params) {
     }
 }

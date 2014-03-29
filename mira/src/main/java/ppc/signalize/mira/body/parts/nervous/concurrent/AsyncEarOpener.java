@@ -6,6 +6,7 @@ import ppc.signalize.mira.MyVoice;
 
 /**
  * Created by Aron on 3/17/14.
+ A part of Signalize for Project Patient Care
  */
 public class AsyncEarOpener extends AsyncTask<String,Integer,Long> {
     private final MyVoice mWorld;
@@ -36,7 +37,8 @@ public class AsyncEarOpener extends AsyncTask<String,Integer,Long> {
     }
     @Override
     protected void onPostExecute(Long result) {
-
-        mWorld.startSpeechRecognitionService();
+        if (mWorld.canListen()) {
+            mWorld.startSpeechRecognitionService();
+        }
     }
 }

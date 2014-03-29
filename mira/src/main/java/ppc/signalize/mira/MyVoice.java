@@ -1,5 +1,6 @@
 package ppc.signalize.mira;
 
+import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -11,39 +12,84 @@ import android.speech.tts.UtteranceProgressListener;
 import java.io.File;
 
 import ppc.signalize.mira.body.MiraAbstractActivity;
+import ppc.signalize.mira.body.MiraAbstractFragmentActivity;
 import ppc.signalize.mira.body.fragments.BrainFragment;
 import ppc.signalize.mira.body.parts.brain.Brain;
 import ppc.signalize.mira.body.parts.brain.Intuition;
+import ppc.signalize.mira.body.parts.nervous.concurrent.AsyncConsciousness;
 
 /**
  * Created by Aron on 3/16/14.
  */
-public class MyVoice extends UtteranceProgressListener  {
-    private final MiraAbstractActivity mActive;
-
+public class MyVoice extends UtteranceProgressListener {
+    public boolean isSpeechRecognitionServiceActive = false;
+    private MiraAbstractFragmentActivity mfActive;
+    private MiraAbstractActivity maActive;
     private SharedPreferences access;
     private boolean mInit = true;
-    public boolean isSpeechRecognitionServiceActive = false;
     private boolean mIsStreamSolo;
     private AudioManager mAudioManager;
     private boolean doneSpeaking = true;
 
 
     public MyVoice(MiraAbstractActivity a) {
-        mActive = a;
+        maActive = a;
         access = a.getPreferences(a.MODE_PRIVATE);
-        mAudioManager = (AudioManager) mActive.getSystemService(mActive.AUDIO_SERVICE);
+        mAudioManager = (AudioManager) maActive.getSystemService(maActive.AUDIO_SERVICE);
+    }
+
+    public MyVoice(MiraAbstractFragmentActivity a) {
+        mfActive = a;
+        access = a.getPreferences(a.MODE_PRIVATE);
+        mAudioManager = (AudioManager) mfActive.getSystemService(mfActive.AUDIO_SERVICE);
     }
 
     public Context getApplicationContext() {
-        return mActive.getApplicationContext();
+        return mActive().getApplicationContext();
+    }
+
+    private Mira mira() {
+        if (mfActive != null)
+            return mfActive.mira;
+        else
+            return maActive.mira;
+    }
+
+    private Activity mActive() {
+        if (mfActive != null)
+            return mfActive;
+        else
+            return maActive;
+    }
+
+    private void startActivator() {
+        if (mfActive != null)
+            mfActive.startActivator();
+        else
+            maActive.startActivator();
+    }
+
+    private void stopActivator() {
+        if (mfActive != null)
+            mfActive.stopActivator();
+        else
+            maActive.stopActivator();
+    }
+
+    private TextToSpeech tts() {
+        if (mfActive != null)
+            return mfActive.tts;
+        else
+            return maActive.tts;
     }
 
     public String getString(int i) {
-        return mActive.getString(i);
+        return mActive().getString(i);
     }
 
-    public void appendText(String recognized) {
+    public void appendText(String words, int aligned) {
+        if (maActive != null)
+            new AsyncConsciousness(maActive, words, aligned).execute("");
     }
 
     public void sayAndPrompt(String string) {
@@ -53,17 +99,18 @@ public class MyVoice extends UtteranceProgressListener  {
         return false;
     }
 
-    public void set_brainStore(BrainFragment frag) {
-
+    public Brain get_brainStore() {
+        return getMira()._brain;
     }
 
-    public Brain get_brainStore() {
-        return null;
+    public void set_brainStore(BrainFragment frag) {
+        if (getMira() != null)
+            getMira()._brain = frag.getData();
     }
 
     public File getLinguisticRepo() {
-        mActive.getDir("ling", mActive.MODE_PRIVATE).mkdirs();
-        return mActive.getDir("ling", mActive.MODE_PRIVATE);
+        mActive().getDir("ling", mActive().MODE_PRIVATE).mkdirs();
+        return mActive().getDir("ling", mActive().MODE_PRIVATE);
     }
 
     public File getTrainingRepo() {
@@ -83,15 +130,16 @@ public class MyVoice extends UtteranceProgressListener  {
 
     public File getPolarClassifierRepo() {
         new File(getLinguisticRepo().getPath() + "/classify/polarity").mkdirs();
-        return new File(getLinguisticRepo().getPath() + "/classify/polarity/"+ Intuition.POLAR_CLASSIFICATION_FILE);
+        return new File(getLinguisticRepo().getPath() + "/classify/polarity/" + Intuition.POLAR_CLASSIFICATION_FILE);
     }
+
     public File getSevereClassifierRepo() {
         new File(getLinguisticRepo().getPath() + "/classify/severity").mkdirs();
-        return new File(getLinguisticRepo().getPath() + "/classify/severity/"+ Intuition.SEVER_CLASSIFICATION_FILE);
+        return new File(getLinguisticRepo().getPath() + "/classify/severity/" + Intuition.SEVER_CLASSIFICATION_FILE);
     }
 
     public File getBrainRepo() {
-        return mActive.getDir("bots", mActive.MODE_PRIVATE);
+        return mActive().getDir("bots", mActive().MODE_PRIVATE);
     }
 
     public SharedPreferences getAccess() {
@@ -99,39 +147,37 @@ public class MyVoice extends UtteranceProgressListener  {
     }
 
     public FragmentManager getFragmentManager() {
-        return mActive.getFragmentManager();
+        return mActive().getFragmentManager();
     }
-
 
 
     public AssetManager getAssets() {
-        return mActive.getAssets();
+        return mActive().getAssets();
     }
 
     public void startSpeechRecognitionService() {
-        isSpeechRecognitionServiceActive=true;
+        isSpeechRecognitionServiceActive = true;
         mutePrompt();
-        mActive.startActivator();
+
+        startActivator();
     }
 
 
     public void stopSpeechRecognitionService() {
-        isSpeechRecognitionServiceActive=false;
-        mActive.stopActivator();
+        isSpeechRecognitionServiceActive = false;
+        stopActivator();
     }
 
     private void mutePrompt() {
 
-        if (!mIsStreamSolo && doneSpeaking)
-        {
+        if (!mIsStreamSolo && doneSpeaking) {
             mAudioManager.setStreamSolo(AudioManager.STREAM_VOICE_CALL, true);
             mIsStreamSolo = true;
         }
     }
 
     private void unmutePrompt() {
-        if (mIsStreamSolo)
-        {
+        if (mIsStreamSolo) {
             mAudioManager.setStreamSolo(AudioManager.STREAM_VOICE_CALL, false);
             mIsStreamSolo = false;
         }
@@ -149,8 +195,9 @@ public class MyVoice extends UtteranceProgressListener  {
     public boolean initializing() {
         return mInit;
     }
+
     public boolean setInitFinished() {
-        return mInit=false;
+        return mInit = false;
     }
 
     public void pause(int i) {
@@ -162,9 +209,8 @@ public class MyVoice extends UtteranceProgressListener  {
     }
 
     public TextToSpeech getTTS() {
-        return mActive.tts;
+        return tts();
     }
-
 
 
     /**
@@ -180,7 +226,6 @@ public class MyVoice extends UtteranceProgressListener  {
         unmutePrompt();
         doneSpeaking = false;
     }
-
 
 
     /**
@@ -212,6 +257,19 @@ public class MyVoice extends UtteranceProgressListener  {
     }
 
     public Mira getMira() {
-        return mActive.mira;
+        return mira();
+    }
+
+
+    public boolean canListen() {
+        if (maActive != null)
+            return maActive.canListen();
+        return true;
+    }
+
+    public boolean hasTTS() {
+        if (maActive != null)
+            return maActive.ttsLive;
+        return true;
     }
 }

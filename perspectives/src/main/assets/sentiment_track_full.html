@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <script type="text/javascript">
+      
+	window.onload = function () {
+            var yVal = 0.0;
+            var incoming = [];
+            function collectSentiment()
+                    {
+                        try
+                          {
+                          incoming=window.Signalize.incomingSentiment(index);
+                            if (incoming > -1) {
+                                yVal=100*incoming;
+                                updateChart();
+                                index++;
+                            }
+                          }
+                        catch(err)
+                          {
+
+                          }
+
+
+                    }
+            
+            function simple_moving_averager(period) {
+                      var nums = [];
+                      return function(num) {
+                          nums.push(num);
+                          if (nums.length > period)
+                              nums.splice(0,1);  // remove the first element of the array
+                          var sum = 0;
+                          for (var i in nums)
+                              sum += nums[i];
+                          var n = period;
+                          if (nums.length < period)
+                              n = nums.length;
+                          return(sum/n);
+                      }
+                  }
+                   
+                  
+            var sma = simple_moving_averager(5);
+            var dps = [];   //dataPoints.
+            var neg_dps = [];   //dataPoints.
+
+            var chart = new CanvasJS.Chart("chartContainer",{            	
+            	axisY: {						            		
+                        valueFormatString: " ",
+                        tickColor: "white" ,
+                        gridColor: "white" ,
+                        lineColor: "white"
+            	},
+                  axisX: {                                                          
+                        valueFormatString: " ",
+                        tickColor: "white" ,
+                        gridColor: "white" ,
+                        lineColor: "white"
+                  },
+            	data: [{
+                        type: "stackedArea100",
+                        indexLabelLineColor: "white",                        
+                        dataPoints : dps
+                  },{
+                        type: "stackedArea100",
+                        dataPoints : neg_dps
+                  }]            
+            });
+
+
+            //chart.render();
+            var xVal = dps.length;
+            //var yVal = 15;
+            //var updateInterval = 1000;
+
+            var updateChart = function () {
+            	
+            	
+            	yVal = Math.floor(Math.random() * 100) + 1;
+                  pos = sma(yVal);
+                  neg = sma(100-yVal);
+            	dps.push({x: xVal,y: pos});
+                  neg_dps.push({x: xVal,y: neg});
+            	
+            	xVal++;
+            	if (dps.length >  10 )
+            	{
+            		dps.shift();				
+                        neg_dps.shift();
+            	}
+
+            	chart.render();		
+
+	// update chart after specified time. 
+
+};
+
+
+var index = 0;
+(function loop() {
+    var rand = Math.round(Math.random() * (1000 - 100)) + 100;
+    setTimeout(function() {
+            collectSentiment();
+            loop();  
+    }, rand);
+}());
+
+}
+
+
+    </script>
+    <script type="text/javascript" src="canvasjs.min.js"></script>
+</head>
+<body>
+<div>
+    <form><select>
+        <option>one</option>
+        <option>two</option>
+    </select><select>
+        <option>one</option>
+        <option>two</option>
+    </select></form>
+</div>
+<div id="chartContainer" style="height: 75%; width: 100%;"></div>
+
+</body>
+</html>

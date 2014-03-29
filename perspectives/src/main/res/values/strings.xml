@@ -3,5 +3,6 @@
 
     <string name="app_name">Signalize</string>
     <string name="title_perspective_detail">Perspective Detail</string>
+    <string name="list_title">Perspectives</string>
 
 </resources>

@@ -1,0 +1,271 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/mira_bg"
+    tools:context="ppc.signalize.myvoice.MyVoiceActivity">
+
+    <!-- The primary full-screen view. This can be replaced with whatever view
+         is needed to present your content, e.g. VideoView, SurfaceView,
+         TextureView, etc. -->
+    <RelativeLayout
+        android:id="@+id/fullscreen_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="left|top">
+
+        <LinearLayout
+            android:id="@+id/menu_slot_1"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="right|bottom"
+            android:layout_marginTop="17dp"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/done_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="left|bottom"
+                android:background="@null"
+                android:src="@drawable/ic_action_done" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/menu_slot_2"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
+            android:layout_gravity="right|bottom"
+
+            android:layout_marginTop="26dp"
+            android:layout_toLeftOf="@id/menu_slot_1"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/star_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="left|bottom"
+                android:background="@null"
+                android:src="@drawable/ic_action_star" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/menu_slot_3"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
+            android:layout_gravity="right|bottom"
+
+            android:layout_marginTop="59dp"
+            android:layout_toLeftOf="@id/menu_slot_2"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/video_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="left|bottom"
+                android:background="@null"
+                android:src="@drawable/ic_action_video" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/menu_slot_4"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
+            android:layout_gravity="right|bottom"
+
+            android:layout_marginTop="89dp"
+            android:layout_toLeftOf="@id/menu_slot_3"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/call_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="left|bottom"
+                android:background="@null"
+                android:src="@drawable/ic_action_call" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/menu_slot_5"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
+            android:layout_gravity="right|bottom"
+
+            android:layout_marginTop="134dp"
+            android:layout_toLeftOf="@id/menu_slot_4"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/locate_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="left|bottom"
+                android:background="@null"
+                android:src="@drawable/ic_action_locate" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/menu_slot_6"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
+            android:layout_gravity="right|bottom"
+
+            android:layout_marginTop="201dp"
+            android:layout_toLeftOf="@id/menu_slot_5"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/photo_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="left|bottom"
+                android:background="@null"
+                android:src="@drawable/ic_action_photo" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/menu_slot_7"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
+            android:layout_gravity="right|bottom"
+
+            android:layout_marginTop="301dp"
+            android:layout_toLeftOf="@id/menu_slot_6"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/people_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="left|bottom"
+                android:background="@null"
+                android:src="@drawable/ic_action_user" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/menu_slot_8"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
+            android:layout_gravity="right|bottom"
+
+            android:layout_marginTop="426dp"
+            android:layout_toLeftOf="@id/menu_slot_7"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/butt"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="left|bottom"
+                android:background="@null"
+                android:src="@drawable/ic_action_send" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/menu_slot_9"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
+            android:layout_below="@id/menu_slot_8"
+
+            android:layout_gravity="left|bottom"
+            android:layout_marginLeft="200dp"
+            android:layout_marginRight="900dp"
+            android:layout_toLeftOf="@id/menu_slot_7"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/micButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="left|bottom"
+                android:background="@null"
+                android:src="@drawable/ic_action_microphone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/content_frame"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_alignParentBottom="true"
+
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/menu_slot_6"
+            android:layout_gravity="right|bottom"
+            android:layout_toRightOf="@id/menu_slot_7"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/input_frame"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_above="@id/content_frame"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/menu_slot_5"
+            android:layout_gravity="right"
+            android:layout_toRightOf="@id/menu_slot_6"
+            android:orientation="vertical"></LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/heading_frame"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_above="@id/input_frame"
+
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/menu_slot_3"
+            android:layout_gravity="right"
+            android:layout_toRightOf="@id/menu_slot_5"
+            android:orientation="vertical"></LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/alert_frame"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_above="@id/content_frame"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="30dp"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@id/menu_slot_6"
+            android:orientation="vertical"></LinearLayout>
+    </RelativeLayout>
+
+
+    <!-- This FrameLayout insets its children based on system windows using
+         android:fitsSystemWindows. -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+        <LinearLayout
+            android:id="@+id/fullscreen_content_controls"
+            style="?metaButtonBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+
+            android:orientation="horizontal"
+            tools:ignore="UselessParent">
+
+            <Button
+                android:id="@+id/dummy_button"
+                style="?metaButtonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/dummy_button" />
+
+        </LinearLayout>
+
+
+    </FrameLayout>
+
+</FrameLayout>

@@ -8,8 +8,8 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/MyVoice" />
             <option value="$PROJECT_DIR$/mira" />
+            <option value="$PROJECT_DIR$/myvoice" />
             <option value="$PROJECT_DIR$/perspectives" />
           </set>
         </option>

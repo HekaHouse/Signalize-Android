@@ -4,5 +4,11 @@
     <string name="app_name">Signalize</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="alert_content">--alert--</string>
+    <string name="content">--content--</string>
+    <string name="header">--header--</string>
+    <string name="myvoice_name">MyVoice</string>
+    <string name="mira_header">MIRA\r\nat your service</string>
+    <string name="mira_initial_greeting">Hello, my name is Mira.</string>
 
 </resources>

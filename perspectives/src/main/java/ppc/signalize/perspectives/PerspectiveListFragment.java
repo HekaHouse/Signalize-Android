@@ -4,54 +4,34 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 
-import ppc.signalize.perspectives.dummy.DummyContent;
+import it.gmariotti.cardslib.library.internal.Card;
+import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
+import it.gmariotti.cardslib.library.internal.CardHeader;
+import ppc.signalize.perspectives.content.Signalize;
 
 /**
  * A list fragment representing a list of Perspectives. This fragment
  * also supports tablet devices by allowing list items to be given an
  * 'activated' state upon selection. This helps indicate which item is
  * currently being viewed in a {@link PerspectiveDetailFragment}.
- * <p>
+ * <p/>
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
-public class PerspectiveListFragment extends ListFragment {
+public class PerspectiveListFragment extends ListFragment implements Card.OnCardClickListener {
 
     /**
      * The serialization (saved instance state) Bundle key representing the
      * activated item position. Only used on tablets.
      */
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
-
     /**
-     * The fragment's current callback object, which is notified of list item
-     * clicks.
-     */
-    private Callbacks mCallbacks = sDummyCallbacks;
-
-    /**
-     * The current activated item position. Only used on tablets.
-     */
-    private int mActivatedPosition = ListView.INVALID_POSITION;
-
-    /**
-     * A callback interface that all activities containing this fragment must
-     * implement. This mechanism allows activities to be notified of item
-     * selections.
-     */
-    public interface Callbacks {
-        /**
-         * Callback for when an item has been selected.
-         */
-        public void onItemSelected(String id);
-    }
-
-    /**
-     * A dummy implementation of the {@link Callbacks} interface that does
+     * A content implementation of the {@link Callbacks} interface that does
      * nothing. Used only when this fragment is not attached to an activity.
      */
     private static Callbacks sDummyCallbacks = new Callbacks() {
@@ -59,24 +39,27 @@ public class PerspectiveListFragment extends ListFragment {
         public void onItemSelected(String id) {
         }
     };
+    ;
+    /**
+     * The fragment's current callback object, which is notified of list item
+     * clicks.
+     */
+    private Callbacks mCallbacks = sDummyCallbacks;
+    private HashMap<String, String> menu = new HashMap<String, String>();
+    /**
+     * The current activated item position. Only used on tablets.
+     */
+    private int mActivatedPosition = ListView.INVALID_POSITION;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
     public PerspectiveListFragment() {
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        // TODO: replace with a real list adapter.
-        setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(
-                getActivity(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                DummyContent.ITEMS));
+        menu.put("Admin", "AI Enhancement");
+        menu.put("Voices", "Connect with patients, caregivers and stations");
+        menu.put("Signals", "Messages flagged for review");
+        menu.put("Dashboard", "Gauges and Charts");
     }
 
     @Override
@@ -88,6 +71,37 @@ public class PerspectiveListFragment extends ListFragment {
                 && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
             setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
         }
+
+    }
+
+    private void initCards() {
+        ArrayList<Card> cards = new ArrayList<Card>();
+
+
+        for (String key : menu.keySet()) {
+            //Create a Card
+            Card card = new Card(getActivity().getApplicationContext());
+
+            //Create a CardHeader
+            CardHeader header = new CardHeader(getActivity().getApplicationContext());
+
+            header.setTitle(key);
+
+            //Add Header to card
+            card.addCardHeader(header);
+
+            card.setOnClickListener(this);
+
+            card.setTitle(menu.get(key));
+
+            cards.add(card);
+        }
+
+
+        CardArrayAdapter mCardArrayAdapter = new CardArrayAdapter(getActivity(), cards);
+
+
+        setListAdapter(mCardArrayAdapter);
     }
 
     @Override
@@ -103,20 +117,35 @@ public class PerspectiveListFragment extends ListFragment {
     }
 
     @Override
+    public void onActivityCreated(Bundle s) {
+        super.onActivityCreated(s);
+        initCards();
+    }
+
+    @Override
     public void onDetach() {
         super.onDetach();
 
-        // Reset the active callbacks interface to the dummy implementation.
+        // Reset the active callbacks interface to the content implementation.
         mCallbacks = sDummyCallbacks;
+    }
+
+    @Override
+    public void onClick(Card card, View view) {
+        ListView cards = (ListView) view.getParent();
+
+        onListItemClick(cards, view, cards.getPositionForView(view), view.getId());
     }
 
     @Override
     public void onListItemClick(ListView listView, View view, int position, long id) {
         super.onListItemClick(listView, view, position, id);
-
+        if (Signalize.DASHBOARD_MAP.isEmpty()) {
+            new Signalize((PerspectiveListActivity) getActivity());
+        }
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
+        mCallbacks.onItemSelected(Signalize.ITEMS.get(position).id);
     }
 
     @Override
@@ -148,5 +177,17 @@ public class PerspectiveListFragment extends ListFragment {
         }
 
         mActivatedPosition = position;
+    }
+
+    /**
+     * A callback interface that all activities containing this fragment must
+     * implement. This mechanism allows activities to be notified of item
+     * selections.
+     */
+    public interface Callbacks {
+        /**
+         * Callback for when an item has been selected.
+         */
+        public void onItemSelected(String id);
     }
 }

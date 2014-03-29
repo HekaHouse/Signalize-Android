@@ -31,48 +31,38 @@ import java.util.Locale;
  * abstract class for getting speech, handles some boiler plate code. Any
  * Activity that uses speech should extend this, or utilize the methods in
  * {@link root.gast.speech.SpeechRecognitionUtil}
- * 
+ *
  * @author gmilette
  */
 public abstract class SpeechRecognizingActivity extends Activity implements
-        RecognitionListener
-{
-    private static final String TAG = "SpeechRecognizingActivity";
-
+        RecognitionListener {
     /**
      * code to identify return recognition results
      */
     public static final int VOICE_RECOGNITION_REQUEST_CODE = 1234;
-
     public static final int UNKNOWN_ERROR = -1;
-
+    private static final String TAG = "SpeechRecognizingActivity";
     private SpeechRecognizer recognizer;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         boolean recognizerIntent =
                 SpeechRecognitionUtil.isSpeechAvailable(this);
-        if (!recognizerIntent)
-        {
+        if (!recognizerIntent) {
             speechNotAvailable();
         }
         boolean direct = SpeechRecognizer.isRecognitionAvailable(this);
-        if (!direct)
-        {
+        if (!direct) {
             directSpeechNotAvailable();
         }
     }
 
-    protected void checkForLanguage(final Locale language)
-    {
-        OnLanguageDetailsListener andThen = new OnLanguageDetailsListener()
-        {
+    protected void checkForLanguage(final Locale language) {
+        OnLanguageDetailsListener andThen = new OnLanguageDetailsListener() {
             @Override
-            public void onLanguageDetailsReceived(LanguageDetailsChecker data)
-            {
+            public void onLanguageDetailsReceived(LanguageDetailsChecker data) {
                 // do a best match
                 String languageToUse = data.matchLanguage(language);
                 languageCheckResult(languageToUse);
@@ -81,15 +71,9 @@ public abstract class SpeechRecognizingActivity extends Activity implements
         SpeechRecognitionUtil.getLanguageDetails(this, andThen);
     }
 
-    /**
-     * execute the RecognizerIntent, then call
-     * {@link #receiveWhatWasHeard(java.util.List, java.util.List)} when done
-     * might throw a {@link android.content.ActivityNotFoundException} if the
-     * device cannot respond to the Intent
-     */
-    public void recognize(Intent recognizerIntent)
-    {
-            startActivityForResult(recognizerIntent,
+
+    public void recognize(Intent recognizerIntent) {
+        startActivityForResult(recognizerIntent,
                 VOICE_RECOGNITION_REQUEST_CODE);
     }
 
@@ -98,40 +82,30 @@ public abstract class SpeechRecognizingActivity extends Activity implements
      */
     @Override
     protected void
-            onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        if (requestCode == VOICE_RECOGNITION_REQUEST_CODE)
-        {
-            if (resultCode == RESULT_OK)
-            {
+    onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == VOICE_RECOGNITION_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
                 List<String> heard =
                         data.
-                        getStringArrayListExtra
-                                (RecognizerIntent.EXTRA_RESULTS);
+                                getStringArrayListExtra
+                                        (RecognizerIntent.EXTRA_RESULTS);
                 float[] scores =
                         data.
-                        getFloatArrayExtra
-                                (RecognizerIntent.EXTRA_CONFIDENCE_SCORES);
-                if (scores == null)
-                {
-                    for (int i = 0; i < heard.size(); i++)
-                    {
+                                getFloatArrayExtra
+                                        (RecognizerIntent.EXTRA_CONFIDENCE_SCORES);
+                if (scores == null) {
+                    for (int i = 0; i < heard.size(); i++) {
                         Log.d(TAG, i + ": " + heard.get(i));
                     }
-                }
-                else
-                {
-                    for (int i = 0; i < heard.size(); i++)
-                    {
+                } else {
+                    for (int i = 0; i < heard.size(); i++) {
                         Log.d(TAG, i + ": " + heard.get(i) + " score: "
                                 + scores[i]);
                     }
                 }
 
                 receiveWhatWasHeard(heard, scores);
-            }
-            else
-            {
+            } else {
                 Log.d(TAG, "error code: " + resultCode);
                 recognitionFailure(UNKNOWN_ERROR);
             }
@@ -153,64 +127,45 @@ public abstract class SpeechRecognizingActivity extends Activity implements
 
     /**
      * call back the result from {@link #checkForLanguage(java.util.Locale)}
-     * 
-     * @param languageToUse
-     *            the language string to use or null if failure
+     *
+     * @param languageToUse the language string to use or null if failure
      */
     abstract protected void languageCheckResult(String languageToUse);
 
     /**
      * result of speech recognition
-     * 
-     * @param heard
-     *            possible speech to text conversions
-     * @param confidenceScores
-     *            the confidence for the strings in heard
+     *
+     * @param heard            possible speech to text conversions
+     * @param confidenceScores the confidence for the strings in heard
      */
     abstract protected void receiveWhatWasHeard(List<String> heard,
-            float[] confidenceScores);
+                                                float[] confidenceScores);
 
-    /**
-     * @param code
-     *            If using {@link #recognizeDirectly(android.content.Intent) it will be
-     *            the error code from {@link android.speech.SpeechRecognizer}
-     *            if using {@link #recognize(android.content.Intent)}
-     *            it will be {@link #UNKNOWN_ERROR}.
-     */
+
     abstract protected void recognitionFailure(int errorCode);
 
     //direct speech recognition methods follow
-    
-    /**
-     * Uses {@link android.speech.SpeechRecognizer} to perform recognition and then calls
-     * {@link #receiveWhatWasHeard(java.util.List, float[])} with the results <br>
-     * check {@link android.speech.SpeechRecognizer.isRecognitionAvailable(context)} before
-     * calling this method otherwise if it isn't available the code will report
-     * an error
-     */
-    public void recognizeDirectly(Intent recognizerIntent)
-    {
+
+
+    public void recognizeDirectly(Intent recognizerIntent) {
         // SpeechRecognizer requires EXTRA_CALLING_PACKAGE, so add if it's not
         // here
-        if (!recognizerIntent.hasExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE))
-        {
+        if (!recognizerIntent.hasExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE)) {
             recognizerIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
-                    "com.dummy");
+                    "com.content");
         }
         SpeechRecognizer recognizer = getSpeechRecognizer();
         recognizer.startListening(recognizerIntent);
     }
 
     @Override
-    public void onResults(Bundle results)
-    {
+    public void onResults(Bundle results) {
         Log.d(TAG, "full results");
         receiveResults(results);
     }
 
     @Override
-    public void onPartialResults(Bundle partialResults)
-    {
+    public void onPartialResults(Bundle partialResults) {
         Log.d(TAG, "partial results");
         receiveResults(partialResults);
     }
@@ -218,11 +173,9 @@ public abstract class SpeechRecognizingActivity extends Activity implements
     /**
      * common method to process any results bundle from {@link android.speech.SpeechRecognizer}
      */
-    private void receiveResults(Bundle results)
-    {
+    private void receiveResults(Bundle results) {
         if ((results != null)
-                && results.containsKey(SpeechRecognizer.RESULTS_RECOGNITION))
-        {
+                && results.containsKey(SpeechRecognizer.RESULTS_RECOGNITION)) {
             List<String> heard =
                     results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
             float[] scores =
@@ -232,8 +185,7 @@ public abstract class SpeechRecognizingActivity extends Activity implements
     }
 
     @Override
-    public void onError(int errorCode)
-    {
+    public void onError(int errorCode) {
         recognitionFailure(errorCode);
     }
 
@@ -241,10 +193,8 @@ public abstract class SpeechRecognizingActivity extends Activity implements
      * stop the speech recognizer
      */
     @Override
-    protected void onPause()
-    {
-        if (getSpeechRecognizer() != null)
-        {
+    protected void onPause() {
+        if (getSpeechRecognizer() != null) {
             getSpeechRecognizer().stopListening();
             getSpeechRecognizer().cancel();
             getSpeechRecognizer().destroy();
@@ -255,10 +205,8 @@ public abstract class SpeechRecognizingActivity extends Activity implements
     /**
      * lazy initialize the speech recognizer
      */
-    private SpeechRecognizer getSpeechRecognizer()
-    {
-        if (recognizer == null)
-        {
+    private SpeechRecognizer getSpeechRecognizer() {
+        if (recognizer == null) {
             recognizer = SpeechRecognizer.createSpeechRecognizer(this);
             recognizer.setRecognitionListener(this);
         }
@@ -268,45 +216,37 @@ public abstract class SpeechRecognizingActivity extends Activity implements
     // other unused methods from RecognitionListener...
 
     @Override
-    public void onReadyForSpeech(Bundle params)
-    {
+    public void onReadyForSpeech(Bundle params) {
         Log.d(TAG, "ready for speech " + params);
     }
 
     @Override
-    public void onEndOfSpeech()
-    {
+    public void onEndOfSpeech() {
     }
 
     /**
      * @see android.speech.RecognitionListener#onBeginningOfSpeech()
      */
     @Override
-    public void onBeginningOfSpeech()
-    {
+    public void onBeginningOfSpeech() {
     }
 
     @Override
-    public void onBufferReceived(byte[] buffer)
-    {
+    public void onBufferReceived(byte[] buffer) {
     }
 
     @Override
-    public void onRmsChanged(float rmsdB)
-    {
+    public void onRmsChanged(float rmsdB) {
     }
 
     @Override
-    public void onEvent(int eventType, Bundle params)
-    {
+    public void onEvent(int eventType, Bundle params) {
     }
 
-    public void onPartialResultsUnsupported(Bundle partialResults)
-    {
+    public void onPartialResultsUnsupported(Bundle partialResults) {
         Log.d(TAG, "partial results");
         if (partialResults
-                .containsKey(SpeechRecognitionUtil.UNSUPPORTED_GOOGLE_RESULTS))
-        {
+                .containsKey(SpeechRecognitionUtil.UNSUPPORTED_GOOGLE_RESULTS)) {
             String[] heard =
                     partialResults
                             .getStringArray(SpeechRecognitionUtil.UNSUPPORTED_GOOGLE_RESULTS);
@@ -314,9 +254,7 @@ public abstract class SpeechRecognizingActivity extends Activity implements
                     partialResults
                             .getFloatArray(SpeechRecognitionUtil.UNSUPPORTED_GOOGLE_RESULTS_CONFIDENCE);
             receiveWhatWasHeard(Arrays.asList(heard), scores);
-        }
-        else
-        {
+        } else {
             receiveResults(partialResults);
         }
     }

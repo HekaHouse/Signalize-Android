@@ -31,30 +31,27 @@ import java.util.List;
 
 /**
  * A utility class to perform common speech recognition functions
+ *
  * @author Greg Milette &#60;<a href="mailto:gregorym@gmail.com">gregorym@gmail.com</a>&#62;
  */
-public class SpeechRecognitionUtil
-{
-    private static final String TAG = "SpeechRecognitionUtil";
-
+public class SpeechRecognitionUtil {
     //Note: Google seems to send back these values
     //use at your own risk
     public static final String UNSUPPORTED_GOOGLE_RESULTS_CONFIDENCE = "com.google.android.voicesearch.UNSUPPORTED_PARTIAL_RESULTS_CONFIDENCE";
     public static final String UNSUPPORTED_GOOGLE_RESULTS = "com.google.android.voicesearch.UNSUPPORTED_PARTIAL_RESULTS";
+    private static final String TAG = "SpeechRecognitionUtil";
 
     /**
-     * checks if the device supports speech recognition 
+     * checks if the device supports speech recognition
      * at all
      */
-    public static boolean isSpeechAvailable(Context context)
-    {
+    public static boolean isSpeechAvailable(Context context) {
         PackageManager pm = context.getPackageManager();
         List<ResolveInfo> activities = pm.queryIntentActivities(
                 new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
 
         boolean available = true;
-        if (activities.size() == 0) 
-        {
+        if (activities.size() == 0) {
             available = false;
         }
         return available;
@@ -69,94 +66,77 @@ public class SpeechRecognitionUtil
      * collects language details and returns result to andThen
      */
     public static void getLanguageDetails(Context context,
-            OnLanguageDetailsListener andThen)
-    {
+                                          OnLanguageDetailsListener andThen) {
         Intent detailsIntent = new Intent(
                 RecognizerIntent.ACTION_GET_LANGUAGE_DETAILS);
         LanguageDetailsChecker checker = new LanguageDetailsChecker(andThen);
         context.sendOrderedBroadcast(detailsIntent, null, checker, null,
                 Activity.RESULT_OK, null, null);
         //also works
-    //  Intent detailsIntent = RecognizerIntent.getVoiceDetailsIntent(this);
+        //  Intent detailsIntent = RecognizerIntent.getVoiceDetailsIntent(this);
     }
-    
-    public static List<String> getHeardFromDirect(Bundle bundle)
-    {
+
+    public static List<String> getHeardFromDirect(Bundle bundle) {
         List<String> results = new ArrayList<String>();
         if ((bundle != null)
-                && bundle.containsKey(SpeechRecognizer.RESULTS_RECOGNITION))
-        {
+                && bundle.containsKey(SpeechRecognizer.RESULTS_RECOGNITION)) {
             results =
-                bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+                    bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
         }
         return results;
     }
 
-    public static float[] getConfidenceFromDirect(Bundle bundle)
-    {
-        float [] scores = null;
+    public static float[] getConfidenceFromDirect(Bundle bundle) {
+        float[] scores = null;
         if ((bundle != null)
-                && bundle.containsKey(SpeechRecognizer.RESULTS_RECOGNITION))
-        {
+                && bundle.containsKey(SpeechRecognizer.RESULTS_RECOGNITION)) {
             scores =
-                bundle.getFloatArray(SpeechRecognizer.CONFIDENCE_SCORES);
+                    bundle.getFloatArray(SpeechRecognizer.CONFIDENCE_SCORES);
         }
         return scores;
     }
 
-    public static List<String> getHeardFromDirectPartial(Bundle bundle)
-    {
+    public static List<String> getHeardFromDirectPartial(Bundle bundle) {
         List<String> results = new ArrayList<String>();
-        if (bundle.containsKey(UNSUPPORTED_GOOGLE_RESULTS))
-        {
-            String [] resultsArray =
-                bundle.getStringArray(UNSUPPORTED_GOOGLE_RESULTS);
+        if (bundle.containsKey(UNSUPPORTED_GOOGLE_RESULTS)) {
+            String[] resultsArray =
+                    bundle.getStringArray(UNSUPPORTED_GOOGLE_RESULTS);
             results = Arrays.asList(resultsArray);
-        }
-        else
-        {
+        } else {
             return getHeardFromDirect(bundle);
         }
         return results;
     }
 
-    public static float[] getConfidenceFromDirectPartial(Bundle bundle)
-    {
+    public static float[] getConfidenceFromDirectPartial(Bundle bundle) {
         float[] scores = null;
 
         if (bundle
-                .containsKey(UNSUPPORTED_GOOGLE_RESULTS_CONFIDENCE))
-        {
+                .containsKey(UNSUPPORTED_GOOGLE_RESULTS_CONFIDENCE)) {
             scores =
                     bundle.getFloatArray(UNSUPPORTED_GOOGLE_RESULTS_CONFIDENCE);
-        }
-        else
-        {
+        } else {
             scores = getConfidenceFromDirect(bundle);
         }
 
         return scores;
     }
 
-    public static void recognizeSpeechDirectly(Context context, 
-            Intent recognizerIntent, RecognitionListener listener,
-            SpeechRecognizer recognizer)
-    {
+    public static void recognizeSpeechDirectly(Context context,
+                                               Intent recognizerIntent, RecognitionListener listener,
+                                               SpeechRecognizer recognizer) {
         //need to have a calling package for it to work
-        if (!recognizerIntent.hasExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE))
-        {
-            recognizerIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, "com.dummy");
+        if (!recognizerIntent.hasExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE)) {
+            recognizerIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, "com.content");
         }
-        
+
         recognizer.setRecognitionListener(listener);
         recognizer.startListening(recognizerIntent);
     }
 
-    public static String diagnoseErrorCode(int errorCode)
-    {
+    public static String diagnoseErrorCode(int errorCode) {
         String message;
-        switch (errorCode)
-        {
+        switch (errorCode) {
             case SpeechRecognizer.ERROR_AUDIO:
                 message = "Audio recording error";
                 break;
