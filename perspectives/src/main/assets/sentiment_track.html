@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <script type="text/javascript">
+
+var sma;
+var chart;
+function restore(bundle) {
+    bundle = bundle.replace(/'/g,'"');
+    json = JSON.parse(bundle);
+    
+    if (json.one) { dps.push({x: 1,y: json.one}); neg_dps.push({x: 1,y: 100-json.one}); }
+    if (json.two) { dps.push({x: 2,y: json.two}); neg_dps.push({x: 2,y: 100-json.two}); }
+    if (json.three) { dps.push({x: 3,y: json.three}); neg_dps.push({x: 3,y: 100-json.three}); }
+    if (json.four) { dps.push({x: 4,y: json.four}); neg_dps.push({x: 4,y: 100-json.four}); }
+    if (json.five) { dps.push({x: 5,y: json.five}); neg_dps.push({x: 5,y: 100-json.five});}
+    if (json.six) { dps.push({x: 6,y: json.six}); neg_dps.push({x: 6,y: 100-json.six}); }
+    if (json.seven) { dps.push({x: 7,y: json.seven}); neg_dps.push({x: 7,y: 100-json.seven}); }
+    if (json.eight) { dps.push({x: 8,y: json.eight}); neg_dps.push({x: 8,y: 100-json.eight}); }
+    if (json.nine) { dps.push({x: 9,y: json.nine}); neg_dps.push({x: 9,y: 100-json.nine}); }
+    if (json.ten) { dps.push({x: 10,y: json.ten}); neg_dps.push({x: 10,y: 100-json.ten}); }
+    index = json.index;
+    active = true;
+    
+    return index;
+    }    
+function pause() {
+    active = false;
+    }
+function setStore() {
+    if (index) {
+            var obj={};
+            if (dps.length > 0) { obj.one = ""+dps[0].y; } else { obj.one = ""+0; }
+            if (dps.length > 1) { obj.two = ""+dps[1].y; } else { obj.two = ""+0; }
+            if (dps.length > 2) { obj.three = ""+dps[2].y; } else { obj.three = ""+0; }
+            if (dps.length > 3) { obj.four = ""+dps[3].y; } else { obj.four = ""+0; }
+            if (dps.length > 4) { obj.five = ""+dps[4].y; } else { obj.five = ""+0; }
+            if (dps.length > 5) { obj.six = ""+dps[5].y; } else { obj.six = ""+0; }
+            if (dps.length > 6) { obj.seven = ""+dps[6].y; } else { obj.seven = ""+0; }
+            if (dps.length > 7) { obj.eight = ""+dps[7].y; } else { obj.eight = ""+0; }
+            if (dps.length > 8) { obj.nine = ""+dps[8].y; } else { obj.nine = ""+0; }
+            if (dps.length > 9) { obj.ten = ""+dps[9].y; } else { obj.ten = ""+0; }
+            if (index) { obj.index = index }
+            window.Signalize.setStore("sentiment_track", JSON.stringify(obj).replace(/"/g,"'")); //.replace(/"/g,"'")
+
+        }
+    }
+
+	window.onload = function () {
+
+    sma = simple_moving_averager(5);
+
+    chart = buildSentimentTrack();
+
+    chart.render();
+
+    var xVal = dps.length;
+
+    (function loop() {
+        if (active) {
+            
+            setTimeout(function() {               
+              collectSentiment(sma,chart,"sentiment_track"); 
+              loop(); 
+            }, 1500);
+        }
+    }());
+
+}
+
+    </script>
+    <script type="text/javascript" src="canvasjs.min.js"></script>
+    <script type="text/javascript" src="signalize.js"></script>
+</head>
+<body>
+<div id="chartContainer" style="height: 100px; width: 100%;">
+</div>
+</body>
+</html>
