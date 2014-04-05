@@ -32,7 +32,7 @@ public class Mira implements Runnable {
     public int _result;
     public Brain _brain;
     protected String _name = "MIRA";
-    protected String _AIML_path;
+    protected String _AIML_path = "bots/";
     private int _sleeping_check = 0;
     private boolean withPrompt;
 
@@ -40,11 +40,12 @@ public class Mira implements Runnable {
         _world = c;
 
 
-        File bots = _world.getBrainRepo();
-        if (bots.listFiles().length < 1) {
-            loadAIML();
-        }
-        _AIML_path = bots.getAbsolutePath();
+//        File bots = _world.getBrainRepo();
+//        if (bots.listFiles().length < 1) {
+//            //loadAIML();
+//            boolean fail = true;
+//        }
+//        _AIML_path = bots.getAbsolutePath();
 
 
     }
@@ -55,7 +56,7 @@ public class Mira implements Runnable {
             FragmentManager fm = _world.getFragmentManager();
             BrainFragment frag = new BrainFragment();
             fm.beginTransaction().add(frag, "data").commit();
-            _brain = new Brain(_name, _AIML_path);
+            _brain = new Brain(_name, _AIML_path, this);
             frag.setData(_brain);
             _world.set_brainStore(frag);
         }
@@ -70,7 +71,7 @@ public class Mira implements Runnable {
         AssetManager am = _world.getAssets();
         try {
             ZipInputStream is = new ZipInputStream(am.open("aiml.zip"));
-            String out = _world.getBrainRepo().getPath();
+            String out = _world.getBrainDepo().getPath();
 
             new File(out + "/bots/MIRA/aimlif/").mkdirs();
 
@@ -162,8 +163,9 @@ public class Mira implements Runnable {
 
     public Consideration consider(String s) {
         String raw = _brain.process(s);
-        JointClassification sent = Intuition.classify(s, Intuition.SENTIMENT);
-        JointClassification sever = Intuition.classify(s, Intuition.SEVERITY);
+        JointClassification sent = null, sever = null;
+        //JointClassification sent = Intuition.classify(s, Intuition.SENTIMENT);
+        //JointClassification sever = Intuition.classify(s, Intuition.SEVERITY);
         return new Consideration(sent, sever, _world, raw, s);
     }
 
@@ -174,4 +176,6 @@ public class Mira implements Runnable {
     public void stop_listen() {
         new AsyncMouth(_world, false).execute("Goodbye");
     }
+
+
 }

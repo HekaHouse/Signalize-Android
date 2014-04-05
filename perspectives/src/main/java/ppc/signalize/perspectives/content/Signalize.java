@@ -3,10 +3,14 @@ package ppc.signalize.perspectives.content;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Handler;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
+import android.text.style.UnderlineSpan;
 import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.JavascriptInterface;
@@ -21,6 +25,7 @@ import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardHeader;
 import ppc.signalize.api.types.Authorization;
 import ppc.signalize.api.types.Feedback;
+import ppc.signalize.mira.body.parts.brain.Intuition;
 import ppc.signalize.perspectives.PerspectiveDetailFragment;
 import ppc.signalize.perspectives.PerspectiveListActivity;
 import ppc.signalize.perspectives.R;
@@ -53,7 +58,10 @@ public class Signalize implements Runnable, View.OnTouchListener {
     //private ArrayList<Feedback> myFeedback = new ArrayList<Feedback>();
     private int runningCount = 0;
     private HashMap<String, String> js_store = new HashMap<String, String>();
-    private FeedbackDataSource datasource;
+
+    private int FLAG_LEVEL_BOLD = 1;
+    private int FLAG_LEVEL_MULTI = 0;
+    private HashMap<String, ArrayList<FeedbackData>> alreadyFed = new HashMap<String, ArrayList<FeedbackData>>();
 
     public Signalize(PerspectiveListActivity c) {
         active = c;
@@ -65,10 +73,12 @@ public class Signalize implements Runnable, View.OnTouchListener {
         mHandler = new Handler();
         final Signalize me = this;
 
-        datasource = new FeedbackDataSource(active);
-        datasource.open();
+        FeedbackDataSource data_source = new FeedbackDataSource(active);
 
-        runningCount = datasource.getCommentCount();
+
+        runningCount = data_source.getCommentCount();
+
+        data_source.close();
 
         mStatusChecker = new Runnable() {
             @Override
@@ -226,11 +236,13 @@ public class Signalize implements Runnable, View.OnTouchListener {
 
     @Override
     public void run() {
+        FeedbackDataSource data_source = new FeedbackDataSource(active);
         List<Feedback> l = SignalCollector.collectSignals(this, runningCount);
         runningCount = runningCount + 10;
         for (Feedback f : l) {
-            datasource.createFeedback(f);
+            data_source.createFeedback(f);
         }
+        data_source.close();
         mHandler.postDelayed(mStatusChecker, mInterval);
     }
 
@@ -240,6 +252,40 @@ public class Signalize implements Runnable, View.OnTouchListener {
 
     void stopRepeatingTask() {
         mHandler.removeCallbacks(mStatusChecker);
+    }
+
+    private boolean hasBeenFed(FeedbackData f, String chart_type) {
+        if (f == null)
+            return false;
+        if (alreadyFed.containsKey(chart_type)) {
+            for (FeedbackData af : alreadyFed.get(chart_type)) {
+                if (f.admission.patient.patient_reference.equals(af.admission.patient.patient_reference) &&
+                        f.received.equals(af.received)) {
+                    return true;
+                }
+            }
+
+        } else {
+            ArrayList<FeedbackData> a = new ArrayList<FeedbackData>();
+            alreadyFed.put(chart_type, a);
+        }
+        alreadyFed.get(chart_type).add(f);
+        return false;
+    }
+
+    private SpannableString spanFlags(ArrayList<String> flags, SpannableString wordtoSpan, int flag_level) {
+        String seq = String.valueOf(wordtoSpan.subSequence(0, wordtoSpan.length()));
+        for (String flag : flags) {
+            int start = seq.indexOf(flag);
+            int end = start + flag.length();
+            if (flag_level == FLAG_LEVEL_MULTI) {
+                wordtoSpan.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), start, end, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                wordtoSpan.setSpan(new UnderlineSpan(), start, end, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+            } else {
+                wordtoSpan.setSpan(new StyleSpan(Typeface.BOLD), start, end, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+            }
+        }
+        return wordtoSpan;
     }
 
     /**
@@ -266,42 +312,69 @@ public class Signalize implements Runnable, View.OnTouchListener {
         }
 
         @JavascriptInterface
-        public double incomingSentiment(int index) {
+        public double incomingSentiment(int index, String chart_type) {
             //Log.d(TAG, "js sentiment track looking for "+index);
-            FeedbackData f = datasource.getComment(index);
+            FeedbackDataSource data_source = new FeedbackDataSource(active);
+            double toReturn = -1;
+            FeedbackData f = data_source.getComment(index);
+            while (hasBeenFed(f, chart_type)) {
+                index++;
+                f = data_source.getComment(index);
+            }
+
             if (f != null) {
-                Spannable wordtoSpan = new SpannableString("\r\n" + f.comment + "\r\n");
+                SpannableString wordtoSpan = new SpannableString("\r\n" + f.comment + "\r\n");
                 int end = wordtoSpan.length();
-                if (f.sentiment <= .45)
-                    wordtoSpan.setSpan(new ForegroundColorSpan(Color.BLUE), 0, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                else if (f.sentiment >= .55)
-                    wordtoSpan.setSpan(new ForegroundColorSpan(Color.RED), 0, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                if (f.sentiment <= .5)
+                    wordtoSpan.setSpan(new ForegroundColorSpan(Color.BLUE), 0, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                 else
-                    wordtoSpan.setSpan(new ForegroundColorSpan(Color.LTGRAY), 0, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                //new AsyncAppendTask(active, wordtoSpan).execute("");
-                return f.sentiment;
-            } else
-                return -1;
+                    wordtoSpan.setSpan(new ForegroundColorSpan(Color.RED), 0, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+
+                ArrayList tier_one_flags = Intuition.tier_one.flag(wordtoSpan);
+                ArrayList tier_two_flags = Intuition.tier_two.flag(wordtoSpan);
+
+                if (tier_one_flags.size() > 0)
+                    wordtoSpan = spanFlags(tier_one_flags, wordtoSpan, FLAG_LEVEL_MULTI);
+                if (tier_two_flags.size() > 0)
+                    wordtoSpan = spanFlags(tier_two_flags, wordtoSpan, FLAG_LEVEL_BOLD);
+
+
+                if (chart_type.equals("sentiment_track"))
+                    new AsyncAppendTask(active, wordtoSpan).execute("");
+
+
+                toReturn = f.sentiment;
+            }
+            data_source.close();
+            return toReturn;
         }
 
         @JavascriptInterface
         public double tallySentiment(int index) {
+
+            FeedbackDataSource data_source = new FeedbackDataSource(active);
             //Log.d(TAG, "js sentiment tally looking for "+index);
-            FeedbackData f = datasource.getComment(index);
+            FeedbackData f = data_source.getComment(index);
+
+            double toReturn = -1;
             if (f != null)
-                return f.sentiment;
-            else
-                return -1;
+                toReturn = f.sentiment;
+
+            data_source.close();
+            return toReturn;
         }
 
         @JavascriptInterface
         public double incomingTier(int index) {
             //Log.d(TAG, "js tier tally looking for "+index);
-            FeedbackData f = datasource.getComment(index);
+            FeedbackDataSource data_source = new FeedbackDataSource(active);
+            FeedbackData f = data_source.getComment(index);
+            int toReturn = -1;
             if (f != null)
-                return f.tier;
-            else
-                return -1;
+                toReturn = f.tier;
+
+            data_source.close();
+            return toReturn;
         }
 
         @JavascriptInterface

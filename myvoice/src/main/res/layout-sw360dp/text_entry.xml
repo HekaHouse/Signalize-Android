@@ -3,11 +3,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="10dp"
-    android:layout_marginLeft="50dp"
     android:background="@drawable/mira_text"
     android:orientation="horizontal"
-    android:padding="0dp">
+    android:paddingLeft="150dp"
+    android:paddingRight="10dp">
 
     <EditText
         android:id="@+id/entry_text"

@@ -82,8 +82,27 @@ public abstract class MiraAbstractActivity extends
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        boolean recognizerIntent =
-                SpeechRecognitionUtil.isSpeechAvailable(this);
+//        boolean recognizerIntent =
+//                SpeechRecognitionUtil.isSpeechAvailable(this);
+//        if (!recognizerIntent) {
+//            speechNotAvailable();
+//        }
+//        boolean direct = SpeechRecognizer.isRecognitionAvailable(this);
+//        if (!direct) {
+//            directSpeechNotAvailable();
+//        }
+//        myVoice = new MyVoice(this);
+//        isListeningForActivation = false;
+//        speechActivator = new MiraActivator(myVoice, this, new String[]{INITIATE, END_CONVERSATION});
+//        mira = new Mira(myVoice);
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        boolean recognizerIntent = SpeechRecognitionUtil.isSpeechAvailable(this);
         if (!recognizerIntent) {
             speechNotAvailable();
         }
@@ -95,7 +114,6 @@ public abstract class MiraAbstractActivity extends
         isListeningForActivation = false;
         speechActivator = new MiraActivator(myVoice, this, new String[]{INITIATE, END_CONVERSATION});
         mira = new Mira(myVoice);
-
     }
 
     public abstract Spannable createSpan(String words, int aligned);
@@ -107,6 +125,13 @@ public abstract class MiraAbstractActivity extends
         mira.init(true);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        mira._brain.writeAIMLOut();
+        tts.stop();
+        tts.shutdown();
+    }
     @Override
     public void onSuccessfulInit(TextToSpeech tts) {
         Log.d(TAG, "successful init");

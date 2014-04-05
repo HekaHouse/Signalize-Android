@@ -21,6 +21,7 @@ import ppc.signalize.perspectives.content.Signalize;
 public class PerspectiveDetailActivity extends FragmentActivity {
 
     public static Signalize mySig;
+    public static PerspectiveListActivity myList;
     private String TAG = "PerspectiveDetailActivity";
 
 
@@ -48,6 +49,7 @@ public class PerspectiveDetailActivity extends FragmentActivity {
             arguments.putString(PerspectiveDetailFragment.ARG_ITEM_ID,
                     getIntent().getStringExtra(PerspectiveDetailFragment.ARG_ITEM_ID));
             PerspectiveDetailFragment fragment = new PerspectiveDetailFragment(mySig);
+            myList.setActiveFragment(fragment);
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.perspective_detail_container, fragment)

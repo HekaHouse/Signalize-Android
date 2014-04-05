@@ -24,6 +24,7 @@ import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.Toast;
@@ -451,4 +452,6 @@ public abstract class MiraAbstractFragmentActivity extends FragmentActivity impl
 
         isListeningForActivation = false;
     }
+
+    public abstract void setActiveFragment(Fragment fragment);
 }

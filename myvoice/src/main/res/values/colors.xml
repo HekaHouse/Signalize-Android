@@ -2,7 +2,8 @@
 
     <color name="black_overlay">#66000000</color>
     <color name="light_blue">#FFFFFF</color>
-    <color name="mira_text">#F35005</color>
-    <color name="mira_bg">#486104</color>
-    <color name="voice_text">#486104</color>
+    <color name="mira_text">#7f519e</color>
+    <color name="mira_bg">#aea3b5</color>
+    <color name="voice_text">#31789e</color>
+    <color name="head_text">#64407d</color>
 </resources>

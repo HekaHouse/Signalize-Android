@@ -2,6 +2,7 @@ package ppc.signalize.perspectives;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
@@ -47,6 +48,7 @@ public class PerspectiveListActivity extends MiraAbstractFragmentActivity
     private boolean speech_cycle_active;
     private MyVoice myvoice;
     private PerspectiveDetailFragment activeFragment = null;
+    private PerspectiveListFragment activeList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,7 @@ public class PerspectiveListActivity extends MiraAbstractFragmentActivity
         SignalCollector.establishNetworking(mySig);
         PerspectiveDetailActivity.mySig = mySig;
         mySig.startRepeatingTask();
+        activeList = (PerspectiveListFragment) getSupportFragmentManager().findFragmentById(R.id.perspective_list);
         if (findViewById(R.id.perspective_detail_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-large and
@@ -66,12 +69,10 @@ public class PerspectiveListActivity extends MiraAbstractFragmentActivity
 
             // In two-pane mode, list items should be given the
             // 'activated' state when touched.
-            ((PerspectiveListFragment) getSupportFragmentManager()
-                    .findFragmentById(R.id.perspective_list))
-                    .setActivateOnItemClick(true);
+            activeList.setActivateOnItemClick(true);
         }
         //initialize mira
-        init();
+        //init();
     }
 
     /**
@@ -96,6 +97,7 @@ public class PerspectiveListActivity extends MiraAbstractFragmentActivity
                     .commit();
 
         } else {
+            PerspectiveDetailActivity.myList = this;
             // In single-pane mode, simply start the detail activity
             // for the selected item ID.
             Intent detailIntent = new Intent(this, PerspectiveDetailActivity.class);
@@ -121,6 +123,13 @@ public class PerspectiveListActivity extends MiraAbstractFragmentActivity
     }
 
     public PerspectiveDetailFragment getActiveFragment() {
+
+
         return activeFragment;
+    }
+
+    @Override
+    public void setActiveFragment(Fragment fragment) {
+        activeFragment = (PerspectiveDetailFragment) fragment;
     }
 }

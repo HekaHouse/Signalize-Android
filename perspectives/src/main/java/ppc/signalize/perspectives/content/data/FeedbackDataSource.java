@@ -20,23 +20,27 @@ import ppc.signalize.perspectives.content.data.types.PatientData;
  * Created by Aron on 3/26/14.
  */
 public class FeedbackDataSource {
-    // Database fields
-    private SQLiteDatabase database;
+    // open() fields
+
     private SQLiteOpener dbHelper;
     private String[] feedbackColumns = {"id", "tier", "severity", "sentiment", "comment", "received", "happiness_index", "area_of_concern", "feedback_type", "admission_id"};
     private String[] admissionColumns = {"id", "physician_name", "medical_specialty", "medical_specialty_detail", "drg", "unit", "nurse_station", "admit", "discharge", "emergency", "unexpected", "roommate", "special_diet", "health_rating", "patient_id"};
     private String[] patientColumns = {"id", "patient_name", "patient_reference", "patient_gender", "patient_birthdate"};
+    private SQLiteDatabase database = null;
 
     public FeedbackDataSource(Context context) {
         dbHelper = new SQLiteOpener(context);
     }
 
-    public void open() throws SQLException {
-        database = dbHelper.getWritableDatabase();
+    public SQLiteDatabase open() throws SQLException {
+        if (database == null || !database.isOpen())
+            database = dbHelper.getWritableDatabase();
+        return database;
     }
 
     public void close() {
-        dbHelper.close();
+        if (database.isOpen())
+            dbHelper.close();
     }
 
     public FeedbackData createFeedback(Feedback comment) {
@@ -51,11 +55,11 @@ public class FeedbackDataSource {
         values.put(SQLiteOpener.COL_AREA_OF_CONCERN, comment.area_of_concern);
         values.put(SQLiteOpener.COL_FEEDBACK_TYPE, comment.feedback_type);
         values.put(SQLiteOpener.COL_ADMISSION, a.id);
-        long insertId = database.insertWithOnConflict(SQLiteOpener.TABLE_FEEDBACK, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-        Cursor cursor = database.query(SQLiteOpener.TABLE_FEEDBACK, feedbackColumns, "id = ?", new String[]{String.valueOf(insertId)}, null, null, null);
+        long insertId = open().insertWithOnConflict(SQLiteOpener.TABLE_FEEDBACK, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+        Cursor cursor = open().query(SQLiteOpener.TABLE_FEEDBACK, feedbackColumns, "id = ?", new String[]{String.valueOf(insertId)}, null, null, null);
         cursor.moveToFirst();
         FeedbackData newComment = cursorToComment(cursor, a);
-
+        close();
         return newComment;
     }
 
@@ -77,22 +81,23 @@ public class FeedbackDataSource {
         values.put(SQLiteOpener.COL_HEALTH_RATING, admission.health_rating);
         values.put(SQLiteOpener.COL_PATIENT, p.id);
 
-        long insertId = database.insertWithOnConflict(SQLiteOpener.TABLE_ADMISSION, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-        Cursor cursor = database.query(SQLiteOpener.TABLE_ADMISSION, admissionColumns, "id = ?", new String[]{String.valueOf(insertId)}, null, null, null);
+        long insertId = open().insertWithOnConflict(SQLiteOpener.TABLE_ADMISSION, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+        Cursor cursor = open().query(SQLiteOpener.TABLE_ADMISSION, admissionColumns, "id = ?", new String[]{String.valueOf(insertId)}, null, null, null);
         cursor.moveToFirst();
         AdmissionData ad = cursorToAdmission(cursor, p);
         return ad;
     }
 
     private PatientData createPatient(Patient patient) {
+
         ContentValues values = new ContentValues();
         values.put(SQLiteOpener.COL_PATIENT_NAME, patient.patient_name);
         values.put(SQLiteOpener.COL_PATIENT_REFERENCE, patient.patient_reference);
         values.put(SQLiteOpener.COL_PATIENT_GENDER, patient.patient_gender);
         values.put(SQLiteOpener.COL_PATIENT_BIRTHDATE, "");
 
-        long insertId = database.insertWithOnConflict(SQLiteOpener.TABLE_PATIENT, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-        Cursor cursor = database.query(SQLiteOpener.TABLE_PATIENT, patientColumns, "id = ?", new String[]{String.valueOf(insertId)}, null, null, null);
+        long insertId = open().insertWithOnConflict(SQLiteOpener.TABLE_PATIENT, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+        Cursor cursor = open().query(SQLiteOpener.TABLE_PATIENT, patientColumns, "id = ?", new String[]{String.valueOf(insertId)}, null, null, null);
         cursor.moveToFirst();
         PatientData pd = cursorToPatient(cursor);
         return pd;
@@ -101,55 +106,69 @@ public class FeedbackDataSource {
     public void deleteFeedback(FeedbackData comment) {
         long id = comment.id;
         System.out.println("Comment deleted with id: " + id);
-        database.delete(SQLiteOpener.TABLE_FEEDBACK, " id = " + id, null);
+        open().delete(SQLiteOpener.TABLE_FEEDBACK, " id = " + id, null);
+        close();
     }
 
     public void deleteAdmission(AdmissionData admission) {
+
         long id = admission.id;
         System.out.println("admission deleted with id: " + id);
-        database.delete(SQLiteOpener.TABLE_ADMISSION, " id = " + id, null);
+        open().delete(SQLiteOpener.TABLE_ADMISSION, " id = " + id, null);
+        close();
     }
 
     public void deletePatient(PatientData patient) {
         long id = patient.id;
         System.out.println("patient deleted with id: " + id);
-        database.delete(SQLiteOpener.TABLE_PATIENT, " id = " + id, null);
+        open().delete(SQLiteOpener.TABLE_PATIENT, " id = " + id, null);
+        close();
     }
 
 
     public FeedbackData getComment(int index) {
-        Cursor cursor = database.query(SQLiteOpener.TABLE_FEEDBACK, feedbackColumns, null, null, null, null, null);
+
+        Cursor cursor = open().query(SQLiteOpener.TABLE_FEEDBACK, feedbackColumns, null, null, null, null, null);
 
         cursor.moveToFirst();
 
         if (cursor.moveToPosition(index)) {
-            Cursor a_cursor = database.query(SQLiteOpener.TABLE_ADMISSION, admissionColumns, "id=?", new String[]{String.valueOf(cursor.getInt(9))}, null, null, null);
+            Cursor a_cursor = open().query(SQLiteOpener.TABLE_ADMISSION, admissionColumns, "id=?", new String[]{String.valueOf(cursor.getInt(9))}, null, null, null);
             a_cursor.moveToFirst();
             if (!a_cursor.isAfterLast()) {
-                Cursor p_cursor = database.query(SQLiteOpener.TABLE_PATIENT, patientColumns, "id=?", new String[]{String.valueOf(a_cursor.getInt(14))}, null, null, null);
+                Cursor p_cursor = open().query(SQLiteOpener.TABLE_PATIENT, patientColumns, "id=?", new String[]{String.valueOf(a_cursor.getInt(14))}, null, null, null);
                 p_cursor.moveToFirst();
                 if (!p_cursor.isAfterLast()) {
                     return cursorToComment(cursor, cursorToAdmission(a_cursor, cursorToPatient(p_cursor)));
                 }
+                if (!p_cursor.isClosed())
+                    p_cursor.close();
             }
+            if (!a_cursor.isClosed())
+                a_cursor.close();
         }
+        if (!cursor.isClosed())
+            cursor.close();
 
+        close();
         return null;
+
     }
 
     public List<FeedbackData> getAllComments() {
+
         List<FeedbackData> comments = new ArrayList<FeedbackData>();
 
-        Cursor p_cursor = database.query(SQLiteOpener.TABLE_PATIENT, patientColumns, null, null, null, null, null);
+        Cursor p_cursor = open().query(SQLiteOpener.TABLE_PATIENT, patientColumns, null, null, null, null, null);
 
         p_cursor.moveToFirst();
 
 
         while (!p_cursor.isAfterLast()) {
-            Cursor a_cursor = database.query(SQLiteOpener.TABLE_ADMISSION, admissionColumns, "patient_id=?", new String[]{String.valueOf(p_cursor.getInt(0))}, null, null, null);
+            Cursor a_cursor = open().query(SQLiteOpener.TABLE_ADMISSION, admissionColumns, "patient_id=?", new String[]{String.valueOf(p_cursor.getInt(0))}, null, null, null);
             a_cursor.moveToFirst();
             while (!a_cursor.isAfterLast()) {
-                Cursor f_cursor = database.query(SQLiteOpener.TABLE_FEEDBACK, feedbackColumns, "admission_id=?", new String[]{String.valueOf(a_cursor.getInt(0))}, null, null, null);
+                Cursor f_cursor = open().query(SQLiteOpener.TABLE_FEEDBACK, feedbackColumns, "admission_id=?", new String[]{String.valueOf(a_cursor.getInt(0))}, null, null, null);
                 f_cursor.moveToFirst();
                 while (!f_cursor.isAfterLast()) {
                     FeedbackData comment = cursorToComment(f_cursor, cursorToAdmission(a_cursor, cursorToPatient(p_cursor)));
@@ -165,6 +184,7 @@ public class FeedbackDataSource {
         // make sure to close the cursor
 
         p_cursor.close();
+        close();
         return comments;
     }
 
@@ -187,9 +207,10 @@ public class FeedbackDataSource {
     }
 
     public int getCommentCount() {
-        Cursor c = database.query(SQLiteOpener.TABLE_FEEDBACK, feedbackColumns, null, null, null, null, null);
+        Cursor c = open().query(SQLiteOpener.TABLE_FEEDBACK, feedbackColumns, null, null, null, null, null);
         int toReturn = c.getCount();
         c.close();
+        close();
         return toReturn;
     }
 }

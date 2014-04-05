@@ -19,7 +19,7 @@ public class FeedbackData {
         tier = cursor.getInt(1);
         severity = cursor.getDouble(2);
         sentiment = cursor.getDouble(3);
-        comment = cursor.getString(4);
+        comment = cursor.getString(4).replaceAll("[\"\\\\]", "");
         received = cursor.getString(5);
         happiness_index = cursor.getInt(6);
         area_of_concern = cursor.getString(7);

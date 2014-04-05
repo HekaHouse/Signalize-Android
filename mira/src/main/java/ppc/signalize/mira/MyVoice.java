@@ -138,7 +138,12 @@ public class MyVoice extends UtteranceProgressListener {
         return new File(getLinguisticRepo().getPath() + "/classify/severity/" + Intuition.SEVER_CLASSIFICATION_FILE);
     }
 
-    public File getBrainRepo() {
+    public AssetManager getBrainRepo() {
+        return getApplicationContext().getAssets();
+        //return mActive().getDir("bots", mActive().MODE_PRIVATE);
+    }
+
+    public File getBrainDepo() {
         return mActive().getDir("bots", mActive().MODE_PRIVATE);
     }
 
@@ -272,4 +277,6 @@ public class MyVoice extends UtteranceProgressListener {
             return maActive.ttsLive;
         return true;
     }
+
+
 }

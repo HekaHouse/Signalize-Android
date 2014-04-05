@@ -70,6 +70,7 @@ public class PerspectiveDetailFragment extends Fragment {
         mic.setOnTouchListener(mySig);
         ((TextView) rootView.findViewById(R.id.commentary)).setText("", TextView.BufferType.SPANNABLE);
         // Show the content content as text in a TextView.
+
         if (mItem != null) {
             init_cards((CardGridView) rootView.findViewById(R.id.card_grid));
         }

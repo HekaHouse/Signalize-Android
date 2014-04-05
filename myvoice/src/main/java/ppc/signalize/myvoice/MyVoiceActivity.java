@@ -52,9 +52,12 @@ public class MyVoiceActivity extends MiraAbstractActivity {
         prepareInput(vi);
 
         prepareContent(vi);
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
         init();
-
     }
 
     @Override

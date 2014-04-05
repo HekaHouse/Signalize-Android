@@ -45,8 +45,8 @@ public class Consideration {
             mResponse = mResponse.replace(mExtra, "");
         }
 
-        Log.i(TAG, mSentiment.bestCategory() + ":" + String.valueOf(mSentiment.conditionalProbability(mSentiment.bestCategory())));
-        Log.i(TAG, mSeverity.bestCategory() + ":" + String.valueOf(mSeverity.conditionalProbability(mSeverity.bestCategory())));
+        //Log.i(TAG, mSentiment.bestCategory() + ":" + String.valueOf(mSentiment.conditionalProbability(mSentiment.bestCategory())));
+        //Log.i(TAG, mSeverity.bestCategory() + ":" + String.valueOf(mSeverity.conditionalProbability(mSeverity.bestCategory())));
         Log.i(TAG, "to consider:" + mOrig);
         Log.i(TAG, "response:" + mResponse);
 
