@@ -18,6 +18,8 @@ package ppc.signalize.mira.body;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.wifi.p2p.WifiP2pDevice;
+import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -31,9 +33,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+import it.gmariotti.cardslib.library.internal.Card;
 import ppc.signalize.mira.Mira;
 import ppc.signalize.mira.MyVoice;
 import ppc.signalize.mira.body.parts.nervous.activator.MiraActivator;
+import ppc.signalize.mira.body.parts.nervous.wifi.DeviceListFragment;
 import root.gast.speech.LanguageDetailsChecker;
 import root.gast.speech.OnLanguageDetailsListener;
 import root.gast.speech.SpeechRecognitionUtil;
@@ -49,8 +53,8 @@ import root.gast.speech.tts.TextToSpeechStartupListener;
  * @author Greg Milette &#60;<a href="mailto:gregorym@gmail.com">gregorym@gmail.com</a>&#62;
  */
 public abstract class MiraAbstractActivity extends
-        SpeechRecognizingActivity implements TextToSpeechStartupListener, SpeechActivationListener {
-    private static final String TAG = "MiraAbstractActivity";
+        SpeechRecognizingActivity implements DeviceListFragment.Callbacks, Card.OnCardClickListener, TextToSpeechStartupListener, SpeechActivationListener, WifiP2pManager.ChannelListener, DeviceListFragment.DeviceActionListener, WifiP2pManager.ConnectionInfoListener {
+    public static final String TAG = "MiraAbstractActivity";
     /**
      * for saving {@link #wasListeningForActivation}
      * in the saved instance state
@@ -79,7 +83,7 @@ public abstract class MiraAbstractActivity extends
      * @see root.gast.speech.SpeechRecognizingActivity#onCreate(android.os.Bundle)
      */
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
 //        boolean recognizerIntent =
@@ -132,6 +136,7 @@ public abstract class MiraAbstractActivity extends
         tts.stop();
         tts.shutdown();
     }
+
     @Override
     public void onSuccessfulInit(TextToSpeech tts) {
         Log.d(TAG, "successful init");
@@ -246,8 +251,7 @@ public abstract class MiraAbstractActivity extends
      * Handle the results from the RecognizerIntent.
      */
     @Override
-    protected void
-    onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == VOICE_RECOGNITION_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 List<String> heard =
@@ -464,4 +468,14 @@ public abstract class MiraAbstractActivity extends
     }
 
     public abstract boolean canListen();
+
+    public abstract void setIsWifiP2pEnabled(boolean b);
+
+    public abstract WifiP2pManager.PeerListListener getPeerListener();
+
+    public abstract WifiP2pDevice getDevice();
+
+    public abstract void setDevice(WifiP2pDevice parcelableExtra);
+
+    public abstract List<WifiP2pDevice> getPeers();
 }

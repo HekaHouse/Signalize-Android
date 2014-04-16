@@ -45,7 +45,7 @@ public abstract class SpeechRecognizingActivity extends Activity implements
     private SpeechRecognizer recognizer;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         boolean recognizerIntent =
@@ -81,8 +81,7 @@ public abstract class SpeechRecognizingActivity extends Activity implements
      * Handle the results from the RecognizerIntent.
      */
     @Override
-    protected void
-    onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == VOICE_RECOGNITION_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 List<String> heard =
@@ -193,7 +192,7 @@ public abstract class SpeechRecognizingActivity extends Activity implements
      * stop the speech recognizer
      */
     @Override
-    protected void onPause() {
+    public void onPause() {
         if (getSpeechRecognizer() != null) {
             getSpeechRecognizer().stopListening();
             getSpeechRecognizer().cancel();

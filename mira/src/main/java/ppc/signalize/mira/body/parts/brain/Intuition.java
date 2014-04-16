@@ -60,13 +60,15 @@ public class Intuition implements Runnable {
     private final MyVoice mWorld;
     private final boolean mEval;
 
+    public ThreadGroup thready = new ThreadGroup("Intuition - loading");
+
     public Intuition(boolean eval, MyVoice _world) {
         Log.d(TAG, "start intuition ");
         Intuition.init(_world);
         mWorld = _world;
         mEval = eval;
-        new Thread(new ModelingRunner(SENTIMENT, mWorld, mEval), "starting sentiment").start();
-        new Thread(new ModelingRunner(SEVERITY, mWorld, mEval), "starting severity").start();
+        new Thread(thready, new ModelingRunner(SENTIMENT, mWorld, mEval), "starting sentiment").start();
+        new Thread(thready, new ModelingRunner(SEVERITY, mWorld, mEval), "starting severity").start();
     }
 
     private static void buildTiers() {

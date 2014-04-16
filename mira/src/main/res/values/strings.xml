@@ -9,5 +9,6 @@
     <string name="all_loaded">ready to go</string>
     <string name="respond_to_goodbye">goodbye</string>
     <string name="title_activity_mira">Mira</string>
+    <string name="blank_links">\n\n\n\n\n</string>
 
 </resources>

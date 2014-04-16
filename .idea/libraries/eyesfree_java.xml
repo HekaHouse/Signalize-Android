@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="eyesfree_java">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/mira/libs/eyesfree_java.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

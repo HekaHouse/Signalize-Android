@@ -7,10 +7,10 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
-            <option value="C:\Users\Aron\AndroidStudioProjects\Signalize" />
-            <option value="C:\Users\Aron\AndroidStudioProjects\Signalize\mira" />
-            <option value="C:\Users\Aron\AndroidStudioProjects\Signalize\myvoice" />
-            <option value="C:\Users\Aron\AndroidStudioProjects\Signalize\perspectives" />
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/mira" />
+            <option value="$PROJECT_DIR$/myvoice" />
+            <option value="$PROJECT_DIR$/perspectives" />
           </set>
         </option>
       </GradleProjectSettings>

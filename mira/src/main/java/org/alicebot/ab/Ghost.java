@@ -255,8 +255,10 @@ public class Ghost extends Bot {
             ex.printStackTrace();
         }
         pause(1000, 0);
-        Log.d(TAG, "building memory");
-        processCategoryQueue();
+        if (categoryQueue != null && categoryQueue.size() > 0) {
+            Log.d(TAG, "building memory");
+            processCategoryQueue();
+        }
         System.out.println("Loaded " + brain.getCategories().size() + " categories in " + timer.elapsedTimeSecs() + " sec");
     }
 

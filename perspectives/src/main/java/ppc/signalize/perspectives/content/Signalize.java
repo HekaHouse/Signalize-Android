@@ -323,7 +323,7 @@ public class Signalize implements Runnable, View.OnTouchListener {
             }
 
             if (f != null) {
-                SpannableString wordtoSpan = new SpannableString("\r\n" + f.comment + "\r\n");
+                SpannableString wordtoSpan = new SpannableString("             " + f.comment + "\r\n");
                 int end = wordtoSpan.length();
                 if (f.sentiment <= .5)
                     wordtoSpan.setSpan(new ForegroundColorSpan(Color.BLUE), 0, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
@@ -340,7 +340,7 @@ public class Signalize implements Runnable, View.OnTouchListener {
 
 
                 if (chart_type.equals("sentiment_track"))
-                    new AsyncAppendTask(active, wordtoSpan).execute("");
+                    new AsyncAppendTask(active, wordtoSpan, f).execute("");
 
 
                 toReturn = f.sentiment;

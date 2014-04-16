@@ -31,84 +31,69 @@ import root.gast.speech.tts.TextToSpeechStartupListener;
 
 /**
  * handy {@link Activity} that handles setting up both tts and speech for easy re-use
+ *
  * @author Greg Milette &#60;<a href="mailto:gregorym@gmail.com">gregorym@gmail.com</a>&#62;
  */
 public abstract class SpeechRecognizingAndSpeakingActivity extends
-        SpeechRecognizingActivity implements TextToSpeechStartupListener
-{ 
+        SpeechRecognizingActivity implements TextToSpeechStartupListener {
     private static final String TAG = "SpeechRecognizingAndSpeakingActivity";
-    
+
     private TextToSpeechInitializer ttsInit;
-    
+
     private TextToSpeech tts;
-    
+
     /**
      * @see SpeechRecognizingActivity#onCreate(android.os.Bundle)
      */
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
     }
-    
-    private void init()
-    {
+
+    private void init() {
         deactivateUi();
         ttsInit = new TextToSpeechInitializer(this, Locale.getDefault(), this);
     }
 
     @Override
-    public void onSuccessfulInit(TextToSpeech tts)
-    {
+    public void onSuccessfulInit(TextToSpeech tts) {
         Log.d(TAG, "successful init");
         this.tts = tts;
         activateUi();
         setTtsListener();
     }
-    
-    private void setTtsListener()
-    {
+
+    private void setTtsListener() {
         final SpeechRecognizingAndSpeakingActivity callWithResult = this;
-        if (Build.VERSION.SDK_INT >= 15)
-        {
-            int listenerResult = tts.setOnUtteranceProgressListener(new UtteranceProgressListener()
-            {
+        if (Build.VERSION.SDK_INT >= 15) {
+            int listenerResult = tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
                 @Override
-                public void onDone(String utteranceId)
-                {
+                public void onDone(String utteranceId) {
                     callWithResult.onDone(utteranceId);
                 }
 
                 @Override
-                public void onError(String utteranceId)
-                {
+                public void onError(String utteranceId) {
                     callWithResult.onError(utteranceId);
                 }
 
                 @Override
-                public void onStart(String utteranceId)
-                {
+                public void onStart(String utteranceId) {
                     callWithResult.onStart(utteranceId);
                 }
             });
-            if (listenerResult != TextToSpeech.SUCCESS)
-            {
+            if (listenerResult != TextToSpeech.SUCCESS) {
                 Log.e(TAG, "failed to add utterance progress listener");
             }
-        }
-        else
-        {
-            int listenerResult = tts.setOnUtteranceCompletedListener(new OnUtteranceCompletedListener()
-            {
+        } else {
+            int listenerResult = tts.setOnUtteranceCompletedListener(new OnUtteranceCompletedListener() {
                 @Override
-                public void onUtteranceCompleted(String utteranceId)
-                {
+                public void onUtteranceCompleted(String utteranceId) {
                     callWithResult.onDone(utteranceId);
                 }
             });
-            if (listenerResult != TextToSpeech.SUCCESS)
-            {
+            if (listenerResult != TextToSpeech.SUCCESS) {
                 Log.e(TAG, "failed to add utterance completed listener");
             }
         }
@@ -116,21 +101,17 @@ public abstract class SpeechRecognizingAndSpeakingActivity extends
 
     //sub class may override these, otherwise, one or the other 
     //will occur depending on the Android version
-    public void onDone(String utteranceId)
-    {
+    public void onDone(String utteranceId) {
     }
 
-    public void onError(String utteranceId)
-    {
+    public void onError(String utteranceId) {
     }
 
-    public void onStart(String utteranceId)
-    {
+    public void onStart(String utteranceId) {
     }
-    
+
     @Override
-    public void onFailedToInit()
-    {
+    public void onFailedToInit() {
         DialogInterface.OnClickListener onClickOk = makeOnFailedToInitHandler();
         AlertDialog a = new AlertDialog.Builder(this)
                 .setTitle("Error")
@@ -138,11 +119,10 @@ public abstract class SpeechRecognizingAndSpeakingActivity extends
                 .setNeutralButton("Ok", onClickOk).create();
         a.show();
     }
-    
-    
+
+
     @Override
-    public void onRequireLanguageData()
-    {
+    public void onRequireLanguageData() {
         DialogInterface.OnClickListener onClickOk = makeOnClickInstallDialogListener();
         DialogInterface.OnClickListener onClickCancel = makeOnFailedToInitHandler();
         AlertDialog a = new AlertDialog.Builder(this).setTitle(
@@ -152,14 +132,13 @@ public abstract class SpeechRecognizingAndSpeakingActivity extends
                 .setNegativeButton("Cancel", onClickCancel).create();
         a.show();
     }
-    
+
     @Override
-    public void onWaitingForLanguageData()
-    {
+    public void onWaitingForLanguageData() {
         //either wait for install
         DialogInterface.OnClickListener onClickWait = makeOnFailedToInitHandler();
         DialogInterface.OnClickListener onClickInstall = makeOnClickInstallDialogListener();
- 
+
         AlertDialog a = new AlertDialog.Builder(this)
                 .setTitle("Info")
                 .setMessage(
@@ -168,46 +147,37 @@ public abstract class SpeechRecognizingAndSpeakingActivity extends
                 .setPositiveButton("Retry", onClickInstall).create();
         a.show();
     }
-    
-    private DialogInterface.OnClickListener makeOnClickInstallDialogListener()
-    {
-        return new DialogInterface.OnClickListener()
-        {
+
+    private DialogInterface.OnClickListener makeOnClickInstallDialogListener() {
+        return new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which)
-            {
+            public void onClick(DialogInterface dialog, int which) {
                 ttsInit.installLanguageData();
             }
         };
     }
 
-    private DialogInterface.OnClickListener makeOnFailedToInitHandler()
-    {
-        return new DialogInterface.OnClickListener()
-        {
+    private DialogInterface.OnClickListener makeOnFailedToInitHandler() {
+        return new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which)
-            {
+            public void onClick(DialogInterface dialog, int which) {
                 finish();
             }
         };
     }
-    
+
     //override in subclass
-    
-    protected void deactivateUi()
-    {
+
+    protected void deactivateUi() {
         Log.d(TAG, "deactivate ui");
     }
-    
-    protected void activateUi()
-    {
+
+    protected void activateUi() {
         Log.d(TAG, "activate ui");
     }
-    
+
     @Override
-    protected void speechNotAvailable()
-    {
+    protected void speechNotAvailable() {
         DialogInterface.OnClickListener onClickOk = makeOnFailedToInitHandler();
         AlertDialog a =
                 new AlertDialog.Builder(this)
@@ -219,32 +189,26 @@ public abstract class SpeechRecognizingAndSpeakingActivity extends
     }
 
     @Override
-    protected void directSpeechNotAvailable()
-    {
+    protected void directSpeechNotAvailable() {
         //do nothing
     }
 
-    protected void languageCheckResult(String languageToUse)
-    {
+    protected void languageCheckResult(String languageToUse) {
         // not used
     }
 
-    protected void recognitionFailure(int errorCode)
-    {
+    protected void recognitionFailure(int errorCode) {
         String message = SpeechRecognitionUtil.diagnoseErrorCode(errorCode);
         Log.d(TAG, "speech error: " + message);
     }
-    
-    protected TextToSpeech getTts()
-    {
+
+    protected TextToSpeech getTts() {
         return tts;
     }
-    
+
     @Override
-    protected void onDestroy()
-    {
-        if (getTts() != null)
-        {
+    public void onDestroy() {
+        if (getTts() != null) {
             getTts().shutdown();
         }
         super.onDestroy();

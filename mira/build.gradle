@@ -10,6 +10,11 @@ android {
         versionCode 1
         versionName "1.0"
     }
+    sourceSets {
+        main {
+            aidl.srcDirs = ['src/main/java']
+        }
+    }
     buildTypes {
         release {
             runProguard false
@@ -20,9 +25,11 @@ android {
 
 dependencies {
     compile 'com.android.support:support-v4:19.0.+'
-    compile 'com.google.guava:guava:11.0.2'
+    compile 'com.google.guava:guava:16.0.1'
+    compile 'com.kenai.nbpwr:javax-annotation:1.3.7-201002241900'
     compile 'bouncycastle:bcprov-jdk15:140'
     compile 'org.apache.lucene:lucene-snowball:3.0.+'
+    compile 'com.github.gabrielemariotti.cards:library:1.4.+'
     compile fileTree(dir: 'libs', include: ['*.jar'])
 }
 

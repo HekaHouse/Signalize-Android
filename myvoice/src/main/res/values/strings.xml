@@ -10,5 +10,6 @@
     <string name="myvoice_name">MyVoice</string>
     <string name="mira_header">MIRA\r\nat your service</string>
     <string name="mira_initial_greeting">Hello, my name is Mira.</string>
+    <string name="blank_links">\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n</string>
 
 </resources>

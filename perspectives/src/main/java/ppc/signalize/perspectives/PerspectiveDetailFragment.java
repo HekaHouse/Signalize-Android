@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Spannable;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -106,7 +107,7 @@ public class PerspectiveDetailFragment extends Fragment {
     public void setText(Spannable wordtoSpan) {
         Spannable currentText = (Spannable) ((TextView) rootView.findViewById(R.id.commentary)).getText();
         CharSequence indexedText = TextUtils.concat(wordtoSpan, currentText);
-
+        ((TextView) rootView.findViewById(R.id.commentary)).setMovementMethod(LinkMovementMethod.getInstance());
         ((TextView) rootView.findViewById(R.id.commentary)).setText(indexedText);
 
     }

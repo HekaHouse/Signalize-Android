@@ -119,13 +119,27 @@ public class Mira implements Runnable {
     @Override
     public void run() {
 
-        new Intuition(false, _world);
+        Intuition intuit = new Intuition(false, _world);
+        while (intuit.thready.activeCount() > 1) {
+            pause(1000);
+        }
         Log.d(TAG, "run ppc.signalize.mira");
         _brain.init();
         _is_awake = true;
         Log.d(TAG, "ppc.signalize.mira loaded");
         allLoaded();
     }
+
+    private void pause(int milli) {
+
+        try {
+            Thread.sleep(milli);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
     public void stillLoading() {
 //        _sleeping_check = _sleeping_check + 1;

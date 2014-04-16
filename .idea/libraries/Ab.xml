@@ -4,8 +4,6 @@
       <root url="jar://$PROJECT_DIR$/mira/libs/Ab.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES>
-      <root url="file://$PROJECT_DIR$/../program-ab/src" />
-    </SOURCES>
+    <SOURCES />
   </library>
 </component>
