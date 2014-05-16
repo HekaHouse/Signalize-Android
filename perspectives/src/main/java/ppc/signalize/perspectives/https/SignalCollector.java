@@ -7,7 +7,7 @@ import java.util.List;
 
 import ppc.signalize.api.SignalizeService;
 import ppc.signalize.api.types.Feedback;
-import ppc.signalize.mira.body.parts.skeleton.crypt.CryptHelper;
+import ppc.signalize.mira.util.crypt.CryptHelper;
 import ppc.signalize.perspectives.content.Signalize;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;

@@ -34,31 +34,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import org.apache.http.conn.util.InetAddressUtils;
-import org.xwalk.core.XWalkView;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import it.gmariotti.cardslib.library.internal.Card;
-import ppc.signalize.mira.body.MiraAbstractActivity;
-import ppc.signalize.mira.body.parts.nervous.concurrent.AsyncMiraTextResponse;
-import ppc.signalize.mira.body.parts.nervous.wifi.DeviceListFragment;
-import ppc.signalize.mira.body.parts.nervous.wifi.VoiceCard;
-import ppc.signalize.mira.body.parts.nervous.wifi.WiFiDirectBroadcastReceiver;
-import ppc.signalize.mira.body.util.DiscussionDisplay;
+import ppc.signalize.mira.face.MiraAbstractActivity;
+import ppc.signalize.mira.nervous.concurrent.AsyncMiraTextResponse;
 import ppc.signalize.myvoice.util.SystemUiHider;
 
 
@@ -71,142 +49,42 @@ import ppc.signalize.myvoice.util.SystemUiHider;
 public class MyVoiceActivity extends MiraAbstractActivity {
 
     public static final String TAG = "MyVoiceActivity";
-    private static final int SERVER_PORT = 1030;
-    private final IntentFilter intentFilter = new IntentFilter();
-    protected WifiP2pDevice mDevice;
-    protected WifiP2pManager.PeerListListener peerListListener;
-    Thread serverThread = null;
     Handler updateConversationHandler;
-    private boolean retryChannel = false;
-    private BroadcastReceiver receiver = null;
     private TextView mira_text;
     private ToggleButton mira_ear;
     private boolean bypassCheckChange = false;
     private LayoutInflater vi;
-    private WifiP2pManager mManager;
-    private WifiP2pManager.Channel mChannel;
-    private boolean isWifiP2pEnabled;
-    private ArrayList<WifiP2pDevice> peers = new ArrayList<WifiP2pDevice>();
-    private DiscussionDisplay mira_display;
-    private boolean serverIsRunning = false;
-    private boolean clientIsRunning = false;
-    private boolean connectionEstablished = false;
-    private String sIP;
-    private ArrayList<InetAddress> clients = new ArrayList<InetAddress>();
-    private ServerSocket serverSocket;
-    private Socket socket;
 
-    public static InetAddress getInetAddress() {
-        try {
-            List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
-            for (NetworkInterface intf : interfaces) {
-                List<InetAddress> addrs = Collections.list(intf.getInetAddresses());
-                for (InetAddress addr : addrs) {
-                    if (!addr.isLoopbackAddress()) {
-                        return addr;
-                    }
-                }
-            }
-        } catch (Exception ex) {
-        } // for now eat exceptions
-        return null;
-    }
 
-    public static String getIPAddress(boolean useIPv4) {
-
-        try {
-            List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
-            for (NetworkInterface intf : interfaces) {
-                List<InetAddress> addrs = Collections.list(intf.getInetAddresses());
-                for (InetAddress addr : addrs) {
-                    if (!addr.isLoopbackAddress()) {
-                        String sAddr = addr.getHostAddress().toUpperCase();
-                        boolean isIPv4 = InetAddressUtils.isIPv4Address(sAddr);
-                        if (useIPv4) {
-                            if (isIPv4)
-                                return sAddr;
-                        } else {
-                            if (!isIPv4) {
-                                int delim = sAddr.indexOf('%'); // drop ip6 port suffix
-                                return delim < 0 ? sAddr : sAddr.substring(0, delim);
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (Exception ex) {
-        } // for now eat exceptions
-        return "";
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
+        super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_my_voice);
+
         vi = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        super.onCreate(savedInstanceState);
+
         updateConversationHandler = new Handler();
-        peerListListener = new DeviceListFragment(this);
-
-        // Add the fragment to the 'fragment_container' FrameLayout
-        getFragmentManager().beginTransaction()
-                .add(R.id.content_frame, (android.app.Fragment) peerListListener).commit();
-
-        //  Indicates a change in the Wi-Fi P2P status.
-        intentFilter.addAction(WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION);
-
-        // Indicates a change in the list of available peers.
-        intentFilter.addAction(WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION);
-
-        // Indicates the state of Wi-Fi P2P connectivity has changed.
-        intentFilter.addAction(WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION);
-
-        // Indicates this device's details have changed.
-        intentFilter.addAction(WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION);
 
         prepareHeading(vi);
-        prepareAlert(vi);
+
+
         prepareInput(vi);
 
-        //prepareContent(vi);
-
-        mManager = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
-        mChannel = mManager.initialize(this, getMainLooper(), null);
-
-
+        prepareContent(vi);
 
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        receiver = new WiFiDirectBroadcastReceiver(mManager, mChannel, this);
-        registerReceiver(receiver, intentFilter);
-        mManager.discoverPeers(mChannel, new WifiP2pManager.ActionListener() {
-
-            @Override
-            public void onSuccess() {
-                Log.d(TAG, "woot");
-                // Code for when the discovery initiation is successful goes here.
-                // No services have actually been discovered yet, so this method
-                // can often be left blank.  Code for peer discovery goes in the
-                // onReceive method, detailed below.
-            }
-
-            @Override
-            public void onFailure(int reasonCode) {
-                // Code for when the discovery initiation fails goes here.
-                // Alert the user that something went wrong.
-            }
-        });
-        //init();
+        init();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        unregisterReceiver(receiver);
     }
 
     @Override
@@ -247,11 +125,9 @@ public class MyVoiceActivity extends MiraAbstractActivity {
     }
 
     private void prepareContent(LayoutInflater vi) {
-        mira_display = new DiscussionDisplay();
-        getFragmentManager().beginTransaction()
-                .add(R.id.content_frame, mira_display).commit();
+        View v = vi.inflate(R.layout.text_content,null);
 
-        mira_text = (TextView) findViewById(R.id._text);
+        mira_text = (TextView) v.findViewById(R.id._text);
         mira_ear = (ToggleButton) findViewById(R.id.mira_ear);
 
         mira_ear.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -266,7 +142,8 @@ public class MyVoiceActivity extends MiraAbstractActivity {
                 }
             }
         });
-
+        View insertPoint = findViewById(R.id.content_frame);
+        ((LinearLayout)insertPoint).addView(v);
 
     }
 
@@ -298,17 +175,6 @@ public class MyVoiceActivity extends MiraAbstractActivity {
                 Toast.LENGTH_SHORT).show();
     }
 
-    private void prepareAlert(LayoutInflater vi) {
-
-        XWalkView v = new XWalkView(getApplicationContext(), this);
-        View insertPoint = findViewById(R.id.alert_area);
-        ((LinearLayout) insertPoint).addView(v, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-
-        v.loadUrl("http://repository.signalize.ws/webrtc.html");
-        v.addJavascriptInterface(this, "MyVoice");
-
-
-    }
 
     private void prepareHeading(LayoutInflater vi) {
         View display = vi.inflate(R.layout.content_head, null);
@@ -387,250 +253,5 @@ public class MyVoiceActivity extends MiraAbstractActivity {
 
     }
 
-    @Override
-    public void setIsWifiP2pEnabled(boolean isWifiP2pEnabled) {
-        this.isWifiP2pEnabled = isWifiP2pEnabled;
-    }
 
-    @Override
-    public WifiP2pManager.PeerListListener getPeerListener() {
-        return peerListListener;
-    }
-
-    @Override
-    public WifiP2pDevice getDevice() {
-        return mDevice;
-    }
-
-    @Override
-    public void setDevice(WifiP2pDevice parcelableExtra) {
-        mDevice = parcelableExtra;
-    }
-
-    @Override
-    public List<WifiP2pDevice> getPeers() {
-        return peers;
-    }
-
-    @Override
-    public void onChannelDisconnected() {
-
-    }
-
-    @Override
-    public void showDetails(WifiP2pDevice device) {
-
-    }
-
-    @Override
-    public void cancelDisconnect() {
-
-    }
-
-    @Override
-    public void connect() {
-        // Picking the first device found on the network.
-        WifiP2pDevice device = getDevice();
-
-        WifiP2pConfig config = new WifiP2pConfig();
-        config.deviceAddress = device.deviceAddress;
-        config.wps.setup = WpsInfo.PBC;
-
-        mManager.connect(mChannel, config, new WifiP2pManager.ActionListener() {
-
-            @Override
-            public void onSuccess() {
-                mManager.requestConnectionInfo(mChannel, MyVoiceActivity.this);
-            }
-
-            @Override
-            public void onFailure(int reason) {
-                Toast.makeText(MyVoiceActivity.this, "Connect failed. Retry.",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    @Override
-    public void disconnect() {
-
-    }
-
-    public void startServer() throws IOException {
-        clients.clear();
-        ServerSocket serverSocket = new ServerSocket(SERVER_PORT);
-
-        // Collect client ip's
-        while (true) {
-            Socket clientSocket = serverSocket.accept();
-            clients.add(clientSocket.getInetAddress());
-            clientSocket.close();
-        }
-    }
-
-    @Override
-    public void onConnectionInfoAvailable(final WifiP2pInfo info) {
-
-        // InetAddress from WifiP2pInfo struct.
-        InetAddress groupOwnerAddress = info.groupOwnerAddress;
-
-        // After the group negotiation, we can determine the group owner.
-        if (info.groupFormed && info.isGroupOwner & !serverIsRunning) {
-            serverThread = new Thread(new ServerThread());
-            serverThread.start();
-            serverIsRunning = true;
-        } else if (info.groupFormed & !clientIsRunning) {
-            sIP = groupOwnerAddress.getHostAddress().toUpperCase();
-            new Thread(new ClientThread(groupOwnerAddress, getIPAddress(true))).start();
-            serverThread = new Thread(new ServerThread());
-            serverThread.start();
-            clientIsRunning = true;
-        }
-    }
-
-    @Override
-    public void onItemSelected(String id) {
-
-
-    }
-
-    @Override
-    public void onClick(Card c, View v) {
-        if (c instanceof VoiceCard) {
-            VoiceCard w = (VoiceCard) c;
-
-        }
-    }
-
-    class ClientThread implements Runnable {
-        private final InetAddress mIP;
-        private final String mMess;
-
-        ClientThread(InetAddress ip, String message) {
-            mIP = ip;
-            mMess = message;
-        }
-
-        @Override
-        public void run() {
-
-            try {
-                InetAddress serverAddr = mIP;
-
-                socket = new Socket(serverAddr, SERVER_PORT);
-                PrintWriter out = null;
-                try {
-                    out = new PrintWriter(new BufferedWriter(
-                            new OutputStreamWriter(socket.getOutputStream())),
-                            true
-                    );
-
-                    out.println(mMess);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } catch (UnknownHostException e1) {
-                e1.printStackTrace();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-
-        }
-
-    }
-
-    class ServerThread implements Runnable {
-
-        public void run() {
-            Socket socket = null;
-            try {
-                serverSocket = new ServerSocket(SERVER_PORT);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            while (!Thread.currentThread().isInterrupted()) {
-
-                try {
-
-                    socket = serverSocket.accept();
-
-                    CommunicationThread commThread = new CommunicationThread(socket);
-                    new Thread(commThread).start();
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    class CommunicationThread implements Runnable {
-
-        private Socket clientSocket;
-
-        private BufferedReader input;
-
-        public CommunicationThread(Socket clientSocket) {
-
-            this.clientSocket = clientSocket;
-
-            try {
-
-                this.input = new BufferedReader(new InputStreamReader(this.clientSocket.getInputStream()));
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        public void run() {
-
-            while (!Thread.currentThread().isInterrupted()) {
-
-                try {
-
-                    String read = input.readLine();
-                    if (read == null || read.equals(""))
-                        continue;
-                    Log.d(TAG, "received from client: " + read);
-                    if (read.equals("connection-complete")) {
-                        updateConversationHandler.post(new establishTwoWayComm(sIP, "offer will go here"));
-                    } else if (InetAddressUtils.isIPv4Address(read)) {
-                        sIP = read;
-                        updateConversationHandler.post(new establishTwoWayComm(sIP, "connection-complete"));
-                    } else if (read.equals("testing connection")) {
-                        updateConversationHandler.post(new establishTwoWayComm(sIP, "connection is good"));
-                    } else if (read.equals("connection is good")) {
-                        continue;
-                    } else {
-                        updateConversationHandler.post(new establishTwoWayComm(sIP, "testing connection"));
-                    }
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-    }
-
-    class establishTwoWayComm implements Runnable {
-        private final String ip;
-        private String msg;
-
-        public establishTwoWayComm(String ip, String str) {
-            this.msg = str;
-            this.ip = ip;
-        }
-
-        @Override
-        public void run() {
-            Log.d(TAG, "sending " + msg + " to: " + ip);
-            try {
-                new Thread(new ClientThread(InetAddress.getByName(ip), msg)).start();
-            } catch (UnknownHostException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 }

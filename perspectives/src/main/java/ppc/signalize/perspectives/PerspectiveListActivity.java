@@ -7,8 +7,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
 import it.gmariotti.cardslib.library.internal.Card;
-import ppc.signalize.mira.MyVoice;
-import ppc.signalize.mira.body.MiraAbstractFragmentActivity;
+import ppc.signalize.mira.Voice;
+import ppc.signalize.mira.face.MiraAbstractFragmentActivity;
 import ppc.signalize.perspectives.content.Signalize;
 import ppc.signalize.perspectives.content.WebCard;
 import ppc.signalize.perspectives.https.SignalCollector;
@@ -46,7 +46,7 @@ public class PerspectiveListActivity extends MiraAbstractFragmentActivity
     private boolean isSpeechRecognitionServiceActive;
     private Intent listeningIntent;
     private boolean speech_cycle_active;
-    private MyVoice myvoice;
+    private Voice myvoice;
     private PerspectiveDetailFragment activeFragment = null;
     private PerspectiveListFragment activeList;
 

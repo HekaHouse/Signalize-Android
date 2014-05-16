@@ -25,7 +25,7 @@ import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardHeader;
 import ppc.signalize.api.types.Authorization;
 import ppc.signalize.api.types.Feedback;
-import ppc.signalize.mira.body.parts.brain.Intuition;
+import ppc.signalize.mira.brain.Intuition;
 import ppc.signalize.perspectives.PerspectiveDetailFragment;
 import ppc.signalize.perspectives.PerspectiveListActivity;
 import ppc.signalize.perspectives.R;

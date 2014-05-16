@@ -6,5 +6,5 @@
     android:layout_height="match_parent"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
-    tools:context="ppc.signalize.mira.body.MiraAbstractActivity"
+    tools:context="ppc.signalize.mira.face.MiraAbstractActivity"
     tools:layout="@android:layout/voices_card_list" />

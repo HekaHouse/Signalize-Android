@@ -23,13 +23,4 @@
 
     <style name="ButtonBarButton" />
 
-    <style name="microphone_style" parent="android:Widget">
-        <item name="android:paddingLeft">0dp</item>
-        <item name="android:paddingTop">0dp</item>
-        <item name="android:paddingRight">0dp</item>
-        <item name="android:paddingBottom">0dp</item>
-        <item name="android:focusable">true</item>
-        <item name="android:clickable">true</item>
-        <item name="android:scaleType">center</item>
-    </style>
 </resources>

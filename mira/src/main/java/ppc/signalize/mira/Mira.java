@@ -14,11 +14,11 @@ import java.util.Date;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import ppc.signalize.mira.body.fragments.BrainFragment;
-import ppc.signalize.mira.body.parts.brain.Brain;
-import ppc.signalize.mira.body.parts.brain.Consideration;
-import ppc.signalize.mira.body.parts.brain.Intuition;
-import ppc.signalize.mira.body.parts.nervous.concurrent.AsyncMouth;
+import ppc.signalize.mira.storage.BrainFragment;
+import ppc.signalize.mira.brain.Brain;
+import ppc.signalize.mira.brain.Consideration;
+import ppc.signalize.mira.brain.Intuition;
+import ppc.signalize.mira.nervous.concurrent.AsyncMouth;
 
 
 /**
@@ -27,7 +27,7 @@ import ppc.signalize.mira.body.parts.nervous.concurrent.AsyncMouth;
 public class Mira implements Runnable {
 
     private static final String TAG = "ppc/signalize/mira";
-    public MyVoice _world;
+    public Voice _world;
     public boolean _is_awake;
     public int _result;
     public Brain _brain;
@@ -36,7 +36,7 @@ public class Mira implements Runnable {
     private int _sleeping_check = 0;
     private boolean withPrompt;
 
-    public Mira(MyVoice c) {
+    public Mira(Voice c) {
         _world = c;
 
 

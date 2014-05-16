@@ -42,7 +42,7 @@
                 android:background="@null"
                 android:scaleX="3"
                 android:scaleY="3"
-                android:src="@drawable/wheelchair_button_" />
+                android:src="@drawable/wheelchair_" />
         </LinearLayout>
 
         <LinearLayout
@@ -162,7 +162,7 @@
                 android:textOn="" />
         </LinearLayout>
 
-        <FrameLayout
+        <LinearLayout
             android:id="@+id/content_frame"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -175,7 +175,7 @@
             android:layout_toRightOf="@id/menu_slot_8"
             android:orientation="vertical">
 
-        </FrameLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/input_frame"
