@@ -174,12 +174,14 @@ public class Mira implements Runnable {
         return _world.getApplicationContext();
     }
 
+    public void say(String to_speak, boolean with_prompt) {
+        new AsyncMouth(_world, with_prompt).execute(to_speak);
+    }
 
     public Consideration consider(String s) {
         String raw = _brain.process(s);
-        JointClassification sent = null, sever = null;
-        //JointClassification sent = Intuition.classify(s, Intuition.SENTIMENT);
-        //JointClassification sever = Intuition.classify(s, Intuition.SEVERITY);
+        JointClassification sent = Intuition.classify(s, Intuition.SENTIMENT);
+        JointClassification sever = Intuition.classify(s, Intuition.SEVERITY);
         return new Consideration(sent, sever, _world, raw, s);
     }
 
