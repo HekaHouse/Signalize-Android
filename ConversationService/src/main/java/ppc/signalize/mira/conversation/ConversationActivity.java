@@ -4,17 +4,27 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
-import org.alicebot.ab.Ghost;
 public class ConversationActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversation);
-        Ghost.setContext(this.getApplicationContext());
-        Ghost ghost = new Ghost(Util._name,Util._AIML_path);
-}
+        final Conversation session = Conversation.initialize(this.getApplicationContext());
+        Button sendText = (Button)findViewById(R.id.sendButton);
+        final EditText input = (EditText)findViewById(R.id.inputText);
+        final EditText output = (EditText)findViewById(R.id.responseText);
+        sendText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                output.setText(session.process(input.getText().toString()));
+            }
+        });
+    }
 
 
     @Override

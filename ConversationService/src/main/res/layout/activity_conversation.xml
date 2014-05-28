@@ -9,8 +9,27 @@
     tools:context="ppc.signalize.mira.conversation.ConversationActivity">
 
     <TextView
+        android:id="@+id/testString"
         android:text="@string/hello_world"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+    <EditText
+        android:id="@+id/inputText"
+        android:layout_below="@id/testString"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/sendButton"
+        android:text="@string/sendText"
+        android:layout_below="@id/inputText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:id="@+id/responseText"
+        android:text="Response"
+        android:editable="false"
+        android:layout_below="@id/sendButton"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent" />
 
 </RelativeLayout>
