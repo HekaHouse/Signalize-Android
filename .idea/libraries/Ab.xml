@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="Ab">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/mira/libs/Ab.jar!/" />
+      <root url="jar://$PROJECT_DIR$/ConversationService/libs/Ab.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

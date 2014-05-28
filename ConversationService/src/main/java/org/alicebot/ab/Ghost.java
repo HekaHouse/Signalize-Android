@@ -170,7 +170,8 @@ public class Ghost extends Bot {
                                 if (file.endsWith(".aiml") || file.endsWith(".AIML")) {
                                     Log.d(TAG, "executing: " + file);
                                     executing.add(file);
-                                    new Thread(new AsyncAIML(this, file), file).start();
+                                    Thread t = new Thread(new AsyncAIML(this, file), file);
+                                    t.start();
                                     pause(100, 4);
                                 }
                             }
