@@ -1,6 +1,7 @@
 package ppc.signalize.mira.conversation;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,16 +15,9 @@ public class ConversationActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversation);
-        final Conversation session = Conversation.initialize(this.getApplicationContext());
-        Button sendText = (Button)findViewById(R.id.sendButton);
-        final EditText input = (EditText)findViewById(R.id.inputText);
-        final EditText output = (EditText)findViewById(R.id.responseText);
-        sendText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                output.setText(session.process(input.getText().toString()));
-            }
-        });
+        Intent intent = new Intent(this,ConversationService.class);
+        startService(intent);
+
     }
 
 

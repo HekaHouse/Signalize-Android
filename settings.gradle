@@ -1,1 +1,1 @@
-include ':perspectives', ':mira', ':ConversationService', 'myvoice'
+include ':perspectives', ':mira', ':ConversationService', ':ConversationServiceClient', 'myvoice'

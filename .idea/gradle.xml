@@ -9,6 +9,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/ConversationService" />
+            <option value="$PROJECT_DIR$/ConversationServiceClient" />
             <option value="$PROJECT_DIR$/mira" />
             <option value="$PROJECT_DIR$/myvoice" />
             <option value="$PROJECT_DIR$/perspectives" />
@@ -16,6 +17,7 @@
         </option>
       </GradleProjectSettings>
     </option>
+    <option name="offlineWork" value="true" />
   </component>
 </project>
 
