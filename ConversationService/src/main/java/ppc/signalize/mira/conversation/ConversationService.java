@@ -59,7 +59,7 @@ public class ConversationService extends Service{
         }
         return null;
     }
-    class Proxy extends IConseration.Stub{
+    class Proxy extends IConversation.Stub{
 
         @Override
         public String process(String input) throws RemoteException {

@@ -2,7 +2,7 @@ package ppc.signalize.mira.conversation.conversationserviceclient.conversationse
 
 import android.app.Activity;
 import android.content.ComponentName;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
@@ -12,18 +12,19 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import ppc.signalize.mira.conversation.IConseration;
+import ppc.signalize.mira.conversation.IConversation;
 
 
 public class ConversationClient extends Activity implements ServiceConnection,View.OnClickListener{
 
     private final String ConversationServiceTAG= "ppc.signalize.mira.conversation.ConversationService";
     private final String ConversationSericePackage = "ppc.signalize.mira.conversation";
-    private IConseration service;
+    private IConversation service;
     private final String TAG = "ConversationClient";
     private final String StartServiceBroadcast = "ppc.signalize.mira.conversation.startService";
     private EditText input,output;
@@ -38,10 +39,24 @@ public class ConversationClient extends Activity implements ServiceConnection,Vi
         connectToService();
         sendText = (Button)findViewById(R.id.sendButton);
         input = (EditText)findViewById(R.id.inputText);
+        input.setOnFocusChangeListener(new EditTextFocusChangeListener());
         output = (EditText)findViewById(R.id.responseText);
         sendText.setOnClickListener(this);
 
 
+    }
+    private class EditTextFocusChangeListener implements View.OnFocusChangeListener{
+
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+
+            if(v.getId() == R.id.inputText && !hasFocus) {
+
+                InputMethodManager imm =  (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+
+            }
+        }
     }
     @Override
     public void onClick(View v) {
@@ -50,6 +65,7 @@ public class ConversationClient extends Activity implements ServiceConnection,Vi
             input.clearFocus();
             output.setText(service.process(input.getText().toString()));
             input.setText("");
+            sendText.requestFocus();
         } catch (RemoteException e) {
             Log.e(TAG,"NO SERVICE");
             Toast.makeText(this,"NO SERVICE",Toast.LENGTH_LONG).show();
@@ -61,7 +77,7 @@ public class ConversationClient extends Activity implements ServiceConnection,Vi
             this.unbindService(this);
         }
         catch (IllegalArgumentException e){
-            Log.e(TAG,e.getLocalizedMessage());
+            Log.e(TAG, e.getLocalizedMessage());
         }
         if(this.service!=null){
 
@@ -106,7 +122,7 @@ public class ConversationClient extends Activity implements ServiceConnection,Vi
     public void onServiceConnected(ComponentName name, IBinder service) {
         Log.d(TAG,"The service is now connected");
         Toast.makeText(this,"The service is now connected",Toast.LENGTH_LONG).show();
-        this.service = IConseration.Stub.asInterface(service);
+        this.service = IConversation.Stub.asInterface(service);
         this.input.setEnabled(true);
         this.sendText.setEnabled(true);
         this.input.requestFocus();
