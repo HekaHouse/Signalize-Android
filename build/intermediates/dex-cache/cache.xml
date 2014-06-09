@@ -2,17 +2,17 @@
 <pre-dex-items>
 
     <item
-        dex="/home/mukundan/Documents/Signalize/Signalize/ConversationService/build/intermediates/pre-dexed/debug/support-v4-19.1.0-668b44f3ce8a8e24422b3bf705a108530bdce780.jar"
-        jar="/home/mukundan/Documents/android-studio/sdk/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67"/>
-    <item
         dex="/home/mukundan/Documents/Signalize/Signalize/ConversationService/build/intermediates/pre-dexed/debug/classes-edb2132f6f111e73412fe88c59e3563f37600487.jar"
         jar="/home/mukundan/Documents/Signalize/Signalize/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.1.0/classes.jar"
         jumboMode="false"
         revision="19.1.0"
         sha1="3499ceba05ca1f6037c6a2fad73df8f636224a28"/>
+    <item
+        dex="/home/mukundan/Documents/Signalize/Signalize/ConversationService/build/intermediates/pre-dexed/debug/support-v4-19.1.0-668b44f3ce8a8e24422b3bf705a108530bdce780.jar"
+        jar="/home/mukundan/Documents/android-studio/sdk/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67"/>
     <item
         dex="/home/mukundan/Documents/Signalize/Signalize/ConversationService/build/intermediates/pre-dexed/debug/Ab-d7c0576b57d1c2f163d63c98d0a92626d56dfd9c.jar"
         jar="/home/mukundan/Documents/Signalize/Signalize/ConversationService/libs/Ab.jar"

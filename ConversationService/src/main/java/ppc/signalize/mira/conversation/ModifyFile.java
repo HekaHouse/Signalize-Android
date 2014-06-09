@@ -1,11 +1,14 @@
 package ppc.signalize.mira.conversation;
 
 import android.app.Activity;
+import android.app.ListActivity;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,12 +23,11 @@ import java.io.StringReader;
 import java.util.ArrayList;
 
 
-public class ModifyFile extends Activity {
+public class ModifyFile extends ListActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_modify_files);
         String fileName = getIntent().getExtras().getString("fileName");
         Toast.makeText(this,fileName,Toast.LENGTH_SHORT).show();
         AssetManager assetManager = getAssets();
@@ -37,8 +39,13 @@ public class ModifyFile extends Activity {
             inputStream.read(buffer);
             inputStream.close();
             String text = new String(buffer);
-            StringBuilder taglist = new StringBuilder();
-            for(ListRow s:XMLParse.XMLParser(text)){
+            ArrayList<ListRow> allRows =XMLParse.XMLParser(text);
+            ListRow[] listRow = new ListRow[allRows.size()];
+            listRow = allRows.toArray(listRow);
+            ModifyFileListAdapter taglist = new ModifyFileListAdapter(this,listRow);
+            //ListView listTags = (ListView)findViewById(R.id.file_list_tags);
+            this.setListAdapter(taglist);
+            /*for(ListRow s:XMLParse.XMLParser(text)){
                 taglist.append(s.getTopic());
                 taglist.append("  ");
                 taglist.append(s.getPattern());
@@ -46,11 +53,12 @@ public class ModifyFile extends Activity {
                 taglist.append(s.getFullXml());
                 taglist.append("  ");
                 taglist.append("\n");
-            }
 
-            TextView textView = (TextView)findViewById(R.id.fileText);
+            }*/
+
+            //TextView textView = (TextView)findViewById(R.id.fileText);
             Toast.makeText(this,"Setting TextView",Toast.LENGTH_SHORT).show();
-            textView.setText(taglist.toString());
+            //textView.setText(taglist.toString());
         } catch (IOException e) {
             e.printStackTrace();
             Log.e("ModifyFile","No such file"+fileName);

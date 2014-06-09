@@ -42,7 +42,7 @@ class XMLParse {
                 if(patternFlag) {
                     localPattern = xpp.getText();
 
-                    if (topicLine == -999) {
+                    if (localPattern!=null&&topicLine == -999) {
                         ListRow listRow = new ListRow();
                         listRow.setTopic(null);
                         listRow.setPattern(localPattern);
@@ -50,7 +50,7 @@ class XMLParse {
                         tags.add(listRow);
                         patternLine = -999;
                     }
-                    if (topicLine != -999) {
+                    if (localPattern!=null&&topicLine != -999) {
                         ListRow listRow = new ListRow();
                         listRow.setTopic(localTopic);
                         listRow.setPattern(localPattern);
@@ -63,6 +63,7 @@ class XMLParse {
             if(eventType == XmlPullParser.END_TAG){
                 if(xpp.getName().equals("pattern")){
                     patternFlag = false;
+                    localPattern = null;
                 }
                 if(xpp.getName().equals("topic")){
                     topicLine = -999;
