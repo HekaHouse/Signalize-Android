@@ -1,0 +1,10 @@
+<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/voices_list"
+    android:name="ppc.signalize.mira.body.parts.nervous.wifi.DeviceListFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    tools:context="ppc.signalize.mira.face.MiraAbstractActivity"
+    tools:layout="@android:layout/voices_card_list" /><!-- From: file:/home/mukundan/Documents/Signalize/Signalize/mira/src/main/res/layout/voices_list_fragment.xml -->
