@@ -275,15 +275,17 @@ public class Ghost extends Bot {
                 System.out.println("Loaded " + brain.getCategories().size() + " categories in " + timer.elapsedTimeSecs() + " sec");
             }
 
-            private void pause(int milli, int until_executing_less_than) {
-                while (executing.size() > until_executing_less_than) {
-                    try {
-                        Thread.sleep(milli);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
+    private void pause(int milli, int until_executing_less_than) {
+        while (executing.size() > until_executing_less_than) {
+            try {
+                Thread.sleep(milli);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-
         }
+    }
+
+
+
+}
 
