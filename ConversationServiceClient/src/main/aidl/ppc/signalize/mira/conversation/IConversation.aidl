@@ -5,4 +5,7 @@ package ppc.signalize.mira.conversation;
 
 interface IConversation {
     String process(String input);
+    String inputThatTopic();
+    String getFilename();
+    String getTemplate();
 }

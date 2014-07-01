@@ -44,7 +44,15 @@ public final class Conversation {
 
     }
 
-    public void getNodemapper(String input){
+    public String getTemplate(){
+        if(nodemapper != null){
+            return "<template>" + nodemapper.category.getTemplate() + "</template>";
+        }
+        return null;
+    }
+
+
+    private void getNodemapper(String input){
         nodemapper = session.getNodemapper(input);
         if(nodemapper != null) {
             Log.w(TAG, "input that topic = " + nodemapper.category.inputThatTopic());

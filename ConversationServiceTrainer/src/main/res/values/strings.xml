@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ConversationServiceTrainer</string>
+    <string name="filename">Filename : </string>
+    <string name="staraiml">*.aiml</string>
+    <string name="star">*</string>
+    <string name="current">Current Response</string>
+    <string name="currentResponse">Response</string>
+    <string name="patternname">Pattern</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_file">FileActivity</string>
+
+</resources>

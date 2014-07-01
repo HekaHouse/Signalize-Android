@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ConversationService/ConversationService.iml" filepath="$PROJECT_DIR$/ConversationService/ConversationService.iml" />
       <module fileurl="file://$PROJECT_DIR$/ConversationServiceClient/ConversationServiceClient.iml" filepath="$PROJECT_DIR$/ConversationServiceClient/ConversationServiceClient.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ConversationServiceTrainer/ConversationServiceTrainer.iml" filepath="$PROJECT_DIR$/ConversationServiceTrainer/ConversationServiceTrainer.iml" />
       <module fileurl="file://$PROJECT_DIR$/Signalize.iml" filepath="$PROJECT_DIR$/Signalize.iml" />
       <module fileurl="file://$PROJECT_DIR$/mira/mira.iml" filepath="$PROJECT_DIR$/mira/mira.iml" />
       <module fileurl="file://$PROJECT_DIR$/myvoice/myvoice.iml" filepath="$PROJECT_DIR$/myvoice/myvoice.iml" />

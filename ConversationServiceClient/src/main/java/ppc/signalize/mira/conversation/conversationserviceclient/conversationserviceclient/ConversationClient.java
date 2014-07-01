@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import ppc.signalize.mira.conversation.IConversation;
@@ -27,12 +28,13 @@ public class ConversationClient extends Activity implements ServiceConnection,Vi
     private IConversation service;
     private final String TAG = "ConversationClient";
     private final String StartServiceBroadcast = "ppc.signalize.mira.conversation.startService";
-    private EditText input,output;
+    private EditText input;
+    TextView outputPattern, outputFile;
     Button sendText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_conversation_client);
+        setContentView(R.layout.activity_conversation);
         Intent intent = new Intent();
         intent.setAction(StartServiceBroadcast);
         this.sendBroadcast(intent);
@@ -40,9 +42,9 @@ public class ConversationClient extends Activity implements ServiceConnection,Vi
         sendText = (Button)findViewById(R.id.sendButton);
         input = (EditText)findViewById(R.id.inputText);
         input.setOnFocusChangeListener(new EditTextFocusChangeListener());
-        output = (EditText)findViewById(R.id.responseText);
+        outputPattern = (TextView)findViewById(R.id.responseText);
         sendText.setOnClickListener(this);
-
+        outputFile = (TextView)findViewById(R.id.fileText);
 
     }
     private class EditTextFocusChangeListener implements View.OnFocusChangeListener{
@@ -63,7 +65,9 @@ public class ConversationClient extends Activity implements ServiceConnection,Vi
         try {
             if(service == null) throw new RemoteException();
             input.clearFocus();
-            output.setText(service.process(input.getText().toString()));
+            service.process(input.getText().toString());
+            outputPattern.setText(service.inputThatTopic());
+            outputFile.setText(service.getFilename());
             input.setText("");
             sendText.requestFocus();
         } catch (RemoteException e) {
@@ -131,5 +135,6 @@ public class ConversationClient extends Activity implements ServiceConnection,Vi
     @Override
     public void onServiceDisconnected(ComponentName name) {
         Log.d(TAG,"Disconnected from the service");
+        this.input.setEnabled(false);
     }
 }
