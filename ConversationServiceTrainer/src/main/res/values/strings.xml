@@ -10,5 +10,7 @@
     <string name="patternname">Pattern</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_file">FileActivity</string>
+    <string name="title_activity_view_file">ViewFileActivity</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

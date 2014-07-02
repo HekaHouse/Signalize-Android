@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ppc.signalize.mira.conversation.conversationservicetrainer.conversationservicetrainer" >
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -23,6 +25,7 @@
             android:name=".FileActivity"
             android:label="@string/title_activity_file" >
         </activity>
+
         <service android:name="ppc.signalize.mira.conversation.ConversationService" >
             <intent-filter>
                 <action android:name="ppc.signalize.mira.conversation.ConversationService" />
@@ -36,6 +39,11 @@
                 <action android:name="ppc.signalize.mira.conversation.startService" />
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".ViewFileActivity"
+            android:label="@string/title_activity_view_file" >
+        </activity>
     </application>
 
 </manifest>

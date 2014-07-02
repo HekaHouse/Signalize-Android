@@ -2,6 +2,7 @@ package ppc.signalize.mira.conversation.conversationservicetrainer.conversations
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -49,7 +51,7 @@ public class FileActivity extends Activity implements View.OnClickListener{
 
     private DocumentBuilderFactory factory;
     private DocumentBuilder builder;
-    private Document dom;
+    private Document dom = null;
     private Element docRoot;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,10 +70,20 @@ public class FileActivity extends Activity implements View.OnClickListener{
         fileName.setText(strFileName);
         pattern.setText(strPattern);
 
+        openFile();
+        Node responseElement = getReqResponse();
+        currentResponse.setText(xmltoString(responseElement));
 
-        currentResponse.setText(strTemplate);
-
-
+        Button viewFile = (Button)findViewById(R.id.viewFile);
+        viewFile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent;
+                intent = new Intent(getApplicationContext(),ViewFileActivity.class);
+                intent.putExtra("fileName",strFileName);
+                startActivity(intent);
+            }
+        });
 
         /*if(responseElement!=null){
             String response = "";
@@ -82,6 +94,23 @@ public class FileActivity extends Activity implements View.OnClickListener{
             Toast.makeText(this,"ResponseElement Null",Toast.LENGTH_LONG).show();
         }*/
     }
+    private String xmltoString(Node element){
+        StringWriter str = new StringWriter();
+        TransformerFactory tf = TransformerFactory.newInstance();
+        Transformer t = null;
+        DOMSource src = new DOMSource(element);
+        StreamResult res = new StreamResult(str);
+        try {
+            t = tf.newTransformer();
+            t.transform(src,res);
+        } catch (TransformerConfigurationException e) {
+            e.printStackTrace();
+        } catch (TransformerException e) {
+            e.printStackTrace();
+        }
+        System.out.println(str.toString());
+        return str.toString();
+    }
     private void setResponseElement(Node responseElement){
         NodeList childNodes = responseElement.getChildNodes();
         Node child = null;
@@ -89,37 +118,45 @@ public class FileActivity extends Activity implements View.OnClickListener{
         for(int i=0;i<childNodes.getLength();++i){
 
             child = childNodes.item(i);
-            response += "<" + child.getNodeName() + ">\n";
             if(child.getNodeName().contains("template")){
                 break;
             }
         }
         responseElement.removeChild(child);
+        xmltoString(responseElement);
         String strnewResponse = newResponse.getText().toString();
         Element element = dom.createElement("template");
         element.setTextContent(strnewResponse);
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        Transformer transformer = null;
+        responseElement.appendChild(element);
+        TransformerFactory transformerFactory;
+        Transformer transformer;
+        transformerFactory = TransformerFactory.newInstance();
         try {
             transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(dom);
-            StreamResult result = new StreamResult(new File("MIRA/aiml/" + strFileName));
+            StreamResult result = new StreamResult(new File(getFilesDir(),"MIRA/aiml/" + strFileName));
+            Log.d("Stream","Got Stream");
             transformer.transform(source, result);
             Toast.makeText(this,"Wrote to file",Toast.LENGTH_LONG).show();
         } catch (TransformerConfigurationException e) {
             e.printStackTrace();
         } catch (TransformerException e) {
             e.printStackTrace();
+            Log.e("CAUSE", e.getCause().toString());
             Log.getStackTraceString(e);
             Log.e("TransformerException","Cannot transform AIML");
         }
 
         
-        currentResponse.setText(response);
+        currentResponse.setText(xmltoString(responseElement));
+    }
+    private Node getReqResponse(){
+        Node responseElement = null;
+        responseElement = getRequiredResponse(docRoot, strPattern.split("<")[0]);
+        return responseElement;
     }
 
-    private Node openFile(){
-        Node responseElement = null;
+    private void openFile(){
         try {
             InputStream file = new FileInputStream(new File(getFilesDir(),"MIRA/aiml/" + strFileName));
             factory = DocumentBuilderFactory.newInstance();
@@ -128,7 +165,7 @@ public class FileActivity extends Activity implements View.OnClickListener{
             docRoot = dom.getDocumentElement();
             file.close();
             Toast.makeText(this,strPattern.split("<")[0],Toast.LENGTH_SHORT).show();
-            responseElement = getRequiredResponse(docRoot, strPattern.split("<")[0]);
+
             Toast.makeText(this,"Able to access the assets folder",Toast.LENGTH_LONG).show();
 
         } catch (IOException e) {
@@ -138,7 +175,6 @@ public class FileActivity extends Activity implements View.OnClickListener{
         } catch (SAXException e) {
             Log.e("ParseException","SAX Exception");;
         }
-        return responseElement;
     }
 
     private Node getRequiredResponse(Element root, String pattern){
@@ -147,8 +183,10 @@ public class FileActivity extends Activity implements View.OnClickListener{
         for(int i=0;i<patterns.getLength();++i){
             Node item = patterns.item(i);
             String pat = item.getTextContent();
-            if(pat.contains(pattern.trim())){
+            if(pat.equals(pattern.trim())){
                 ele =  item.getParentNode();
+                Log.e("PARENT NODE","PARENT");
+                xmltoString(ele);
                 Toast.makeText(this,ele.getNodeName(),Toast.LENGTH_LONG).show();
                 return ele;
             }
@@ -178,7 +216,10 @@ public class FileActivity extends Activity implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        Node responseElement = openFile();
+        if(dom == null){
+            openFile();
+        }
+        Node responseElement = getReqResponse();
         setResponseElement(responseElement);
 
     }

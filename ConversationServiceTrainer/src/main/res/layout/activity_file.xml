@@ -47,7 +47,7 @@
         <TextView
             android:id="@+id/currentResponse"
             android:singleLine="false"
-            android:lines="5"
+
             android:textSize="@dimen/largeText"
             android:text="@string/currentResponse"
             android:layout_width="fill_parent"
@@ -76,6 +76,12 @@
         android:id="@+id/advancedResponse"
         android:layout_below="@id/setResponse"
         android:text="Advanced Settings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/viewFile"
+        android:layout_below="@id/advancedResponse"
+        android:text="View File"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
