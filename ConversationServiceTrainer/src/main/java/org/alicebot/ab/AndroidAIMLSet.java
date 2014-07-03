@@ -37,6 +37,5 @@ public class AndroidAIMLSet extends AIMLSet {
         } catch (Exception e) {//Catch exception if any
             System.err.println("Error: " + e.getMessage());
         }
-
     }
 }

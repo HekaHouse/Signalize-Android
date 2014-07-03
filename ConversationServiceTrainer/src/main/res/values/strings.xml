@@ -5,6 +5,8 @@
     <string name="filename">Filename : </string>
     <string name="staraiml">*.aiml</string>
     <string name="star">*</string>
+    <string name="down_arrow">\\/</string>
+    <string name="up_arrow">/\\</string>
     <string name="current">Current Response</string>
     <string name="currentResponse">Response</string>
     <string name="patternname">Pattern</string>

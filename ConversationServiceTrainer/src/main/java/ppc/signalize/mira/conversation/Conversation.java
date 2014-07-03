@@ -2,7 +2,9 @@ package ppc.signalize.mira.conversation;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
+import org.alicebot.ab.AndroidAIML;
 import org.alicebot.ab.AndroidChat;
 import org.alicebot.ab.Ghost;
 import org.alicebot.ab.Nodemapper;
@@ -15,29 +17,42 @@ public final class Conversation {
     public static Ghost ghost=null;
     private AndroidChat session=null;
     private Nodemapper nodemapper;
+    private String input;
+    AndroidAIML androidAIML;
 
 
     private Conversation(Context context) {
         Ghost.setContext(context);
         if(ghost==null) ghost = new Ghost(Util._name, Util._AIML_path);
         session = new AndroidChat(ghost);
+        androidAIML = new AndroidAIML();
     }
 
     public String process(String input) {
         String response = session.multisentenceRespond(input);
+        this.input = input;
         getNodemapper(input);
         return response;
     }
     public String inputThatTopic(){
-        if(nodemapper != null){
-            return nodemapper.category.inputThatTopic();
+        androidAIML.initialize();
+        if(nodemapper!=null) {
+            getNodemapper(input);
+            androidAIML.respond(input, nodemapper.category.getThat(), nodemapper.category.getTopic(), session);
+            String inputs = androidAIML.strInputs();
+
+            return inputs;
         }
         return null;
     }
 
     public String getFilename(){
-        if(nodemapper != null){
-            return nodemapper.category.getFilename();
+        androidAIML.initialize();
+        if(nodemapper!=null) {
+            getNodemapper(input);
+            androidAIML.respond(input, nodemapper.category.getThat(), nodemapper.category.getTopic(), session);
+            String names = androidAIML.strFileNames();
+            return names;
         }
         return null;
 

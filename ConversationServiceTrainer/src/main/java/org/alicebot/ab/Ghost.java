@@ -104,7 +104,7 @@ public class Ghost extends Bot {
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-            }
+        }
 
             /**
              * Load all AIML Maps
@@ -157,7 +157,7 @@ public class Ghost extends Bot {
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
-                }
+            }
 
                 /**
                  * load bot properties

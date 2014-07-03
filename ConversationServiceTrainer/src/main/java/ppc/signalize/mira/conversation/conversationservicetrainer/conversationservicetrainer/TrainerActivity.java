@@ -14,8 +14,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +30,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.channels.FileChannel;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import ppc.signalize.mira.conversation.IConversation;
 
@@ -42,20 +46,18 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
     private final String TAG = "ConversationServiceTrainer";
     private final String StartServiceBroadcast = "ppc.signalize.mira.conversation.startService";
     private EditText input;
-    TextView outputPattern, outputFile;
+    ListView outputPattern, outputFile;
     String responseTemplate;
     Button sendText;
+    TextView response;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FileUtils.setContext(this);
 
-        if(FileUtils.MIRAdirExists()) {
+
             FileUtils.copyAssetsToStorage();
-        }
-        else{
-            Toast.makeText(this,"DIR does exist",Toast.LENGTH_LONG).show();
-        }
+
         setContentView(R.layout.activity_trainer);
         Ghost.setInternalStorage(true);
         Intent intent = new Intent();
@@ -65,10 +67,11 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
         sendText = (Button)findViewById(R.id.sendButton);
         input = (EditText)findViewById(R.id.inputText);
         input.setOnFocusChangeListener(new EditTextFocusChangeListener());
-        outputPattern = (TextView)findViewById(R.id.responseText);
+        outputPattern = (ListView)findViewById(R.id.responseText);
         sendText.setOnClickListener(this);
-        outputFile = (TextView)findViewById(R.id.fileText);
-        outputFile.setOnClickListener(new View.OnClickListener() {
+        outputFile = (ListView)findViewById(R.id.fileText);
+        response = (TextView)findViewById(R.id.responseTextView);
+        /*outputFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplication(),FileActivity.class);
@@ -77,7 +80,7 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
                 i.putExtra(templateIntent,responseTemplate);
                 startActivity(i);
             }
-        });
+        });*/
 
     }
 
@@ -99,10 +102,21 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
         try {
             if(service == null) throw new RemoteException();
             input.clearFocus();
-            service.process(input.getText().toString());
-            outputPattern.setText(service.inputThatTopic());
+            response.setText(service.process(input.getText().toString()));
+            String inputs = service.inputThatTopic();
+            Toast.makeText(this,"INPUT " + inputs , Toast.LENGTH_SHORT).show();
+            String[] inps = inputs.split("~");
+            ArrayList<String> listInpNames = new ArrayList<String>();
+            listInpNames.addAll(Arrays.asList(inps));
+            ArrayAdapter<String> listInpAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, listInpNames);
+            outputPattern.setAdapter(listInpAdapter);
             responseTemplate = service.getTemplate();
-            outputFile.setText(service.getFilename());
+            String filenames = service.getFilename();
+            String[] names = filenames.split("~");
+            ArrayList<String> listNames = new ArrayList<String>();
+            listNames.addAll(Arrays.asList(names));
+            ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, listNames);
+            outputFile.setAdapter(listAdapter);
             input.setText("");
             sendText.requestFocus();
         } catch (RemoteException e) {

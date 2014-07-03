@@ -49,12 +49,10 @@ public class FileActivity extends Activity implements View.OnClickListener{
     private final String patternIntent = "pattern";
     private final String templateIntent = "template";
 
-    private DocumentBuilderFactory factory;
-    private DocumentBuilder builder;
-    private Document dom = null;
-    private Element docRoot;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        FileUtils.setContext(this);
         super.onCreate(savedInstanceState);
         Bundle extras = getIntent().getExtras();
         strFileName = extras.getString(fileIntent);
@@ -70,9 +68,9 @@ public class FileActivity extends Activity implements View.OnClickListener{
         fileName.setText(strFileName);
         pattern.setText(strPattern);
 
-        openFile();
-        Node responseElement = getReqResponse();
-        currentResponse.setText(xmltoString(responseElement));
+        FileUtils.openFile(strFileName);
+        Node responseElement = FileUtils.getReqResponse(strPattern);
+        currentResponse.setText(FileUtils.xmltoString(responseElement));
 
         Button viewFile = (Button)findViewById(R.id.viewFile);
         viewFile.setOnClickListener(new View.OnClickListener() {
@@ -94,105 +92,16 @@ public class FileActivity extends Activity implements View.OnClickListener{
             Toast.makeText(this,"ResponseElement Null",Toast.LENGTH_LONG).show();
         }*/
     }
-    private String xmltoString(Node element){
-        StringWriter str = new StringWriter();
-        TransformerFactory tf = TransformerFactory.newInstance();
-        Transformer t = null;
-        DOMSource src = new DOMSource(element);
-        StreamResult res = new StreamResult(str);
-        try {
-            t = tf.newTransformer();
-            t.transform(src,res);
-        } catch (TransformerConfigurationException e) {
-            e.printStackTrace();
-        } catch (TransformerException e) {
-            e.printStackTrace();
-        }
-        System.out.println(str.toString());
-        return str.toString();
-    }
-    private void setResponseElement(Node responseElement){
-        NodeList childNodes = responseElement.getChildNodes();
-        Node child = null;
-        String response = "";
-        for(int i=0;i<childNodes.getLength();++i){
 
-            child = childNodes.item(i);
-            if(child.getNodeName().contains("template")){
-                break;
-            }
-        }
-        responseElement.removeChild(child);
-        xmltoString(responseElement);
-        String strnewResponse = newResponse.getText().toString();
-        Element element = dom.createElement("template");
-        element.setTextContent(strnewResponse);
-        responseElement.appendChild(element);
-        TransformerFactory transformerFactory;
-        Transformer transformer;
-        transformerFactory = TransformerFactory.newInstance();
-        try {
-            transformer = transformerFactory.newTransformer();
-            DOMSource source = new DOMSource(dom);
-            StreamResult result = new StreamResult(new File(getFilesDir(),"MIRA/aiml/" + strFileName));
-            Log.d("Stream","Got Stream");
-            transformer.transform(source, result);
-            Toast.makeText(this,"Wrote to file",Toast.LENGTH_LONG).show();
-        } catch (TransformerConfigurationException e) {
-            e.printStackTrace();
-        } catch (TransformerException e) {
-            e.printStackTrace();
-            Log.e("CAUSE", e.getCause().toString());
-            Log.getStackTraceString(e);
-            Log.e("TransformerException","Cannot transform AIML");
-        }
 
-        
-        currentResponse.setText(xmltoString(responseElement));
-    }
-    private Node getReqResponse(){
-        Node responseElement = null;
-        responseElement = getRequiredResponse(docRoot, strPattern.split("<")[0]);
-        return responseElement;
+
+    public static void init(Context context){
+        FileUtils.setContext(context);
     }
 
-    private void openFile(){
-        try {
-            InputStream file = new FileInputStream(new File(getFilesDir(),"MIRA/aiml/" + strFileName));
-            factory = DocumentBuilderFactory.newInstance();
-            builder = factory.newDocumentBuilder();
-            dom = builder.parse(file);
-            docRoot = dom.getDocumentElement();
-            file.close();
-            Toast.makeText(this,strPattern.split("<")[0],Toast.LENGTH_SHORT).show();
 
-            Toast.makeText(this,"Able to access the assets folder",Toast.LENGTH_LONG).show();
 
-        } catch (IOException e) {
-            Log.e("ParseException","Cannot open File");
-        } catch (ParserConfigurationException e) {
-            Log.e("ParseException","Parser Config Exception");
-        } catch (SAXException e) {
-            Log.e("ParseException","SAX Exception");;
-        }
-    }
 
-    private Node getRequiredResponse(Element root, String pattern){
-        Node ele = null;
-        NodeList patterns = root.getElementsByTagName("pattern");
-        for(int i=0;i<patterns.getLength();++i){
-            Node item = patterns.item(i);
-            String pat = item.getTextContent();
-            if(pat.equals(pattern.trim())){
-                ele =  item.getParentNode();
-                Log.e("PARENT NODE","PARENT");
-                xmltoString(ele);
-                Toast.makeText(this,ele.getNodeName(),Toast.LENGTH_LONG).show();
-                return ele;
-            }
-        }
-        return null;
-    }
 
 
     @Override
@@ -216,11 +125,9 @@ public class FileActivity extends Activity implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        if(dom == null){
-            openFile();
-        }
-        Node responseElement = getReqResponse();
-        setResponseElement(responseElement);
+        FileUtils.openFile(strFileName);
+        Node responseElement = FileUtils.getReqResponse(strPattern);
+        currentResponse.setText(FileUtils.setResponseElement(responseElement,newResponse.getText().toString(), strFileName));
 
     }
 }

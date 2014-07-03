@@ -11,34 +11,76 @@
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/holo_orange_dark"/>
     <EditText
         android:id="@+id/inputText"
         android:enabled="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
     <Button
         android:id="@+id/sendButton"
         android:text="Get"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <TextView
+        android:text="Response"
+        android:gravity="center"
+        android:id="@+id/ResponseLabel1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/holo_orange_dark"/>
+
+    <TextView
+        android:text="Res"
+        android:gravity="center"
+        android:id="@+id/responseTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/holo_blue_dark"/>
+
+    <TextView
         android:text="Pattern"
         android:gravity="center"
         android:id="@+id/responseLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-    <TextView
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/holo_orange_dark"/>
+
+    <ListView
         android:id="@+id/responseText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="200dp" />
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/holo_blue_dark"/>
     <TextView
         android:id="@+id/fileLabel"
         android:text="File"
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-    <TextView
+        android:layout_height="fill_parent">
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/holo_orange_dark"/>
+    <ListView
         android:id="@+id/fileText"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
 </LinearLayout>
