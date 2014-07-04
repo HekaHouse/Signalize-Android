@@ -2,8 +2,17 @@ package ppc.signalize.mira.conversation.conversationservicetrainer.conversations
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.graphics.Color;
 import android.os.RemoteException;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.w3c.dom.Document;
@@ -39,8 +48,9 @@ public class FileUtils {
     private static String TAG = "File Utils";
     private static Context context = null;
     static String AIMLdir = "MIRA/aiml";
+    static String changedString = "";
     static String MIRAdir = "MIRA";
-    protected static XMLState xmlstate;
+    protected static XMLState xmlstate = new XMLState();
     protected static void setContext(Context context){
         FileUtils.context = context;
     }
@@ -83,6 +93,22 @@ public class FileUtils {
 
 
     }
+    protected static String getChangedNodeString(Node responseText){
+        String response = xmltoString(responseText);
+        Log.d(TAG,""+response.indexOf("?>"));
+        int index = response.indexOf("?>");
+        index += 2;
+        response = response.substring(index);
+
+        return response;
+    }
+    protected static void setColor(TextView textView, String text, String subString, int color) {
+        textView.setText(text, TextView.BufferType.SPANNABLE);
+        Spannable span = (Spannable) textView.getText();
+        int i = text.indexOf(subString);
+        span.setSpan(new ForegroundColorSpan(color), i, i+subString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+    }
+
     protected static Node getReqResponse(String strPattern){
         Node responseElement = null;
         Toast.makeText(context, strPattern.split("<")[0], Toast.LENGTH_SHORT).show();
@@ -126,7 +152,7 @@ public class FileUtils {
     protected static void openFile(String filename){
         if(xmlstate.dom == null) {
             try {
-                Log.d(TAG, "Opening file" + AIMLdir + "/" + filename);
+                Log.d(TAG, "Opening file " + AIMLdir + "/" + filename);
                 InputStream file = new FileInputStream(new File(context.getFilesDir(), AIMLdir + "/" + filename));
                 xmlstate.init();
                 xmlstate.setDom(file);

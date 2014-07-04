@@ -22,8 +22,8 @@
 
     <Button
         android:id="@+id/sendButton"
-        android:textColor="@color/OliveDrab"
-        android:background="@color/AliceBlue"
+        android:textColor="@color/Olive"
+        android:background="@drawable/button_selector"
         android:text="Get"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -38,16 +38,19 @@
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:background="@android:color/holo_orange_dark"/>
-
-    <TextView
-        android:text="Res"
-        android:textSize="@dimen/largeText"
-        android:background="@color/Black"
-        android:textColor="@color/White"
-        android:gravity="center"
-        android:id="@+id/responseTextView"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="100dp">
+        <TextView
+            android:text="Res"
+            android:textSize="@dimen/largeText"
+            android:background="@color/Black"
+            android:textColor="@color/White"
+            android:gravity="center"
+            android:id="@+id/responseTextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </ScrollView>
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"

@@ -19,7 +19,7 @@ public final class Conversation {
     private Nodemapper nodemapper;
     private String input;
     AndroidAIML androidAIML;
-
+    private String inputs, filenames;
 
     private Conversation(Context context) {
         Ghost.setContext(context);
@@ -31,28 +31,20 @@ public final class Conversation {
     public String process(String input) {
         String response = session.multisentenceRespond(input);
         this.input = input;
+        androidAIML.initialize();
         getNodemapper(input);
         return response;
     }
-    public String inputThatTopic(){
-        androidAIML.initialize();
+    public String getPatterns(){
         if(nodemapper!=null) {
-            getNodemapper(input);
-            androidAIML.respond(input, nodemapper.category.getThat(), nodemapper.category.getTopic(), session);
-            String inputs = androidAIML.strInputs();
-
             return inputs;
         }
         return null;
     }
 
     public String getFilename(){
-        androidAIML.initialize();
         if(nodemapper!=null) {
-            getNodemapper(input);
-            androidAIML.respond(input, nodemapper.category.getThat(), nodemapper.category.getTopic(), session);
-            String names = androidAIML.strFileNames();
-            return names;
+            return filenames;
         }
         return null;
 
@@ -69,6 +61,9 @@ public final class Conversation {
     private void getNodemapper(String input){
         nodemapper = session.getNodemapper(input);
         if(nodemapper != null) {
+            androidAIML.respond(input, nodemapper.category.getThat(), nodemapper.category.getTopic(), session);
+            filenames = androidAIML.strFileNames();
+            inputs = androidAIML.strInputs();
             Log.w(TAG, "input that topic = " + nodemapper.category.inputThatTopic());
             Log.w(TAG, "Corresponding AIML File = " + nodemapper.category.getFilename());
         }

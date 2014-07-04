@@ -4,5 +4,6 @@
     <dimen name="largeText">26dp</dimen>
     <dimen name="mediumText">20dp</dimen>
     <dimen name="smallText">16dp</dimen>
+    <dimen name="tinyText">12dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 </resources>

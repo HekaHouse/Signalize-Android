@@ -1,7 +1,11 @@
 package ppc.signalize.mira.conversation.conversationservicetrainer.conversationservicetrainer;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -15,6 +19,7 @@ import java.io.InputStream;
 import ppc.signalize.mira.conversation.conversationservicetrainer.conversationservicetrainer.R;
 
 public class ViewFileActivity extends Activity {
+    private final String TAG = "ViewFileActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +27,7 @@ public class ViewFileActivity extends Activity {
         setContentView(R.layout.activity_view_file);
         TextView textView = (TextView)findViewById(R.id.textFile);
         String fileName = getIntent().getExtras().getString("fileName");
+        ((TextView)findViewById(R.id.viewFileName)).setText(fileName);
         InputStream inputStream;
         try {
             inputStream = new FileInputStream(new File(getFilesDir(),"MIRA/aiml/" +fileName));
@@ -31,7 +37,8 @@ public class ViewFileActivity extends Activity {
             inputStream.read(buffer);
             inputStream.close();
             String text = new String(buffer);
-            textView.setText(text);
+            Log.d(TAG,"" + text.contains(FileUtils.changedString));
+            FileUtils.setColor(textView,text,FileUtils.changedString, Color.GREEN);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -39,6 +46,7 @@ public class ViewFileActivity extends Activity {
         }
 
     }
+
 
 
 

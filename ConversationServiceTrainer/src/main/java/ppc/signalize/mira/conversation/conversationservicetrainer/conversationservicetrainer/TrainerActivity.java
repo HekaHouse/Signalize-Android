@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -27,27 +28,26 @@ import java.util.Arrays;
 import ppc.signalize.mira.conversation.IConversation;
 
 
-public class TrainerActivity extends Activity implements View.OnClickListener,ServiceConnection{
+public class TrainerActivity extends Activity implements View.OnClickListener,ServiceConnection,AdapterView.OnItemClickListener{
 
+    private final String fileIntent = "fileName";
+    private final String patternIntent = "pattern";
     private LazyListAdapter listAdapter;
     private final String ConversationServiceTAG= "ppc.signalize.mira.conversation.ConversationService";
     private IConversation service;
     private final String TAG = "ConversationServiceTrainer";
     private final String StartServiceBroadcast = "ppc.signalize.mira.conversation.startService";
     private EditText input;
-    //ListView outputPattern, outputFile;
+    private ArrayList<String> listInpNames,listNames;
     ListView listPatternFile;
-    String responseTemplate;
+    String responseTemplate, strFilename, strPattern;
     Button sendText;
     TextView response;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FileUtils.setContext(this);
-
-
-            FileUtils.copyAssetsToStorage();
-
+        FileUtils.copyAssetsToStorage();
         setContentView(R.layout.activity_trainer);
         Ghost.setInternalStorage(true);
         Intent intent = new Intent();
@@ -57,12 +57,20 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
         sendText = (Button)findViewById(R.id.sendButton);
         input = (EditText)findViewById(R.id.inputText);
         input.setOnFocusChangeListener(new EditTextFocusChangeListener());
-        //outputPattern = (ListView)findViewById(R.id.responseText);
-        //outputFile = (ListView)findViewById(R.id.fileText);
         sendText.setOnClickListener(this);
         response = (TextView)findViewById(R.id.responseTextView);
         listPatternFile = (ListView) findViewById(R.id.pattern_file_list);
+        listPatternFile.setOnItemClickListener(this);
+    }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        strFilename = listNames.get(position);
+        strPattern = listInpNames.get(position);
+        Intent intent = new Intent(this, FileActivity.class);
+        intent.putExtra(fileIntent,strFilename);
+        intent.putExtra(patternIntent,strPattern);
+        startActivity(intent);
     }
 
     private class EditTextFocusChangeListener implements View.OnFocusChangeListener{
@@ -85,23 +93,17 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
             input.clearFocus();
             responseTemplate = service.getTemplate();
             response.setText(service.process(input.getText().toString()));
-            String inputs = service.inputThatTopic();
+            String inputs = service.getPatterns();
             Toast.makeText(this,"INPUT " + inputs , Toast.LENGTH_SHORT).show();
             String[] inps = inputs.split("~");
-            ArrayList<String> listInpNames = new ArrayList<String>();
+            listInpNames = new ArrayList<String>();
             listInpNames.addAll(Arrays.asList(inps));
-            //ArrayAdapter<String> listInpAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, listInpNames);
-            //outputPattern.setAdapter(listInpAdapter);
-
             String filenames = service.getFilename();
             String[] names = filenames.split("~");
-            ArrayList<String> listNames = new ArrayList<String>();
+            listNames = new ArrayList<String>();
             listNames.addAll(Arrays.asList(names));
-            //ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, listNames);
-            //outputFile.setAdapter(listAdapter);
             listAdapter = new LazyListAdapter(this,listNames,listInpNames);
             listPatternFile.setAdapter(listAdapter);
-            input.setText("");
             sendText.requestFocus();
         } catch (RemoteException e) {
             Log.e(TAG, "NO SERVICE");

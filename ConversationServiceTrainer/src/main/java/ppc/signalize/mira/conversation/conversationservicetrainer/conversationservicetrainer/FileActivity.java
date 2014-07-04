@@ -40,26 +40,32 @@ import javax.xml.transform.stream.StreamResult;
 
 
 public class FileActivity extends Activity implements View.OnClickListener{
-    private final String ConversationServicePackage = "ppc.signalize.mira.conversation.conversationservicetrainer.conversationservicetrainer";
-    private TextView fileName,pattern,currentResponse;
+    private TextView pattern;
+    private TextView currentResponse;
     private EditText newResponse;
     private Button setResponse;
     private String strFileName,strPattern,strTemplate;
     private final String fileIntent = "fileName";
     private final String patternIntent = "pattern";
-    private final String templateIntent = "template";
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         FileUtils.setContext(this);
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_file);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         Bundle extras = getIntent().getExtras();
         strFileName = extras.getString(fileIntent);
         strPattern = extras.getString(patternIntent);
-        strTemplate = extras.getString(templateIntent);
-        setContentView(R.layout.activity_file);
-        fileName = (TextView)findViewById(R.id.fileName);
+
+        TextView fileName = (TextView) findViewById(R.id.fileName);
         pattern = (TextView)findViewById(R.id.pattern);
         currentResponse = (TextView)findViewById(R.id.currentResponse);
         newResponse = (EditText)findViewById(R.id.newResponse);
@@ -67,11 +73,10 @@ public class FileActivity extends Activity implements View.OnClickListener{
         setResponse.setOnClickListener(this);
         fileName.setText(strFileName);
         pattern.setText(strPattern);
-
         FileUtils.openFile(strFileName);
         Node responseElement = FileUtils.getReqResponse(strPattern);
-        currentResponse.setText(FileUtils.xmltoString(responseElement));
-
+        FileUtils.changedString = FileUtils.getChangedNodeString(responseElement);
+        currentResponse.setText(FileUtils.getChangedNodeString(responseElement));
         Button viewFile = (Button)findViewById(R.id.viewFile);
         viewFile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,27 +87,17 @@ public class FileActivity extends Activity implements View.OnClickListener{
                 startActivity(intent);
             }
         });
-
-        /*if(responseElement!=null){
-            String response = "";
-            response = buildResponse(responseElement.getFirstChild().getNextSibling(),"");
-            currentResponse.setText(response);
-        }
-        else{
-            Toast.makeText(this,"ResponseElement Null",Toast.LENGTH_LONG).show();
-        }*/
     }
-
-
 
     public static void init(Context context){
         FileUtils.setContext(context);
     }
 
-
-
-
-
+    @Override
+    protected void onPause() {
+        super.onPause();
+        XMLState.setDom();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -127,7 +122,9 @@ public class FileActivity extends Activity implements View.OnClickListener{
     public void onClick(View v) {
         FileUtils.openFile(strFileName);
         Node responseElement = FileUtils.getReqResponse(strPattern);
-        currentResponse.setText(FileUtils.setResponseElement(responseElement,newResponse.getText().toString(), strFileName));
-
+        FileUtils.setResponseElement(responseElement,newResponse.getText().toString(), strFileName);
+        FileUtils.changedString = FileUtils.getChangedNodeString(responseElement);
+        currentResponse.setText(FileUtils.changedString);
+        FileUtils.changedString = FileUtils.getChangedNodeString(responseElement);
     }
 }

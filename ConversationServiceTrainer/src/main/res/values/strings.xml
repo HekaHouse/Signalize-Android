@@ -14,5 +14,7 @@
     <string name="title_activity_file">FileActivity</string>
     <string name="title_activity_view_file">ViewFileActivity</string>
     <string name="hello_world">Hello world!</string>
+    <string name="depth">Depth : </string>
+    <string name="number">0</string>
 
 </resources>

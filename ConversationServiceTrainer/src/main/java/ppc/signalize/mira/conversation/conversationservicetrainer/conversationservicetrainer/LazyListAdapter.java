@@ -49,8 +49,10 @@ public class LazyListAdapter extends BaseAdapter {
         if(convertView == null){
             vi = inflater.inflate(R.layout.pattern_file_row,null);
         }
+        TextView depth = (TextView)vi.findViewById(R.id.depthText);
         TextView pattern = (TextView)vi.findViewById(R.id.pattern_row_textview);
         TextView file = (TextView)vi.findViewById(R.id.file_row_textview);
+        depth.setText(""+(position+1));
         pattern.setText(patterns.get(position));
         file.setText(filenames.get(position));
         return vi;

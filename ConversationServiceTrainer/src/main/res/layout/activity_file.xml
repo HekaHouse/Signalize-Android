@@ -42,16 +42,15 @@
     <ScrollView
         android:id="@+id/currentResponseView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="150dp"
         android:layout_below="@id/currentResponseLabel">
         <TextView
             android:id="@+id/currentResponse"
             android:singleLine="false"
-
             android:textSize="@dimen/largeText"
             android:text="@string/currentResponse"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent"/>
     </ScrollView>
     <ScrollView
         android:id="@+id/newResponseScroll"

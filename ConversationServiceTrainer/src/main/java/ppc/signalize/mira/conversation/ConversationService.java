@@ -68,8 +68,8 @@ public class ConversationService extends Service{
         }
 
         @Override
-        public String inputThatTopic() throws RemoteException {
-            return conversation.inputThatTopic();
+        public String getPatterns() throws RemoteException {
+            return conversation.getPatterns();
         }
 
         @Override
