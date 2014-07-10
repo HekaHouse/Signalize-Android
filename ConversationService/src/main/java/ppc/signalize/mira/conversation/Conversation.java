@@ -36,6 +36,11 @@ public final class Conversation {
         return null;
     }
 
+    public void writeAIMLOut(){
+        ghost.writeAIMLIFFiles();
+
+    }
+
     public String getFilename(){
         if(nodemapper != null){
             return nodemapper.category.getFilename();

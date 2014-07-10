@@ -1,21 +1,18 @@
 package ppc.signalize.mira;
 
-import android.app.FragmentManager;
+import android.content.ComponentName;
 import android.content.Context;
-import android.content.res.AssetManager;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.IBinder;
+import android.os.RemoteException;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.aliasi.classify.JointClassification;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Date;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
+import ppc.signalize.mira.conversation.IConversation;
 
-import ppc.signalize.mira.storage.BrainFragment;
-import ppc.signalize.mira.brain.Brain;
 import ppc.signalize.mira.brain.Consideration;
 import ppc.signalize.mira.brain.Intuition;
 import ppc.signalize.mira.nervous.concurrent.AsyncMouth;
@@ -23,99 +20,49 @@ import ppc.signalize.mira.nervous.concurrent.AsyncMouth;
 
 /**
  * Created by Aron on 3/7/14.
+ * Changed by Mukundan on 7/9/14. Connection to Service.
  */
-public class Mira implements Runnable {
+public class Mira implements Runnable,ServiceConnection {
 
+    private final String ConversationServiceTAG= "ppc.signalize.mira.conversation.ConversationService";
+    private final String ConversationSericePackage = "ppc.signalize.mira.conversation";
+    private final String StartServiceBroadcast = "ppc.signalize.mira.conversation.startService";
+    private IConversation service;
+    Context context;
     private static final String TAG = "ppc/signalize/mira";
     public Voice _world;
     public boolean _is_awake;
-    public int _result;
-    public Brain _brain;
-    protected String _name = "MIRA";
-    protected String _AIML_path = "bots/";
-    private int _sleeping_check = 0;
     private boolean withPrompt;
+
+    public void sendBroadcasttoService(){
+        Intent intent = new Intent();
+        intent.setAction(StartServiceBroadcast);
+        context.sendBroadcast(intent);
+        connectToService();
+    }
+
+    private void connectToService() {
+        Intent intent;
+        intent = new Intent(ConversationServiceTAG);
+        intent.setClassName(ConversationSericePackage,ConversationServiceTAG);
+        context.bindService(intent, this, Context.BIND_AUTO_CREATE);
+        Log.d(TAG, "The Service will be connected soon!");
+    }
 
     public Mira(Voice c) {
         _world = c;
-
-
-//        File bots = _world.getBrainRepo();
-//        if (bots.listFiles().length < 1) {
-//            //loadAIML();
-//            boolean fail = true;
-//        }
-//        _AIML_path = bots.getAbsolutePath();
-
-
+        this.context = getApplicationContext();
     }
 
-    private Brain createBrain() {
-        // if we have not stored our brain make a new one
-        if (!_world.hasBrainStore()) {
-            FragmentManager fm = _world.getFragmentManager();
-            BrainFragment frag = new BrainFragment();
-            fm.beginTransaction().add(frag, "data").commit();
-            _brain = new Brain(_name, _AIML_path, this);
-            frag.setData(_brain);
-            _world.set_brainStore(frag);
-        }
-        // restore previous brain
-        else {
-            _brain = _world.get_brainStore();
-        }
-        return _brain;
-    }
 
-    private void loadAIML() {
-        AssetManager am = _world.getAssets();
+    public void writeAIMLOut(){
         try {
-            ZipInputStream is = new ZipInputStream(am.open("aiml.zip"));
-            String out = _world.getBrainDepo().getPath();
-
-            new File(out + "/bots/MIRA/aimlif/").mkdirs();
-
-            byte[] buffer = new byte[2048];
-            try {
-
-                // now iterate through each item in the stream. The get next
-                // entry call will return a ZipEntry for each file in the
-                // stream
-                ZipEntry entry;
-                while ((entry = is.getNextEntry()) != null) {
-                    String s = String.format("Entry: %s len %d added %TD",
-                            entry.getName(), entry.getSize(),
-                            new Date(entry.getTime()));
-
-                    String fallout = out + "/bots/MIRA/" + entry.getName();
-                    if (entry.isDirectory()) {
-                        new File(fallout + "/").mkdir();
-                        continue;
-                    }
-
-                    FileOutputStream output = null;
-                    try {
-                        output = new FileOutputStream(fallout);
-                        int len = 0;
-                        while ((len = is.read(buffer)) > 0) {
-                            output.write(buffer, 0, len);
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    } finally {
-                        // we must always close the output file
-                        if (output != null) output.close();
-                    }
-                }
-            } finally {
-                // we must always close the zip file.
-                is.close();
-            }
-        } catch (IOException e) {
+            service.writeAIMLOut();
+        } catch (RemoteException e) {
             e.printStackTrace();
+            Log.e(TAG,"Remote Exception " + e.getCause());
         }
     }
-
     @Override
     public void run() {
 
@@ -124,7 +71,6 @@ public class Mira implements Runnable {
             pause(1000);
         }
         Log.d(TAG, "run ppc.signalize.mira");
-        _brain.init();
         _is_awake = true;
         Log.d(TAG, "ppc.signalize.mira loaded");
         allLoaded();
@@ -141,22 +87,6 @@ public class Mira implements Runnable {
     }
 
 
-    public void stillLoading() {
-//        _sleeping_check = _sleeping_check + 1;
-//        if (_sleeping_check < 2)
-//            _mouth.speak("still having my morning coffee, give me a minute to get my brain back");
-//        else if (_sleeping_check < 5)
-//            _mouth.speak("sorry just a bit longer");
-//        else if (_sleeping_check == 5)
-//            _mouth.speak("Hey! back off! I will be ready shortly");
-//        else
-//            _mouth.speak("still loading my brain");
-    }
-
-    public void missedThat() {
-
-        //_mouth.speak("sorry I missed that, feel free to try again");
-    }
 
     public void allLoaded() {
 
@@ -166,7 +96,7 @@ public class Mira implements Runnable {
 
     public void init(boolean prompt_when_done) {
         withPrompt = prompt_when_done;
-        _brain = createBrain();
+
         new Thread(this).start();
     }
 
@@ -176,11 +106,19 @@ public class Mira implements Runnable {
 
 
     public Consideration consider(String s) {
-        String raw = _brain.process(s);
-        JointClassification sent = null, sever = null;
-        //JointClassification sent = Intuition.classify(s, Intuition.SENTIMENT);
-        //JointClassification sever = Intuition.classify(s, Intuition.SEVERITY);
-        return new Consideration(sent, sever, _world, raw, s);
+        String raw = null;
+        try {
+            raw = service.process(s);
+            JointClassification sent = null, sever = null;
+            //JointClassification sent = Intuition.classify(s, Intuition.SENTIMENT);
+            //JointClassification sever = Intuition.classify(s, Intuition.SEVERITY);
+            return new Consideration(sent, sever, _world, raw, s);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            Log.e(TAG,"Remote Exception " + e.getCause());
+        }
+
+        return null;
     }
 
     public void listen() {
@@ -192,4 +130,16 @@ public class Mira implements Runnable {
     }
 
 
+    @Override
+    public void onServiceConnected(ComponentName name, IBinder service) {
+        Log.d(TAG,"The service is now connected");
+        Toast.makeText(context, "The service is now connected", Toast.LENGTH_LONG).show();
+        this.service = IConversation.Stub.asInterface(service);
+    }
+
+    @Override
+    public void onServiceDisconnected(ComponentName name) {
+        Log.d(TAG,"Disconnected from the service");
+
+    }
 }

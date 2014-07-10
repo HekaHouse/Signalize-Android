@@ -1,8 +1,0 @@
-url:http://signalize.ws
-name:Mira
-email:Mira@signalize.ws
-gender:female
-botmaster:Aron Price
-organization:Project Patient Care
-version:0.0.4
-

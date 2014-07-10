@@ -13,8 +13,6 @@ import java.io.File;
 
 import ppc.signalize.mira.face.MiraAbstractActivity;
 import ppc.signalize.mira.face.MiraAbstractFragmentActivity;
-import ppc.signalize.mira.storage.BrainFragment;
-import ppc.signalize.mira.brain.Brain;
 import ppc.signalize.mira.brain.Intuition;
 import ppc.signalize.mira.nervous.concurrent.AsyncConsciousness;
 
@@ -99,7 +97,11 @@ public class Voice extends UtteranceProgressListener {
         return false;
     }
 
-    public Brain get_brainStore() {
+
+    /**
+     * Changed by Mukundan on 7/9/14. Removed the brain functionality.
+     * */
+   /* public Brain get_brainStore() {
         return getMira()._brain;
     }
 
@@ -107,7 +109,7 @@ public class Voice extends UtteranceProgressListener {
         if (getMira() != null)
             getMira()._brain = frag.getData();
     }
-
+*/
     public File getLinguisticRepo() {
         mActive().getDir("ling", mActive().MODE_PRIVATE).mkdirs();
         return mActive().getDir("ling", mActive().MODE_PRIVATE);

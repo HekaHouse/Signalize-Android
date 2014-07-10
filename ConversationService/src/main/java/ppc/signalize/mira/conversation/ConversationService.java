@@ -81,6 +81,11 @@ public class ConversationService extends Service{
         public String getTemplate() throws RemoteException {
             return conversation.getTemplate();
         }
+
+        @Override
+        public void writeAIMLOut() throws RemoteException {
+            conversation.writeAIMLOut();
+        }
     }
 
 }
