@@ -95,6 +95,7 @@ public class Mira implements Runnable,ServiceConnection {
 
 
     public void init(boolean prompt_when_done) {
+        sendBroadcasttoService();
         withPrompt = prompt_when_done;
 
         new Thread(this).start();

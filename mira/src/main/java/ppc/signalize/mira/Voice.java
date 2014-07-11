@@ -1,7 +1,6 @@
 package ppc.signalize.mira;
 
 import android.app.Activity;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
@@ -12,7 +11,6 @@ import android.speech.tts.UtteranceProgressListener;
 import java.io.File;
 
 import ppc.signalize.mira.face.MiraAbstractActivity;
-import ppc.signalize.mira.face.MiraAbstractFragmentActivity;
 import ppc.signalize.mira.brain.Intuition;
 import ppc.signalize.mira.nervous.concurrent.AsyncConsciousness;
 
@@ -21,10 +19,9 @@ import ppc.signalize.mira.nervous.concurrent.AsyncConsciousness;
  */
 public class Voice extends UtteranceProgressListener {
     public boolean isSpeechRecognitionServiceActive = false;
-    private MiraAbstractFragmentActivity mfActive;
     private MiraAbstractActivity maActive;
     private SharedPreferences access;
-    private boolean mInit = true;
+    //private boolean mInit = true;
     private boolean mIsStreamSolo;
     private AudioManager mAudioManager;
     private boolean doneSpeaking = true;
@@ -36,48 +33,34 @@ public class Voice extends UtteranceProgressListener {
         mAudioManager = (AudioManager) maActive.getSystemService(maActive.AUDIO_SERVICE);
     }
 
-    public Voice(MiraAbstractFragmentActivity a) {
-        mfActive = a;
-        access = a.getPreferences(a.MODE_PRIVATE);
-        mAudioManager = (AudioManager) mfActive.getSystemService(mfActive.AUDIO_SERVICE);
-    }
+
 
     public Context getApplicationContext() {
         return mActive().getApplicationContext();
     }
 
     private Mira mira() {
-        if (mfActive != null)
-            return mfActive.mira;
-        else
+
             return maActive.mira;
     }
 
     private Activity mActive() {
-        if (mfActive != null)
-            return mfActive;
-        else
+
             return maActive;
     }
 
     private void startActivator() {
-        if (mfActive != null)
-            mfActive.startActivator();
-        else
+
             maActive.startActivator();
     }
 
     private void stopActivator() {
-        if (mfActive != null)
-            mfActive.stopActivator();
-        else
+
             maActive.stopActivator();
     }
 
     private TextToSpeech tts() {
-        if (mfActive != null)
-            return mfActive.tts;
-        else
+
             return maActive.tts;
     }
 
@@ -90,17 +73,19 @@ public class Voice extends UtteranceProgressListener {
             new AsyncConsciousness(maActive, words, aligned).execute("");
     }
 
-    public void sayAndPrompt(String string) {
+    /**
+     * Changed by Mukundan on 7/9/14. Removed the brain functionality.
+     * */
+
+    /*public void sayAndPrompt(String string) {
     }
 
     public boolean hasBrainStore() {
         return false;
     }
+*/
 
 
-    /**
-     * Changed by Mukundan on 7/9/14. Removed the brain functionality.
-     * */
    /* public Brain get_brainStore() {
         return getMira()._brain;
     }
@@ -139,7 +124,7 @@ public class Voice extends UtteranceProgressListener {
         new File(getLinguisticRepo().getPath() + "/classify/severity").mkdirs();
         return new File(getLinguisticRepo().getPath() + "/classify/severity/" + Intuition.SEVER_CLASSIFICATION_FILE);
     }
-
+/*
     public AssetManager getBrainRepo() {
         return getApplicationContext().getAssets();
         //return mActive().getDir("bots", mActive().MODE_PRIVATE);
@@ -156,6 +141,7 @@ public class Voice extends UtteranceProgressListener {
     public FragmentManager getFragmentManager() {
         return mActive().getFragmentManager();
     }
+    */
 
 
     public AssetManager getAssets() {
@@ -189,7 +175,7 @@ public class Voice extends UtteranceProgressListener {
             mIsStreamSolo = false;
         }
     }
-
+    /*
     public void speechCycle(String string) {
 
     }
@@ -206,6 +192,7 @@ public class Voice extends UtteranceProgressListener {
     public boolean setInitFinished() {
         return mInit = false;
     }
+    */
 
     public void pause(int i) {
         try {

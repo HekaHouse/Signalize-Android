@@ -88,6 +88,7 @@ public abstract class MiraAbstractActivity extends
         speechActivator = new MiraActivator(myVoice, this, new String[]{INITIATE, END_CONVERSATION});
         mira = new Mira(myVoice);
 
+
     }
 
     @Override

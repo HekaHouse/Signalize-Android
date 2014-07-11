@@ -8,7 +8,6 @@
       <module fileurl="file://$PROJECT_DIR$/Signalize.iml" filepath="$PROJECT_DIR$/Signalize.iml" />
       <module fileurl="file://$PROJECT_DIR$/mira/mira.iml" filepath="$PROJECT_DIR$/mira/mira.iml" />
       <module fileurl="file://$PROJECT_DIR$/myvoice/myvoice.iml" filepath="$PROJECT_DIR$/myvoice/myvoice.iml" />
-      <module fileurl="file://$PROJECT_DIR$/perspectives/perspectives.iml" filepath="$PROJECT_DIR$/perspectives/perspectives.iml" />
     </modules>
   </component>
 </project>

@@ -13,7 +13,6 @@
             <option value="$PROJECT_DIR$/ConversationServiceTrainer" />
             <option value="$PROJECT_DIR$/mira" />
             <option value="$PROJECT_DIR$/myvoice" />
-            <option value="$PROJECT_DIR$/perspectives" />
           </set>
         </option>
       </GradleProjectSettings>
