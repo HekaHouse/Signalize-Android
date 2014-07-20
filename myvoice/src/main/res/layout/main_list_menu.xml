@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:svgimageview="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.caverock.androidsvg.SVGImageView
+
+            svgimageview:svg="@drawable/signalize"
+            android:id="@+id/menu_top_bar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/menu_top_bar_height" />
+        </FrameLayout>
+    <ListView
+        android:layout_marginTop="@dimen/menu_top_bar_height"
+        android:id="@+id/menu_list"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:divider="@color/Black"
+        android:dividerHeight="1dp"
+        android:listSelector="@drawable/list_selector" />
+    <com.caverock.androidsvg.SVGImageView
+        svgimageview:svg="@drawable/microphone"
+        android:layout_marginTop="@dimen/circle_white_top_margin"
+        android:layout_gravity="end"
+        android:background="@drawable/circle_background_white"
+        android:layout_width="@dimen/circle_white_radius"
+        android:layout_height="@dimen/circle_white_radius" />
+</FrameLayout>

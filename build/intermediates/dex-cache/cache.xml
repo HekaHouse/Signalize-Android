@@ -12,7 +12,7 @@
         jar="/home/mukundan/Documents/Signalize/Signalize/myvoice/build/intermediates/exploded-aar/Signalize/mira/unspecified/classes.jar"
         jumboMode="false"
         revision="19.1.0"
-        sha1="0e5a1e739bebfff351f14246c94ea9dcfb736a62"/>
+        sha1="278978014adb131cc595de7aa98bdac1f22f9bf3"/>
     <item
         dex="/home/mukundan/Documents/Signalize/Signalize/myvoice/build/intermediates/pre-dexed/debug/support-v4-19.0.1-667e9d1bd1ebb3e7fed1c231394e56f61b476b1e.jar"
         jar="/home/mukundan/Documents/android-studio/sdk/extras/android/m2repository/com/android/support/support-v4/19.0.1/support-v4-19.0.1.jar"
@@ -73,6 +73,12 @@
         jumboMode="false"
         revision="19.1.0"
         sha1="335f7ea0e28a4a1358aa745f4bd2037e8afe44fc"/>
+    <item
+        dex="/home/mukundan/Documents/Signalize/Signalize/myvoice/build/intermediates/pre-dexed/debug/classes-fc66db0c5b5c1930417e7105606138b3e675f87f.jar"
+        jar="/home/mukundan/Documents/Signalize/Signalize/myvoice/build/intermediates/exploded-aar/Signalize/androidSVG_12/unspecified/classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="356028b03bade91985959f2f6bb97bba91484d9b"/>
     <item
         dex="/home/mukundan/Documents/Signalize/Signalize/ConversationService/build/intermediates/pre-dexed/debug/Ab-d7c0576b57d1c2f163d63c98d0a92626d56dfd9c.jar"
         jar="/home/mukundan/Documents/Signalize/Signalize/ConversationService/libs/Ab.jar"

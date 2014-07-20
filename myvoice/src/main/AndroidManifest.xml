@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ppc.signalize.myvoice"
-    xmlns:tools="http://schemas.android.com/tools">
+    package="ppc.signalize.myvoice" >
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -14,19 +13,22 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
-        tools:replace="label"
-        android:label="@string/myvoice_name"
-        android:theme="@style/AppTheme">
 
+        android:theme="@style/AppTheme"
+         >
         <activity
-            android:name="ppc.signalize.myvoice.MyVoiceActivity"
+            android:name=".MyVoiceActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/myvoice_name"
             android:screenOrientation="landscape"
-            android:theme="@style/FullscreenTheme">
+            android:theme="@style/FullscreenTheme" >
+
+        </activity>
+        <activity
+            android:name=".Test_Activity"
+            android:icon="@drawable/ic_launcher"
+            android:label="@string/myvoice_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
