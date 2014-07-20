@@ -8,11 +8,11 @@
         revision="19.1.0"
         sha1="516c03b21d50a644d538de0f0369c620989cd8f0"/>
     <item
-        dex="/home/mukundan/Documents/Signalize/Signalize/myvoice/build/intermediates/pre-dexed/debug/classes-18b9cfd86106fd04be80639a7a186257e21c1d1a.jar"
-        jar="/home/mukundan/Documents/Signalize/Signalize/build/intermediates/exploded-aar/Signalize/mira/unspecified/classes.jar"
+        dex="/home/mukundan/Documents/Signalize/Signalize/myvoice/build/intermediates/pre-dexed/debug/classes-fe3d3d1c475bb43efe2422a9e4b8140076ff408a.jar"
+        jar="/home/mukundan/Documents/Signalize/Signalize/myvoice/build/intermediates/exploded-aar/Signalize/mira/unspecified/classes.jar"
         jumboMode="false"
         revision="19.1.0"
-        sha1="58d5b7c12f3fcd9b779ea81b26e27abcab2fd322"/>
+        sha1="0e5a1e739bebfff351f14246c94ea9dcfb736a62"/>
     <item
         dex="/home/mukundan/Documents/Signalize/Signalize/myvoice/build/intermediates/pre-dexed/debug/support-v4-19.0.1-667e9d1bd1ebb3e7fed1c231394e56f61b476b1e.jar"
         jar="/home/mukundan/Documents/android-studio/sdk/extras/android/m2repository/com/android/support/support-v4/19.0.1/support-v4-19.0.1.jar"
@@ -26,8 +26,14 @@
         revision="19.1.0"
         sha1="83933f3f3312473afbe42a232392b3feffaadc36"/>
     <item
-        dex="/home/mukundan/Documents/Signalize/Signalize/myvoice/build/intermediates/pre-dexed/debug/classes-46954e558cb53f9d4ec789815dfe9ebe9250dd30.jar"
-        jar="/home/mukundan/Documents/Signalize/Signalize/build/intermediates/exploded-aar/com.github.gabrielemariotti.cards/library/1.4.2/classes.jar"
+        dex="/home/mukundan/Documents/Signalize/Signalize/ConversationService/build/intermediates/pre-dexed/debug/classes-915185e342f69a04988d40ab2c38ec2c7b5355f4.jar"
+        jar="/home/mukundan/Documents/Signalize/Signalize/ConversationService/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.1.0/classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="3499ceba05ca1f6037c6a2fad73df8f636224a28"/>
+    <item
+        dex="/home/mukundan/Documents/Signalize/Signalize/myvoice/build/intermediates/pre-dexed/debug/classes-6f6f9e8a1f72c7b7d948f897ec6e7d1056676395.jar"
+        jar="/home/mukundan/Documents/Signalize/Signalize/myvoice/build/intermediates/exploded-aar/com.github.gabrielemariotti.cards/library/1.4.2/classes.jar"
         jumboMode="false"
         revision="19.1.0"
         sha1="abab2edd835ac7473153ee44e75c2679c75c2371"/>
@@ -38,8 +44,8 @@
         revision="19.1.0"
         sha1="5fa98cd1a63c99a44dd8d3b77e4762b066a5d0c5"/>
     <item
-        dex="/home/mukundan/Documents/Signalize/Signalize/myvoice/build/intermediates/pre-dexed/debug/lingpipe-4.1.0-d9982208f61425ff4799925e93d8021364052ae8.jar"
-        jar="/home/mukundan/Documents/Signalize/Signalize/build/intermediates/exploded-aar/Signalize/mira/unspecified/libs/lingpipe-4.1.0.jar"
+        dex="/home/mukundan/Documents/Signalize/Signalize/myvoice/build/intermediates/pre-dexed/debug/lingpipe-4.1.0-17f60763e7a43f0de6c795b9bb06254c6bc0a322.jar"
+        jar="/home/mukundan/Documents/Signalize/Signalize/myvoice/build/intermediates/exploded-aar/Signalize/mira/unspecified/libs/lingpipe-4.1.0.jar"
         jumboMode="false"
         revision="19.1.0"
         sha1="ca065efb4346c2cbc7dbf6ce8a299110f7e1b996"/>
@@ -50,20 +56,14 @@
         revision="19.1.0"
         sha1="808b42bad27d03cc91f143440e7d11bc4811aff4"/>
     <item
-        dex="/home/mukundan/Documents/Signalize/Signalize/ConversationService/build/intermediates/pre-dexed/debug/classes-edb2132f6f111e73412fe88c59e3563f37600487.jar"
-        jar="/home/mukundan/Documents/Signalize/Signalize/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.1.0/classes.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="3499ceba05ca1f6037c6a2fad73df8f636224a28"/>
-    <item
         dex="/home/mukundan/Documents/Signalize/Signalize/ConversationService/build/intermediates/pre-dexed/debug/support-v4-19.1.0-668b44f3ce8a8e24422b3bf705a108530bdce780.jar"
         jar="/home/mukundan/Documents/android-studio/sdk/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0.jar"
         jumboMode="false"
         revision="19.1.0"
         sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67"/>
     <item
-        dex="/home/mukundan/Documents/Signalize/Signalize/myvoice/build/intermediates/pre-dexed/debug/Ab-2e1a52580ee06fb3955b70bae6137cd8b143798f.jar"
-        jar="/home/mukundan/Documents/Signalize/Signalize/build/intermediates/exploded-aar/Signalize/mira/unspecified/libs/Ab.jar"
+        dex="/home/mukundan/Documents/Signalize/Signalize/myvoice/build/intermediates/pre-dexed/debug/Ab-44d6f50ed3d82e27fed74043641f92702040b7c0.jar"
+        jar="/home/mukundan/Documents/Signalize/Signalize/myvoice/build/intermediates/exploded-aar/Signalize/mira/unspecified/libs/Ab.jar"
         jumboMode="false"
         revision="19.1.0"
         sha1="af7496189919b4d17d8edff988421623653cc8b1"/>

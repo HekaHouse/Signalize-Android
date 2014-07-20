@@ -2,8 +2,6 @@ package ppc.signalize.mira.conversation;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
-
 import org.alicebot.ab.AndroidAIML;
 import org.alicebot.ab.AndroidChat;
 import org.alicebot.ab.Ghost;
