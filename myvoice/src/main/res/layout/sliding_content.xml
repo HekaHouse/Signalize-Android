@@ -1,23 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum = "10">
-    <TextView
+    android:weightSum="10">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="7"></LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:layout_weight="3"
+        android:orientation="vertical"
+        android:background="@color/Black">
+    <ImageView
+        android:id="@+id/content_pane_back"
+        android:src="@drawable/play_back_"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+        <TextView
         android:id="@+id/content_heading"
         android:text="Content Heading"
         android:gravity="center"
         android:textAllCaps="true"
-        android:textColor="@color/Red"
-        android:layout_width="match_parent"
+        android:textColor="@color/DarkGreen"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
     <TextView
-        android:layout_weight="7"
+        android:textColor="@color/Gold"
 
         android:text="Content comes here"
         android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent" />
+        android:layout_height="match_parent" />
+    </LinearLayout>
 </LinearLayout>

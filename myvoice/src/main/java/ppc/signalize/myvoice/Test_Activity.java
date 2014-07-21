@@ -13,16 +13,24 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.caverock.androidsvg.SVGImageView;
+
+import junit.framework.Test;
 
 import ppc.signalize.myvoice.R;
 
 public class Test_Activity extends Activity implements AdapterView.OnItemClickListener{
 
 
+    static ListView listView;
+    SVGImageView mic;
+    static int micClick = 0;
     FrameLayout parent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +38,19 @@ public class Test_Activity extends Activity implements AdapterView.OnItemClickLi
         setContentView(R.layout.main_list_menu);
         parent = (FrameLayout)findViewById(R.id.main_frame);
         ListAdapter listAdapter = new ListAdapter(getApplicationContext());
-        ListView listView = (ListView)findViewById(R.id.menu_list);
+
+        listView = (ListView)findViewById(R.id.menu_list);
         listView.setAdapter(listAdapter);
         listView.setOnItemClickListener(this);
-
+        mic = (SVGImageView)findViewById(R.id.svg_mic);
+        mic.setClickable(true);
+        mic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ++micClick;
+                Toast.makeText(getApplicationContext(),"Clicked mic " + micClick + "time(s)",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 
@@ -60,12 +77,24 @@ public class Test_Activity extends Activity implements AdapterView.OnItemClickLi
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         new AnimatePane(getApplicationContext()).animateContentPane( position, this.parent);
     }
+
+    @Override
+    public void onBackPressed() {
+        if(AnimatePane.vi != null &&AnimatePane.vi.getVisibility() != View.GONE){
+            AnimatePane.hideSlidingContent();
+        }
+        else{
+            super.onBackPressed();
+        }
+    }
 }
 
 class AnimatePane implements View.OnClickListener{
     private static boolean once = false;
     protected static View vi = null;
-    protected Context context;
+    protected static ImageView back = null;
+    protected static Context context;
+    protected static FrameLayout parent;
 
     public AnimatePane(Context context){
         this.context = context;
@@ -74,20 +103,23 @@ class AnimatePane implements View.OnClickListener{
     protected void animateContentPane(int position, FrameLayout parent){
 
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        vi = inflater.inflate(R.layout.sliding_content,null);
-        vi.setClickable(true);
-        vi.setOnClickListener(this);
+        if(vi == null){
+            vi = inflater.inflate(R.layout.sliding_content,null);
+        }
+        back = (ImageView)vi.findViewById(R.id.content_pane_back);
+
+        back.setClickable(true);
+        back.setOnClickListener(this);
         TextView contentHeading = (TextView)vi.findViewById(R.id.content_heading);
         ListAdapter.setTextView(null,contentHeading,context,position);
-        if(!once)
-        {
+        AnimatePane.parent = parent;
             parent.addView(vi);
             once = true;
-        }
+
         revealSlidingContent();
     }
 
-    private void revealSlidingContent() {
+    protected static void revealSlidingContent() {
         Animation hide = AnimationUtils.loadAnimation(context, R.anim.content_reveal);
         hide.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -109,10 +141,12 @@ class AnimatePane implements View.OnClickListener{
                 // This is called each time the Animation repeats
             }
         });
+
         vi.startAnimation(hide);
     }
 
-    private void hideSlidingContent() {
+    protected static void hideSlidingContent() {
+
         Animation hide = AnimationUtils.loadAnimation(context, R.anim.content_hide);
         hide.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -126,6 +160,7 @@ class AnimatePane implements View.OnClickListener{
                 // Since we are fading a View out we set the visibility
                 // to GONE once the Animation is finished
                 vi.setVisibility(View.GONE);
+                parent.removeView(vi);
             }
 
             @Override
@@ -133,15 +168,19 @@ class AnimatePane implements View.OnClickListener{
                 // This is called each time the Animation repeats
             }
         });
+
         vi.startAnimation(hide);
     }
 
 
     @Override
     public void onClick(View v) {
-        if(vi!=null){
+        if(vi.getVisibility() != View.GONE){
             hideSlidingContent();
 
+        }
+        else{
+            revealSlidingContent();
         }
     }
 }
@@ -155,6 +194,14 @@ class ListAdapter extends BaseAdapter{
     public ListAdapter(Context context){
         this.context = context;
         inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
+
+    @Override
+    public boolean isEnabled(int position) {
+        if(AnimatePane.vi != null && AnimatePane.vi.getVisibility() == View.VISIBLE ){
+            return false;
+        }
+        return super.isEnabled(position);
     }
 
     @Override

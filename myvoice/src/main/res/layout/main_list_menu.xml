@@ -26,6 +26,7 @@
         android:dividerHeight="1dp"
         android:listSelector="@drawable/list_selector" />
     <com.caverock.androidsvg.SVGImageView
+        android:id="@+id/svg_mic"
         svgimageview:svg="@drawable/microphone"
         android:layout_marginTop="@dimen/circle_white_top_margin"
         android:layout_gravity="end"
