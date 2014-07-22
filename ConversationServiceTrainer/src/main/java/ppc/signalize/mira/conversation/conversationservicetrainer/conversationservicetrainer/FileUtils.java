@@ -12,12 +12,14 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.io.StringWriter;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -227,4 +229,56 @@ class XMLState{
         builder = factory.newDocumentBuilder();
     }
 
+}
+class GenericAIMLValidator {
+    private final String TAG="Generic AIML Validator";
+    protected static DocumentBuilderFactory factory= null;
+    protected static DocumentBuilder builder = null;
+    protected Document dom = null;
+    protected Element docRoot;
+    protected void setDom(String xml) throws IOException, SAXException {
+        InputSource inputSource = new InputSource(new StringReader(xml));
+        dom = builder.parse(inputSource);
+        docRoot = dom.getDocumentElement();
+    }
+    protected void init() throws ParserConfigurationException {
+            factory = DocumentBuilderFactory.newInstance();
+            builder = factory.newDocumentBuilder();
+    }
+    public GenericAIMLValidator() throws ParserConfigurationException {
+        init();
+    }
+    public GenericAIMLValidator(String xml) throws IOException, SAXException, ParserConfigurationException {
+        factory = DocumentBuilderFactory.newInstance();
+        builder = factory.newDocumentBuilder();
+        setDom(xml);
+    }
+    public boolean isValidChild(String root, String []childrenInOrder){
+
+        if(docRoot.getNodeName().equalsIgnoreCase(root)){
+            Node node = getNextElementNode(docRoot.getFirstChild());
+            for(int i=0;i<childrenInOrder.length;++i,node = getNextElementNode(node.getNextSibling())){
+                String child = childrenInOrder[i];
+                Log.d(TAG,node.getNodeName());
+                if(node.getNodeName().equalsIgnoreCase(child)){
+                    Log.d(TAG,"EQUAL");
+                    if(i == childrenInOrder.length-1){
+                        return true;
+                    }
+                }
+                else{
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+    private Node getNextElementNode(Node node){
+        while(node != docRoot.getLastChild() && node.getNodeType() == Node.TEXT_NODE ){
+            Log.d(TAG,"TEXT CONTENT" + node.getTextContent());
+            node = node.getNextSibling();
+        }
+        Log.d(TAG,"Next Element node " + node.getNodeName());
+        return node;
+    }
 }

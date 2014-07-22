@@ -24,6 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
             <EditText
+                android:id="@+id/advanced_currentResponse"
                 android:text="@string/currentResponse"
                 android:singleLine="false"
                 android:layout_width="match_parent"
@@ -63,6 +64,10 @@
                     android:layout_gravity="center"/>
 
             </LinearLayout>
+            <View
+                android:background="@color/Black"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
             <Button
                 android:text="@string/set_response"
                 android:textSize="@dimen/mediumText"

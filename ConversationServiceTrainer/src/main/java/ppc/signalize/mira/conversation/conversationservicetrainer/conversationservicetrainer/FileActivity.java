@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,10 +20,9 @@ public class FileActivity extends Activity implements View.OnClickListener{
     private TextView pattern;
     private TextView currentResponse;
     private EditText newResponse;
-    private Button setResponse;
+    private Button setResponse,advancedResponse;
     private String strFileName,strPattern,strTemplate;
-    private final String fileIntent = "fileName";
-    private final String patternIntent = "pattern";
+
 
 
 
@@ -38,8 +38,8 @@ public class FileActivity extends Activity implements View.OnClickListener{
     protected void onStart() {
         super.onStart();
         Bundle extras = getIntent().getExtras();
-        strFileName = extras.getString(fileIntent);
-        strPattern = extras.getString(patternIntent);
+        strFileName = extras.getString(IntentStrings.fileIntent);
+        strPattern = extras.getString(IntentStrings.patternIntent);
 
         TextView fileName = (TextView) findViewById(R.id.fileName);
         pattern = (TextView)findViewById(R.id.pattern);
@@ -47,6 +47,20 @@ public class FileActivity extends Activity implements View.OnClickListener{
         newResponse = (EditText)findViewById(R.id.newResponse);
         setResponse = (Button)findViewById(R.id.setResponse);
         setResponse.setOnClickListener(this);
+        advancedResponse = (Button)findViewById(R.id.advancedResponse);
+        advancedResponse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*
+                * Onclick method for the Advanced Settings button.
+                * */
+                Intent intent = new Intent(getApplicationContext(),AdvancedSettings.class);
+                intent.putExtra(IntentStrings.currentResponseIntent,currentResponse.getText());
+                intent.putExtra(IntentStrings.fileIntent,strFileName);
+                intent.putExtra(IntentStrings.patternIntent,strPattern);
+                startActivity(intent);
+            }
+        });
         fileName.setText(strFileName);
         pattern.setText(strPattern);
         FileUtils.openFile(strFileName);
@@ -57,10 +71,27 @@ public class FileActivity extends Activity implements View.OnClickListener{
         viewFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*
+                * On Click method for the View File Button.
+                * */
                 Intent intent;
                 intent = new Intent(getApplicationContext(),ViewFileActivity.class);
-                intent.putExtra("fileName",strFileName);
+                intent.putExtra(IntentStrings.fileIntent,strFileName);
                 startActivity(intent);
+            }
+        });
+        currentResponse.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (v.getId() == R.id.currentResponse) {
+                    v.getParent().requestDisallowInterceptTouchEvent(true);
+                    switch (event.getAction() & MotionEvent.ACTION_MASK) {
+                        case MotionEvent.ACTION_UP:
+                            v.getParent().requestDisallowInterceptTouchEvent(false);
+                            break;
+                    }
+                }
+                return false;
             }
         });
     }
@@ -96,6 +127,9 @@ public class FileActivity extends Activity implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
+        /*
+        * On click method for the Set Response button.
+        * */
         FileUtils.openFile(strFileName);
         Node responseElement = FileUtils.getReqResponse(strPattern);
         FileUtils.setResponseElement(responseElement,newResponse.getText().toString(), strFileName);

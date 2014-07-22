@@ -26,7 +26,7 @@ public class ViewFileActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_file);
         TextView textView = (TextView)findViewById(R.id.textFile);
-        String fileName = getIntent().getExtras().getString("fileName");
+        String fileName = getIntent().getExtras().getString(IntentStrings.fileIntent);
         ((TextView)findViewById(R.id.viewFileName)).setText(fileName);
         InputStream inputStream;
         try {

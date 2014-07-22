@@ -30,13 +30,10 @@ import ppc.signalize.mira.conversation.IConversation;
 
 public class TrainerActivity extends Activity implements View.OnClickListener,ServiceConnection,AdapterView.OnItemClickListener{
 
-    private final String fileIntent = "fileName";
-    private final String patternIntent = "pattern";
-    private LazyListAdapter listAdapter;
-    private final String ConversationServiceTAG= "ppc.signalize.mira.conversation.ConversationService";
-    private IConversation service;
+
     private final String TAG = "ConversationServiceTrainer";
-    private final String StartServiceBroadcast = "ppc.signalize.mira.conversation.startService";
+    private LazyListAdapter listAdapter;
+    private IConversation service;
     private EditText input;
     private ArrayList<String> listInpNames,listNames;
     ListView listPatternFile;
@@ -51,7 +48,7 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
         setContentView(R.layout.activity_trainer);
         Ghost.setInternalStorage(true);
         Intent intent = new Intent();
-        intent.setAction(StartServiceBroadcast);
+        intent.setAction(IntentStrings.StartServiceBroadcast);
         this.sendBroadcast(intent);
         connectToService();
         sendText = (Button)findViewById(R.id.sendButton);
@@ -68,8 +65,8 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
         strFilename = listNames.get(position);
         strPattern = listInpNames.get(position);
         Intent intent = new Intent(this, FileActivity.class);
-        intent.putExtra(fileIntent,strFilename);
-        intent.putExtra(patternIntent,strPattern);
+        intent.putExtra(IntentStrings.fileIntent,strFilename);
+        intent.putExtra(IntentStrings.patternIntent,strPattern);
         startActivity(intent);
     }
 
@@ -132,8 +129,8 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
 
     private void connectToService() {
         Intent intent;
-        intent = new Intent(ConversationServiceTAG);
-        intent.setClassName(this,ConversationServiceTAG);
+        intent = new Intent(IntentStrings.ConversationServiceTAG);
+        intent.setClassName(this,IntentStrings.ConversationServiceTAG);
         this.bindService(intent,this,BIND_AUTO_CREATE);
         Log.d(TAG, "The Service will be connected soon!");
     }
