@@ -44,6 +44,10 @@
             android:name=".ViewFileActivity"
             android:label="@string/title_activity_view_file" >
         </activity>
+        <activity
+            android:name=".AdvancedSettings"
+            android:label="@string/title_activity_advanced_settings" >
+        </activity>
     </application>
 
 </manifest>

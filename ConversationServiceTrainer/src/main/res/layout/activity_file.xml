@@ -67,7 +67,7 @@
     </ScrollView>
     <Button
         android:id="@+id/setResponse"
-        android:text="Set Response"
+        android:text="@string/set_response"
         android:layout_below="@id/newResponseScroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

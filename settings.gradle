@@ -1,2 +1,2 @@
-include  ':mira', ':ConversationService', ':ConversationServiceClient', ':ConversationServiceTrainer',  'myvoice'
+include  ':mira', ':ConversationService', ':ConversationServiceClient', ':ConversationServiceTrainer', ':AndroidAb',  'myvoice'
 include ':androidSVG_12'

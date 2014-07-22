@@ -1,16 +1,9 @@
 package ppc.signalize.mira.conversation.conversationservicetrainer.conversationservicetrainer;
 
 import android.content.Context;
-import android.content.res.AssetManager;
-import android.graphics.Color;
 import android.os.RemoteException;
-import android.text.Html;
 import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.StyleSpan;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,10 +16,8 @@ import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.StringWriter;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -44,55 +35,15 @@ import ppc.signalize.mira.conversation.IConversation;
 /**
  * Created by mukundan on 6/26/14.
  */
-public class FileUtils {
+public class FileUtils extends org.alicebot.ab.FileUtils{
     private static String TAG = "File Utils";
-    private static Context context = null;
-    static String AIMLdir = "MIRA/aiml";
+
     static String changedString = "";
-    static String MIRAdir = "MIRA";
     protected static XMLState xmlstate = new XMLState();
     protected static void setContext(Context context){
         FileUtils.context = context;
     }
-    protected static void copyAssetsToStorage(){
-        copyNonEmptyDirectories();
-    }
-    private static void copyNonEmptyDirectories() {
-        AssetManager assetManager = context.getAssets();
-        String []files;
-        try {
-            files = assetManager.list(MIRAdir);
-            for(String file:files){
-                String []contents = assetManager.list(MIRAdir + "/" + file);
-                if(contents == null || contents.length == 0){
-                    Toast.makeText(context,file + " is an empty directory or does not exists",Toast.LENGTH_SHORT).show();
-                    Log.e(TAG, file + " is an empty directory or does not exists");
-                }
-                else{
-                    File dir = new File(context.getFilesDir(),MIRAdir + "/" + file);
 
-                    if(!dir.exists()){
-                        dir.mkdirs();
-                    }
-                    for (String filename : contents) {
-                        InputStream inputStream = assetManager.open(MIRAdir + "/" + file + "/" + filename);
-                        //Toast.makeText(this, filename, Toast.LENGTH_SHORT).show();
-                        OutputStream outputStream = new FileOutputStream(new File(dir, filename));
-                        CopyStream(inputStream, outputStream);
-                        outputStream.flush();
-                        inputStream.close();
-                        outputStream.close();
-                    }
-                    Toast.makeText(context, "Copied directory " + file + " to "+ dir.getCanonicalPath(), Toast.LENGTH_SHORT).show();
-                    Log.d(TAG,"Copied directory " + file + " to "+ dir.getCanonicalPath());
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-    }
     protected static String getChangedNodeString(Node responseText){
         String response = xmltoString(responseText);
         Log.d(TAG,""+response.indexOf("?>"));
@@ -112,7 +63,7 @@ public class FileUtils {
     protected static Node getReqResponse(String strPattern){
         Node responseElement = null;
         Toast.makeText(context, strPattern.split("<")[0], Toast.LENGTH_SHORT).show();
-        responseElement = getRequiredResponse(FileUtils.xmlstate.docRoot, strPattern.split("<")[0]);
+        responseElement = getRequiredResponse(XMLState.docRoot, strPattern.split("<")[0]);
         return responseElement;
     }
 
@@ -172,14 +123,7 @@ public class FileUtils {
         }
     }
 
-    private static void CopyStream(InputStream Input, OutputStream Output) throws IOException {
-        byte[] buffer = new byte[5120];
-        int length = Input.read(buffer);
-        while (length > 0) {
-            Output.write(buffer, 0, length);
-            length = Input.read(buffer);
-        }
-    }
+
     protected static String setResponseElement(Node responseElement, String newResponse, String strFileName){
         NodeList childNodes = responseElement.getChildNodes();
         Node child = null;

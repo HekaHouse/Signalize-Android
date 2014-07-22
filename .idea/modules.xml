@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/AndroidAb/AndroidAb.iml" filepath="$PROJECT_DIR$/AndroidAb/AndroidAb.iml" />
       <module fileurl="file://$PROJECT_DIR$/ConversationService/ConversationService.iml" filepath="$PROJECT_DIR$/ConversationService/ConversationService.iml" />
       <module fileurl="file://$PROJECT_DIR$/ConversationServiceClient/ConversationServiceClient.iml" filepath="$PROJECT_DIR$/ConversationServiceClient/ConversationServiceClient.iml" />
       <module fileurl="file://$PROJECT_DIR$/ConversationServiceTrainer/ConversationServiceTrainer.iml" filepath="$PROJECT_DIR$/ConversationServiceTrainer/ConversationServiceTrainer.iml" />

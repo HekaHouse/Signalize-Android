@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.Log;
 
 import org.alicebot.ab.AndroidChat;
-import org.alicebot.ab.Chat;
 import org.alicebot.ab.Ghost;
 import org.alicebot.ab.Nodemapper;
 
