@@ -22,12 +22,13 @@ import java.util.HashMap;
 public class Ghost extends Bot {
 
     private static Context context;
-    private static boolean internalStorage = false;
+    public static ArrayList<String> listOfPatterns = new ArrayList<String>();
     private ArrayList<String> executing;
     public static String TAG = "Ghost";
     private HashMap<String, ArrayList<Category>> categoryQueue = new HashMap<String, ArrayList<Category>>();
 
     public Ghost(String _name, String _path) {
+
 
         super(_name, _path, "auto");
         // Super constructor calls setAllPaths(_path,_name)
@@ -218,18 +219,28 @@ public class Ghost extends Bot {
                 for (Category c : categoryQueue.get(file)) {
                     //System.out.println("Delete "+c.getPattern());
                     deletedGraph.addCategory(c);
+                    listOfPatterns.remove(c.getPattern());
+                    Log.e(TAG,"Removed Pattern" + c.getPattern());
                 }
             } else if (file.contains(MagicStrings.unfinished_aiml_file)) {
                 for (Category c : categoryQueue.get(file)) {
                     //System.out.println("Delete "+c.getPattern());
-                    if (brain.findNode(c) == null)
+                    if (brain.findNode(c) == null){
                         unfinishedGraph.addCategory(c);
+                        listOfPatterns.remove(c.getPattern());
+                        Log.e(TAG,"Removed Pattern" + c.getPattern());
+                    }
+
                     else System.out.println("unfinished " + c.inputThatTopic() + " found in brain");
                 }
             } else if (file.contains(MagicStrings.learnf_aiml_file)) {
                 System.out.println("Reading Learnf file");
                 for (Category c : categoryQueue.get(file)) {
                     brain.addCategory(c);
+                    if(!listOfPatterns.contains(c.getPattern())){
+                        listOfPatterns.add(c.getPattern());
+                        Log.e(TAG,"Added Pattern" + c.getPattern());
+                    }
                     learnfGraph.addCategory(c);
                     patternGraph.addCategory(c);
                 }
@@ -239,9 +250,13 @@ public class Ghost extends Bot {
                     //brain.printgraph();
                     try {
                         brain.addCategory(c);
+                        if(!listOfPatterns.contains(c.getPattern())){
+                            listOfPatterns.add(c.getPattern());
+                            Log.e(TAG,"Added Pattern" + c.getPattern());
+                        }
                         patternGraph.addCategory(c);
                     } catch (Exception e) {
-                        Log.d(TAG, "Failed to load category: ");
+                        Log.d(TAG, "Failed to load category: " + e.getCause());
                     }
                     //brain.printgraph();
                 }
