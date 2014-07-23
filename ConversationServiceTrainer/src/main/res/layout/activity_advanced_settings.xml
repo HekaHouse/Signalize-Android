@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/advanced_settings_root"
     tools:context="ppc.signalize.mira.conversation.conversationservicetrainer.conversationservicetrainer.AdvancedSettings">
 
     <ScrollView
@@ -59,8 +60,8 @@
                 <Spinner
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/add_srai_spinner"
-                    android:prompt="@string/srai_spinner"
+                    android:id="@+id/add_srai_tag"
+                    android:text="@string/srai"
                     android:layout_gravity="center"/>
 
             </LinearLayout>
@@ -69,6 +70,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
             <Button
+                android:id="@+id/advanced_set_response"
                 android:text="@string/set_response"
                 android:textSize="@dimen/mediumText"
                 android:layout_width="match_parent"
