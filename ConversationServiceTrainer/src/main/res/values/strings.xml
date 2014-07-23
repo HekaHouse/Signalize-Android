@@ -20,6 +20,6 @@
     <string name="title_activity_advanced_settings">AdvancedSettings</string>
     <string name="template_button">template</string>
     <string name="randomli_button">random/li</string>
-    <string name="srai_spinner">Srai</string>
+    <string name="srai">Srai</string>
 
 </resources>

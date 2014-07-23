@@ -125,6 +125,41 @@ public class FileUtils extends org.alicebot.ab.FileUtils{
         }
     }
 
+    protected static Node appendXmlFragment(Node parent,String fragment) throws IOException, SAXException {
+        Document doc = parent.getOwnerDocument();
+        Node fragmentNode = XMLState.builder.parse(
+                new InputSource(new StringReader(fragment)))
+                .getDocumentElement();
+        fragmentNode = doc.importNode(fragmentNode, true);
+        parent.appendChild(fragmentNode);
+        return fragmentNode;
+    }
+
+    protected static String setAdvancedResponseElement(Node responseElement, String newResponse, String strFileName) throws IOException, SAXException {
+        Node parent = responseElement.getParentNode();
+        parent.removeChild(responseElement);
+        Node response = appendXmlFragment(parent,newResponse);
+        TransformerFactory transformerFactory;
+        Transformer transformer;
+        transformerFactory = TransformerFactory.newInstance();
+        try {
+            transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(FileUtils.xmlstate.dom);
+            StreamResult result = new StreamResult(new File(context.getFilesDir(),"MIRA/aiml/" + strFileName));
+            Log.d("Stream","Got Stream");
+            transformer.transform(source, result);
+            Toast.makeText(context, "Wrote to file",Toast.LENGTH_LONG).show();
+        } catch (TransformerConfigurationException e) {
+            e.printStackTrace();
+        } catch (TransformerException e) {
+            e.printStackTrace();
+            Log.e("CAUSE", e.getCause().toString());
+            Log.getStackTraceString(e);
+            Log.e("TransformerException","Cannot transform AIML");
+        }
+        return FileUtils.xmltoString(response);
+    }
+
 
     protected static String setResponseElement(Node responseElement, String newResponse, String strFileName){
         NodeList childNodes = responseElement.getChildNodes();
@@ -232,8 +267,8 @@ class XMLState{
 }
 class GenericAIMLValidator {
     private final String TAG="Generic AIML Validator";
-    protected static DocumentBuilderFactory factory= null;
-    protected static DocumentBuilder builder = null;
+    protected DocumentBuilderFactory factory= null;
+    protected DocumentBuilder builder = null;
     protected Document dom = null;
     protected Element docRoot;
     protected void setDom(String xml) throws IOException, SAXException {
