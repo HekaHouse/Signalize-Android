@@ -1,13 +1,18 @@
 package org.alicebot.ab;
 
 import android.content.res.AssetManager;
+import android.util.Log;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.InputStream;
 import java.io.StringWriter;
 
@@ -25,6 +30,7 @@ import javax.xml.transform.stream.StreamResult;
  * A part of Signalize for Project Patient Care
  */
 public class AndroidDomUtils {
+    private static final String TAG = "AndroidDomUtils";
 
     public static AssetManager mgr;
 
@@ -32,9 +38,14 @@ public class AndroidDomUtils {
         XmlPullParserFactory dbFactory = XmlPullParserFactory.newInstance();
         dbFactory.setNamespaceAware(true);
         XmlPullParser dBuilder = dbFactory.newPullParser();
+        if(FileUtils.getStorageType() == FileUtils.STORAGE_TYPE.ASSETS_STORAGE) {
 
-        dBuilder.setInput(mgr.open(fileName), null);
-
+            dBuilder.setInput(mgr.open(fileName), null);
+        }
+        else {
+            dBuilder.setInput(new FileReader(new File(FileUtils.getStorageDirectory(), fileName)));
+            Log.e(TAG,"Accessing file " + FileUtils.getStorageDirectory() + "/" + fileName);
+        }
         return dBuilder;
     }
 

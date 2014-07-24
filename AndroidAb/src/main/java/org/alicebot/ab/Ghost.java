@@ -3,6 +3,7 @@ package org.alicebot.ab;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -45,6 +46,10 @@ public class Ghost extends Bot {
         FileUtils.setStorageType(FileUtils.STORAGE_TYPE.INTERNAL_STORAGE);
     }
 
+    public static void setExternalStorage(){
+        FileUtils.setStorageType(FileUtils.STORAGE_TYPE.EXTERNAL_STORAGE);
+    }
+
     public AssetManager getAssets(){
         Log.d(TAG,"Assets DIR");
         return Ghost.context.getAssets();
@@ -56,6 +61,15 @@ public class Ghost extends Bot {
 
     public static void setContext(Context context){
         Ghost.context = context;
+    }
+    public static void setContext(Context context, FileUtils.STORAGE_TYPE storageType){
+        Ghost.context = context;
+        if(storageType == FileUtils.STORAGE_TYPE.EXTERNAL_STORAGE){
+            Ghost.setExternalStorage();
+        }
+        else if(storageType == FileUtils.STORAGE_TYPE.INTERNAL_STORAGE){
+            Ghost.setInternalStorage(true);
+        }
     }
     /**
      * Load all AIML Sets
@@ -144,12 +158,20 @@ public class Ghost extends Bot {
         System.out.println("Name = " + name + " Path = " + MagicStrings.bot_name_path);
         MagicStrings.aiml_path = MagicStrings.bot_name_path + "/aiml";
 
-        MagicStrings.aimlif_path = context.getFilesDir() + "/aimlif";
+        if(FileUtils.getStorageType() == FileUtils.STORAGE_TYPE.INTERNAL_STORAGE){
+            MagicStrings.aimlif_path = context.getFilesDir() + "/aimlif";
+            MagicStrings.log_path = context.getFilesDir() + "/logs";
+        }
+        else{
+            MagicStrings.aimlif_path = Environment.getExternalStorageDirectory() + "/aimlif";
+            MagicStrings.log_path = Environment.getExternalStorageDirectory() + "/logs";
+        }
         System.out.println("AIMLIF PATH "+MagicStrings.aimlif_path);
         boolean f = new File(MagicStrings.aimlif_path).mkdirs();
         Log.w("CREATED DIRECTORY AIMLIF",""+f);
         MagicStrings.config_path = MagicStrings.bot_name_path + "/config";
-        MagicStrings.log_path = context.getFilesDir() + "/logs";
+
+
         f = new File(MagicStrings.log_path).mkdirs();
         Log.w("CREATED DIRECTORY AIMLIF",""+f);
         MagicStrings.sets_path = MagicStrings.bot_name_path + "/sets";
