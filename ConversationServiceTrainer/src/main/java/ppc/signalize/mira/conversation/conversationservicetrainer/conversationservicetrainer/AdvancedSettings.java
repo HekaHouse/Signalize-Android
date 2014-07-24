@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -15,8 +14,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,12 +23,9 @@ import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collections;
 
 import javax.xml.parsers.ParserConfigurationException;
-
-import ppc.signalize.mira.conversation.conversationservicetrainer.conversationservicetrainer.R;
 
 public class AdvancedSettings extends Activity implements View.OnClickListener{
 
@@ -163,11 +157,11 @@ public class AdvancedSettings extends Activity implements View.OnClickListener{
          /*
         * On click method for the Set Response button.
         * */
-        FileUtils.openFile(strFileName);
-        Node responseElement = FileUtils.getReqResponse(strPattern);
+        FileUtility.openFile(strFileName);
+        Node responseElement = FileUtility.getReqResponse(strPattern);
         try {
-            FileUtils.setAdvancedResponseElement(responseElement,currentResponseET.getText().toString(), strFileName);
-            FileUtils.changedString = currentResponseET.getText().toString();
+            FileUtility.setAdvancedResponseElement(responseElement, currentResponseET.getText().toString(), strFileName);
+            FileUtility.changedString = currentResponseET.getText().toString();
             Log.d(TAG,"ADDED TO FILE AND WROTE FILE");
             Intent intent;
             intent = new Intent(getApplicationContext(),ViewFileActivity.class);

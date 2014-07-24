@@ -28,7 +28,7 @@ public class FileActivity extends Activity implements View.OnClickListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        FileUtils.setContext(this);
+        FileUtility.setContext(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file);
 
@@ -63,10 +63,10 @@ public class FileActivity extends Activity implements View.OnClickListener{
         });
         fileName.setText(strFileName);
         pattern.setText(strPattern);
-        FileUtils.openFile(strFileName);
-        Node responseElement = FileUtils.getReqResponse(strPattern);
-        FileUtils.changedString = FileUtils.getChangedNodeString(responseElement);
-        currentResponse.setText(FileUtils.getChangedNodeString(responseElement));
+        FileUtility.openFile(strFileName);
+        Node responseElement = FileUtility.getReqResponse(strPattern);
+        FileUtility.changedString = FileUtility.getChangedNodeString(responseElement);
+        currentResponse.setText(FileUtility.getChangedNodeString(responseElement));
         Button viewFile = (Button)findViewById(R.id.viewFile);
         viewFile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,7 +97,7 @@ public class FileActivity extends Activity implements View.OnClickListener{
     }
 
     public static void init(Context context){
-        FileUtils.setContext(context);
+        FileUtility.setContext(context);
     }
 
     @Override
@@ -130,11 +130,11 @@ public class FileActivity extends Activity implements View.OnClickListener{
         /*
         * On click method for the Set Response button.
         * */
-        FileUtils.openFile(strFileName);
-        Node responseElement = FileUtils.getReqResponse(strPattern);
-        FileUtils.setResponseElement(responseElement,newResponse.getText().toString(), strFileName);
-        FileUtils.changedString = FileUtils.getChangedNodeString(responseElement);
-        currentResponse.setText(FileUtils.changedString);
-        FileUtils.changedString = FileUtils.getChangedNodeString(responseElement);
+        FileUtility.openFile(strFileName);
+        Node responseElement = FileUtility.getReqResponse(strPattern);
+        FileUtility.setResponseElement(responseElement, newResponse.getText().toString(), strFileName);
+        FileUtility.changedString = FileUtility.getChangedNodeString(responseElement);
+        currentResponse.setText(FileUtility.changedString);
+        FileUtility.changedString = FileUtility.getChangedNodeString(responseElement);
     }
 }

@@ -43,10 +43,14 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FileUtils.setContext(this);
-        FileUtils.copyAssetsToStorage();
+        FileUtility.setContext(this);
+
         setContentView(R.layout.activity_trainer);
-        Ghost.setInternalStorage(true);
+        //Ghost.setInternalStorage(true);
+        Ghost.setExternalStorage();
+        if(!FileUtility.storeExists()){
+        FileUtility.copyAssetsToStorage();
+        }
         Intent intent = new Intent();
         intent.setAction(IntentStrings.StartServiceBroadcast);
         this.sendBroadcast(intent);

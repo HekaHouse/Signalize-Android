@@ -3,8 +3,6 @@ package ppc.signalize.mira.conversation.conversationservicetrainer.conversations
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,8 +13,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-
-import ppc.signalize.mira.conversation.conversationservicetrainer.conversationservicetrainer.R;
 
 public class ViewFileActivity extends Activity {
     private final String TAG = "ViewFileActivity";
@@ -30,15 +26,15 @@ public class ViewFileActivity extends Activity {
         ((TextView)findViewById(R.id.viewFileName)).setText(fileName);
         InputStream inputStream;
         try {
-            inputStream = new FileInputStream(new File(getFilesDir(),"MIRA/aiml/" +fileName));
+            inputStream = new FileInputStream(new File(org.alicebot.ab.FileUtils.getStorageDirectory(),"MIRA/aiml/" +fileName));
             int size = inputStream.available();
             byte[] buffer = new byte[size];
 
             inputStream.read(buffer);
             inputStream.close();
             String text = new String(buffer);
-            Log.d(TAG,"" + text.contains(FileUtils.changedString));
-            FileUtils.setColor(textView,text,FileUtils.changedString, Color.GREEN);
+            Log.d(TAG,"" + text.contains(FileUtility.changedString));
+            FileUtility.setColor(textView, text, FileUtility.changedString, Color.GREEN);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

@@ -20,8 +20,8 @@ public final class Conversation {
     private String inputs, filenames;
 
     private Conversation(Context context) {
-        Ghost.setContext(context);
-        if(ghost==null) ghost = new Ghost(Util._name, Util._AIML_path);
+        Ghost.setContext(context, Util.storageType);
+        ghost = new Ghost(Util._name, Util._AIML_path);
         session = new AndroidChat(ghost);
         androidAIML = new AndroidAIML();
     }

@@ -37,13 +37,13 @@ import ppc.signalize.mira.conversation.IConversation;
 /**
  * Created by mukundan on 6/26/14.
  */
-public class FileUtils extends org.alicebot.ab.FileUtils{
+public class FileUtility extends org.alicebot.ab.FileUtils{
     private static String TAG = "File Utils";
 
     static String changedString = "";
     protected static XMLState xmlstate = new XMLState();
     protected static void setContext(Context context){
-        FileUtils.context = context;
+        FileUtility.context = context;
     }
 
     protected static String getChangedNodeString(Node responseText){
@@ -95,7 +95,7 @@ public class FileUtils extends org.alicebot.ab.FileUtils{
             if(pat.equals(pattern.trim())){
                 ele =  item.getParentNode();
                 Log.e("PARENT NODE","PARENT");
-                FileUtils.xmltoString(ele);
+                FileUtility.xmltoString(ele);
                 Toast.makeText(context,ele.getNodeName(),Toast.LENGTH_LONG).show();
                 return ele;
             }
@@ -106,12 +106,17 @@ public class FileUtils extends org.alicebot.ab.FileUtils{
         if(xmlstate.dom == null) {
             try {
                 Log.d(TAG, "Opening file " + AIMLdir + "/" + filename);
-                InputStream file = new FileInputStream(new File(context.getFilesDir(), AIMLdir + "/" + filename));
-                xmlstate.init();
-                xmlstate.setDom(file);
-                file.close();
-                if (context != null) {
-                    Toast.makeText(context, "Able to access the assets folder", Toast.LENGTH_LONG).show();
+                if(org.alicebot.ab.FileUtils.getStorageDirectory() == null){
+                    AdvancedSettings.showErrorToast(context,"Only Assets Storage Defined!!!");
+                    throw new IOException("Only Assets Storage Defined");
+                }else {
+                    InputStream file = new FileInputStream(new File(org.alicebot.ab.FileUtils.getStorageDirectory(), AIMLdir + "/" + filename));
+                    xmlstate.init();
+                    xmlstate.setDom(file);
+                    file.close();
+                    if (context != null) {
+                        Toast.makeText(context, "Able to access the assets folder", Toast.LENGTH_LONG).show();
+                    }
                 }
             } catch (IOException e) {
                 Log.e("ParseException", "Cannot open File");
@@ -144,8 +149,8 @@ public class FileUtils extends org.alicebot.ab.FileUtils{
         transformerFactory = TransformerFactory.newInstance();
         try {
             transformer = transformerFactory.newTransformer();
-            DOMSource source = new DOMSource(FileUtils.xmlstate.dom);
-            StreamResult result = new StreamResult(new File(context.getFilesDir(),"MIRA/aiml/" + strFileName));
+            DOMSource source = new DOMSource(FileUtility.xmlstate.dom);
+            StreamResult result = new StreamResult(new File(org.alicebot.ab.FileUtils.getStorageDirectory(),"MIRA/aiml/" + strFileName));
             Log.d("Stream","Got Stream");
             transformer.transform(source, result);
             Toast.makeText(context, "Wrote to file",Toast.LENGTH_LONG).show();
@@ -157,7 +162,7 @@ public class FileUtils extends org.alicebot.ab.FileUtils{
             Log.getStackTraceString(e);
             Log.e("TransformerException","Cannot transform AIML");
         }
-        return FileUtils.xmltoString(response);
+        return FileUtility.xmltoString(response);
     }
 
 
@@ -173,7 +178,7 @@ public class FileUtils extends org.alicebot.ab.FileUtils{
             }
         }
         responseElement.removeChild(child);
-        FileUtils.xmltoString(responseElement);
+        FileUtility.xmltoString(responseElement);
         String strnewResponse = newResponse;
         Element element = xmlstate.dom.createElement("template");
         element.setTextContent(strnewResponse);
@@ -183,8 +188,8 @@ public class FileUtils extends org.alicebot.ab.FileUtils{
         transformerFactory = TransformerFactory.newInstance();
         try {
             transformer = transformerFactory.newTransformer();
-            DOMSource source = new DOMSource(FileUtils.xmlstate.dom);
-            StreamResult result = new StreamResult(new File(context.getFilesDir(),"MIRA/aiml/" + strFileName));
+            DOMSource source = new DOMSource(FileUtility.xmlstate.dom);
+            StreamResult result = new StreamResult(new File(org.alicebot.ab.FileUtils.getStorageDirectory(),"MIRA/aiml/" + strFileName));
             Log.d("Stream","Got Stream");
             transformer.transform(source, result);
             Toast.makeText(context, "Wrote to file",Toast.LENGTH_LONG).show();
@@ -196,7 +201,7 @@ public class FileUtils extends org.alicebot.ab.FileUtils{
             Log.getStackTraceString(e);
             Log.e("TransformerException","Cannot transform AIML");
         }
-        return FileUtils.xmltoString(responseElement);
+        return FileUtility.xmltoString(responseElement);
     }
     private static boolean containsSrai(Node element){
         if(element.hasChildNodes()) {
