@@ -10,10 +10,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,32 +33,20 @@ public class AdvancedSettings extends Activity implements View.OnClickListener{
     protected final String TAG = "Advanced Setting Activiy";
     private String currentResponse, strFileName, strPattern;
     EditText currentResponseET;
-    Button addTemplateTag, addRandom_LiTag,setResponse;
+    Button setResponse,viewAIMLTags;
     Spinner addSraiTag;
-
+    AddButtons addButtons;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_advanced_settings);
         Bundle extras = getIntent().getExtras();
-        currentResponse = extras.getString(IntentStrings.currentResponseIntent);
-        strFileName = extras.getString(IntentStrings.fileIntent);
-        strPattern = extras.getString(IntentStrings.patternIntent);
+        currentResponse = extras.getString(UtilityStrings.currentResponseIntent);
+        strFileName = extras.getString(UtilityStrings.fileIntent);
+        strPattern = extras.getString(UtilityStrings.patternIntent);
         setResponse = (Button)findViewById(R.id.advanced_set_response);
         setResponse.setOnClickListener(this);
-        addSraiTag = (Spinner) findViewById(R.id.add_srai_tag);
-        Collections.sort(Ghost.listOfPatterns);
-        if(!Ghost.listOfPatterns.contains("SELECT SRAI")){
-            Ghost.listOfPatterns.add(0,"SELECT SRAI");
-        }
-        addSraiTag.setOnItemSelectedListener(new SraiSelected(this,TAGTOADD.SRAI));
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,Ghost.listOfPatterns);
-        addSraiTag.setAdapter(arrayAdapter);
-        //addSraiTag.setOnClickListener(new AddTagListener(this, TAGTOADD.SRAI));
-        addTemplateTag = (Button) findViewById(R.id.add_template_tag);
-        addTemplateTag.setOnClickListener(new AddTagListener(this, TAGTOADD.TEMPLATE));
-        addRandom_LiTag = (Button)findViewById(R.id.add_random_tag);
-        addRandom_LiTag.setOnClickListener(new AddTagListener(this,TAGTOADD.RANDOM_LI));
+        final LinearLayout linearLayout = (LinearLayout) findViewById(R.id.aiml_tag_set);
         currentResponseET = (EditText) findViewById(R.id.advanced_currentResponse);
         currentResponseET.setText(currentResponse);
         //validateXML(currentResponseET,TAGTOADD.RANDOM_LI);
@@ -65,7 +54,7 @@ public class AdvancedSettings extends Activity implements View.OnClickListener{
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(!hasFocus){
-                    Toast.makeText(getApplicationContext(), "" + currentResponseET.getSelectionStart(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "" + currentResponseET.getSelectionStart(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -83,6 +72,36 @@ public class AdvancedSettings extends Activity implements View.OnClickListener{
                 return false;
             }
         });
+        addButtons = new AddButtons(this,linearLayout,currentResponseET);
+        viewAIMLTags = (Button)findViewById(R.id.aiml_tag_button);
+        viewAIMLTags.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(linearLayout.getVisibility() == View.GONE){
+                    addButtons.addButtons();
+                    viewAIMLTags.setText(getString(R.string.close_aiml_tags));
+                    linearLayout.setVisibility(View.VISIBLE);
+                }
+                else if(linearLayout.getVisibility() == View.VISIBLE){
+                    viewAIMLTags.setText(getString(R.string.view_aiml_tags));
+                    linearLayout.setVisibility(View.GONE);
+                }
+            }
+        });
+        addSraiTag = (Spinner) findViewById(R.id.add_srai_tag);
+        Collections.sort(Ghost.listOfPatterns);
+        if(!Ghost.listOfPatterns.contains(getString(R.string.select_srai))){
+            Ghost.listOfPatterns.add(0,getString(R.string.select_srai));
+        }
+        addSraiTag.setOnItemSelectedListener(new Listeners.SraiSelected(this,UtilityStrings.TAGTOADD.SRAI,currentResponseET));
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,
+                Ghost.listOfPatterns);
+        addSraiTag.setAdapter(arrayAdapter);
+
+
+
+
 
     }
 
@@ -119,7 +138,7 @@ public class AdvancedSettings extends Activity implements View.OnClickListener{
         textView.setTextColor(Color.YELLOW);
         toast.show();
     }
-    protected void validateXML(EditText currentResponse, TAGTOADD tagtoadd){
+    protected void validateXML(EditText currentResponse, UtilityStrings.TAGTOADD tagtoadd){
         try {
             Log.d(TAG,"Current Response " + currentResponse.getText());
             GenericAIMLValidator genericAIMLValidator = new GenericAIMLValidator(currentResponse.getText().toString());
@@ -128,7 +147,7 @@ public class AdvancedSettings extends Activity implements View.OnClickListener{
                 case TEMPLATE:
                      childrenInOrder = new String[]{"pattern", "template"};
                      break;
-                case RANDOM_LI:
+                case RANDOM:
                     childrenInOrder = new String[]{"pattern", "template", "random", "li"};
                     break;
             }
@@ -165,7 +184,7 @@ public class AdvancedSettings extends Activity implements View.OnClickListener{
             Log.d(TAG,"ADDED TO FILE AND WROTE FILE");
             Intent intent;
             intent = new Intent(getApplicationContext(),ViewFileActivity.class);
-            intent.putExtra(IntentStrings.fileIntent,strFileName);
+            intent.putExtra(UtilityStrings.fileIntent,strFileName);
             startActivity(intent);
         } catch (IOException e) {
             e.printStackTrace();
@@ -177,109 +196,4 @@ public class AdvancedSettings extends Activity implements View.OnClickListener{
 
     }
 }
-class AddTagListener implements View.OnClickListener{
 
-    AdvancedSettings activity;
-    private String previousText;
-    private TAGTOADD tagtoadd;
-    public AddTagListener(AdvancedSettings activity, TAGTOADD tagtoadd){
-        this.activity = activity;
-        this.tagtoadd = tagtoadd;
-    }
-    @Override
-    public void onClick(View v) {
-        switch (tagtoadd){
-            case TEMPLATE:
-                addTemplateTag();
-                break;
-            case RANDOM_LI:
-                addRandom_LiTag();
-                break;
-
-        }
-
-    }
-
-
-
-    private void addTemplateTag(){
-        activity.currentResponseET.clearFocus();
-        if(activity.currentResponseET.getText().toString().contains("<template>")){
-            AdvancedSettings.showErrorToast(activity.getApplicationContext(),"Response already contains template tag, cannot add one more!!");
-        }
-        else{
-            previousText = activity.currentResponseET.getText().toString();
-            String tag = "<template> </template>";
-            int start = activity.currentResponseET.getSelectionStart();
-            String s = activity.currentResponseET.getText().toString();
-            s = s.substring(0,start) + tag + s.substring(start);
-            activity.currentResponseET.setText(s);
-            activity.currentResponseET.setSelection(start + 10);
-            //activity.validateXML(activity.currentResponseET, TAGTOADD.TEMPLATE);
-            activity.currentResponseET.requestFocus();
-            AdvancedSettings.showValidToast(activity.getApplicationContext(),"Added template Tag");
-        }
-    }
-    private void addRandom_LiTag(){
-        activity.currentResponseET.clearFocus();
-        if(activity.currentResponseET.getText().toString().contains("<random>")){
-            AdvancedSettings.showErrorToast(activity.getApplicationContext(),"Response already contains random tag, cannot add one more!!");
-        }
-        else{
-            previousText = activity.currentResponseET.getText().toString();
-            String tag = "<random><li> </li></random>";
-            int start = activity.currentResponseET.getSelectionStart();
-            String s = activity.currentResponseET.getText().toString();
-            s = s.substring(0,start) + tag + s.substring(start);
-            activity.currentResponseET.setText(s);
-            activity.currentResponseET.setSelection(start + 12);
-            //activity.validateXML(activity.currentResponseET, TAGTOADD.RANDOM_LI);
-            activity.currentResponseET.requestFocus();
-            AdvancedSettings.showValidToast(activity.getApplicationContext(),"Added random Tag");
-        }
-    }
-
-}
-enum TAGTOADD{TEMPLATE,RANDOM_LI,SRAI};
-class SraiSelected implements AdapterView.OnItemSelectedListener{
-
-    String previousText;
-    TAGTOADD tagtoadd;
-    AdvancedSettings activity;
-    public SraiSelected(AdvancedSettings activity,TAGTOADD tagtoadd){
-        this.activity = activity;
-        this.tagtoadd = tagtoadd;
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if(position != 0) {
-            addSraiTag(position);
-        }
-    }
-
-    private void addSraiTag(int position){
-        activity.currentResponseET.clearFocus();
-        if(activity.currentResponseET.getText().toString().contains("<srai>") ||
-                activity.currentResponseET.getText().toString().contains("<sraix>")){
-            AdvancedSettings.showErrorToast(activity.getApplicationContext(),"Response already contains srai/sraix tag, cannot add one more!!");
-        }
-        else{
-            previousText = activity.currentResponseET.getText().toString();
-            String tag = "<srai>" + Ghost.listOfPatterns.get(position) + "</srai>";
-            int start = activity.currentResponseET.getSelectionStart();
-            String s = activity.currentResponseET.getText().toString();
-            s = s.substring(0,start) + tag + s.substring(start);
-            activity.currentResponseET.setText(s);
-            activity.currentResponseET.setSelection(start + 6);
-            //activity.validateXML(activity.currentResponseET, TAGTOADD.RANDOM_LI);
-            activity.currentResponseET.requestFocus();
-            AdvancedSettings.showValidToast(activity.getApplicationContext(),"Added srai Tag");
-        }
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
-}

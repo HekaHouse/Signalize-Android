@@ -38,8 +38,8 @@ public class FileActivity extends Activity implements View.OnClickListener{
     protected void onStart() {
         super.onStart();
         Bundle extras = getIntent().getExtras();
-        strFileName = extras.getString(IntentStrings.fileIntent);
-        strPattern = extras.getString(IntentStrings.patternIntent);
+        strFileName = extras.getString(UtilityStrings.fileIntent);
+        strPattern = extras.getString(UtilityStrings.patternIntent);
 
         TextView fileName = (TextView) findViewById(R.id.fileName);
         pattern = (TextView)findViewById(R.id.pattern);
@@ -55,9 +55,9 @@ public class FileActivity extends Activity implements View.OnClickListener{
                 * Onclick method for the Advanced Settings button.
                 * */
                 Intent intent = new Intent(getApplicationContext(),AdvancedSettings.class);
-                intent.putExtra(IntentStrings.currentResponseIntent,currentResponse.getText());
-                intent.putExtra(IntentStrings.fileIntent,strFileName);
-                intent.putExtra(IntentStrings.patternIntent,strPattern);
+                intent.putExtra(UtilityStrings.currentResponseIntent,currentResponse.getText());
+                intent.putExtra(UtilityStrings.fileIntent,strFileName);
+                intent.putExtra(UtilityStrings.patternIntent,strPattern);
                 startActivity(intent);
             }
         });
@@ -76,7 +76,7 @@ public class FileActivity extends Activity implements View.OnClickListener{
                 * */
                 Intent intent;
                 intent = new Intent(getApplicationContext(),ViewFileActivity.class);
-                intent.putExtra(IntentStrings.fileIntent,strFileName);
+                intent.putExtra(UtilityStrings.fileIntent,strFileName);
                 startActivity(intent);
             }
         });

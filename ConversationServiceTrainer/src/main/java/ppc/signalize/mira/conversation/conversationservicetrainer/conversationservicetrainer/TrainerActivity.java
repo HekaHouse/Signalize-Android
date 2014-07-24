@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -51,10 +52,8 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
         if(!FileUtility.storeExists()){
         FileUtility.copyAssetsToStorage();
         }
-        Intent intent = new Intent();
-        intent.setAction(IntentStrings.StartServiceBroadcast);
-        this.sendBroadcast(intent);
-        connectToService();
+
+
         sendText = (Button)findViewById(R.id.sendButton);
         input = (EditText)findViewById(R.id.inputText);
         input.setOnFocusChangeListener(new EditTextFocusChangeListener());
@@ -62,6 +61,17 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
         response = (TextView)findViewById(R.id.responseTextView);
         listPatternFile = (ListView) findViewById(R.id.pattern_file_list);
         listPatternFile.setOnItemClickListener(this);
+        AsyncTask asyncTask = new AsyncTask() {
+            @Override
+            protected Object doInBackground(Object[] params) {
+                Intent intent = new Intent();
+                intent.setAction(UtilityStrings.StartServiceBroadcast);
+                sendBroadcast(intent);
+                connectToService();
+                return null;
+            }
+        };
+        asyncTask.execute("");
     }
 
     @Override
@@ -69,8 +79,8 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
         strFilename = listNames.get(position);
         strPattern = listInpNames.get(position);
         Intent intent = new Intent(this, FileActivity.class);
-        intent.putExtra(IntentStrings.fileIntent,strFilename);
-        intent.putExtra(IntentStrings.patternIntent,strPattern);
+        intent.putExtra(UtilityStrings.fileIntent,strFilename);
+        intent.putExtra(UtilityStrings.patternIntent,strPattern);
         startActivity(intent);
     }
 
@@ -133,8 +143,8 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
 
     private void connectToService() {
         Intent intent;
-        intent = new Intent(IntentStrings.ConversationServiceTAG);
-        intent.setClassName(this,IntentStrings.ConversationServiceTAG);
+        intent = new Intent(UtilityStrings.ConversationServiceTAG);
+        intent.setClassName(this, UtilityStrings.ConversationServiceTAG);
         this.bindService(intent,this,BIND_AUTO_CREATE);
         Log.d(TAG, "The Service will be connected soon!");
     }

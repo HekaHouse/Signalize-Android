@@ -38,43 +38,45 @@
                 android:background="@color/Black"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <Button
-                    android:id="@+id/add_template_tag"
-                    android:text="@string/template_button"
-                    android:textSize="@dimen/smallText"
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <Button
-                    android:id="@+id/add_random_tag"
-                    android:text="@string/randomli_button"
-                    android:textSize="@dimen/smallText"
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <Spinner
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/add_srai_tag"
-                    android:text="@string/srai"
-                    android:layout_gravity="center"/>
-
-            </LinearLayout>
-            <View
-                android:background="@color/Black"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"/>
             <Button
                 android:id="@+id/advanced_set_response"
                 android:text="@string/set_response"
                 android:textSize="@dimen/mediumText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+            <View
+                android:background="@color/Black"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+            <Button
+                android:id="@+id/aiml_tag_button"
+                android:text="@string/view_aiml_tags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:scrollbars="vertical"
+                android:scrollbarStyle="outsideInset"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:background="@color/Aquamarine"
+                android:layout_height="wrap_content"
+                android:id="@+id/aiml_tag_set">
+                <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/add_srai_tag"
+                android:text="@string/srai"
+                android:layout_gravity="center"/>
+                android:layout_height="wrap_content" />
+            </LinearLayout>
+
+
+            <View
+                android:background="@color/Black"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

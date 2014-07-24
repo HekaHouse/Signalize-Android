@@ -21,5 +21,13 @@
     <string name="template_button">template</string>
     <string name="randomli_button">random/li</string>
     <string name="srai">Srai</string>
+    <string name="topic_button">topic</string>
+    <string name="star_button">star</string>
+    <string name="get_button">get</string>
+    <string name="set_button">set</string>
+    <string name="condition_button">condition</string>
+    <string name="view_aiml_tags">View AIML Tags</string>
+    <string name="close_aiml_tags">Close AIML Tags</string>
+    <string name="select_srai">SELECT SRAI</string>
 
 </resources>
