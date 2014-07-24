@@ -18,7 +18,7 @@ public final class Conversation {
 
 
     private Conversation(Context context) {
-        Ghost.setContext(context);
+        Ghost.setContext(context,Util.storageType);
         if(ghost==null) ghost = new Ghost(Util._name, Util._AIML_path);
         session = new AndroidChat(ghost);
     }
