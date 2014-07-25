@@ -8,6 +8,8 @@ interface IConversation {
     String inputThatTopic();
     String getPatterns();
     String getFilename();
+    String getFilenames();
     String getTemplate();
     void writeAIMLOut();
+    void reSync();
 }

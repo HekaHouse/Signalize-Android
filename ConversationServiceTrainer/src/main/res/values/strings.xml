@@ -29,5 +29,6 @@
     <string name="view_aiml_tags">View AIML Tags</string>
     <string name="close_aiml_tags">Close AIML Tags</string>
     <string name="select_srai">SELECT SRAI</string>
+    <string name="resync_action">Resync AIML files</string>
 
 </resources>

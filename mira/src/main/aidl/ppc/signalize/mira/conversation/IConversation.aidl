@@ -10,4 +10,5 @@ interface IConversation {
     String getFilename();
     String getTemplate();
     void writeAIMLOut();
+    void reSync();
 }

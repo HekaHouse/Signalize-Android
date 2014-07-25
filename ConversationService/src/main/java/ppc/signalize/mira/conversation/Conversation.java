@@ -16,14 +16,14 @@ public final class Conversation {
     public static Ghost ghost=null;
     private AndroidChat session=null;
     private Nodemapper nodemapper;
-    private String input;
+    private static boolean resync = false;
     AndroidAIML androidAIML;
     private String inputs, filenames;
 
 
     private Conversation(Context context) {
         Ghost.setContext(context,Util.storageType);
-        if(ghost==null) ghost = new Ghost(Util._name, Util._AIML_path);
+        if(resync || ghost==null) ghost = new Ghost(Util._name, Util._AIML_path);
         session = new AndroidChat(ghost);
         androidAIML = new AndroidAIML();
     }
@@ -43,6 +43,7 @@ public final class Conversation {
     }
 
     public void writeAIMLOut(){
+        Log.d(TAG,"Writing AIMLIF Files");
         ghost.writeAIMLIFFiles();
 
     }
@@ -59,6 +60,10 @@ public final class Conversation {
         }
         return null;
 
+    }
+
+    public String getFilenames(){
+        return filenames;
     }
 
     public String getTemplate(){
@@ -78,6 +83,8 @@ public final class Conversation {
             Log.d(TAG,"GOT AIML RESPOND");
             filenames = androidAIML.strFileNames();
             inputs = androidAIML.strInputs();
+            Log.w(TAG,filenames);
+            Log.w(TAG,inputs);
             Log.w(TAG, "input that topic = " + nodemapper.category.inputThatTopic());
             Log.w(TAG, "Corresponding AIML File = " + nodemapper.category.getFilename());
         }
@@ -87,6 +94,13 @@ public final class Conversation {
         return new Conversation(context);
     }
 
+    public static Conversation sync(Context context){
+        resync = true;
+        Conversation synced = new Conversation(context);
+        resync = false;
+        Log.d("ConversationClass","Resynced");
+        return synced;
+    }
 
 
 }

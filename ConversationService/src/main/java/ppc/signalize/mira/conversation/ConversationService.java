@@ -2,6 +2,7 @@ package ppc.signalize.mira.conversation;
 
 import android.app.Service;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.IBinder;
@@ -14,11 +15,13 @@ import android.widget.Toast;
  */
 public class ConversationService extends Service{
     Conversation conversation;
+    Context context;
     private final String TAG = "ConversationService";
     @Override
     public void onCreate() {
         super.onCreate();
-        conversation = Conversation.initialize(this.getApplicationContext());
+        context = this.getApplicationContext();
+        conversation = Conversation.initialize(context);
         Log.d(TAG,"The Service was created");
         PackageManager pm = getPackageManager();
         ComponentName compName =
@@ -85,6 +88,11 @@ public class ConversationService extends Service{
         }
 
         @Override
+        public String getFilenames() throws RemoteException {
+            return conversation.getFilenames();
+        }
+
+        @Override
         public String getTemplate() throws RemoteException {
             return conversation.getTemplate();
         }
@@ -92,6 +100,11 @@ public class ConversationService extends Service{
         @Override
         public void writeAIMLOut() throws RemoteException {
             conversation.writeAIMLOut();
+        }
+
+        @Override
+        public void reSync() throws RemoteException {
+            conversation = Conversation.sync(context);
         }
     }
 

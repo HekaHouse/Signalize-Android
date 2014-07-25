@@ -100,10 +100,14 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
             String[] inps = inputs.split("~");
             listInpNames = new ArrayList<String>();
             listInpNames.addAll(Arrays.asList(inps));
-            String filenames = service.getFilename();
+            String filenames = service.getFilenames();
             String[] names = filenames.split("~");
             listNames = new ArrayList<String>();
             listNames.addAll(Arrays.asList(names));
+            Log.i(TAG,"LENGTH " + listInpNames.size());
+            Log.i(TAG,listInpNames.toString());
+            Log.i(TAG,"LENGTH @ " + listNames.size());
+            Log.i(TAG,listNames.toString());
             listAdapter = new LazyListAdapter(this,listNames,listInpNames);
             listPatternFile.setAdapter(listAdapter);
             sendText.requestFocus();
@@ -144,8 +148,8 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.trainer, menu);
-        return true;
+        getMenuInflater().inflate(R.menu.trainer_activity_actions, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -154,10 +158,58 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.resync_action) {
+            //service.writeAIMLOut();
+
+            input.setEnabled(false);
+            sendText.setEnabled(false);
+            Toast.makeText(getApplicationContext(),"Starting Resync UI Disabled",Toast.LENGTH_LONG).show();
+            new LongResync().execute();
+
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    protected void enableUI(){
+        Log.d(TAG,"Enabling UI");
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                sendText = (Button)findViewById(R.id.sendButton);
+                input = (EditText)findViewById(R.id.inputText);
+                input.setEnabled(true);
+                sendText.setEnabled(true);
+                input.requestFocus();
+                Toast.makeText(getApplicationContext(),"Finished Resync Enabling UI",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private class LongResync extends AsyncTask<Void,Void,Void>{
+
+        private EditText input;
+        private Button sendText;
+        @Override
+        protected Void doInBackground(Void... params) {
+            if(service!=null){
+                Log.d(TAG,"STARTING RESYNC");
+
+                try {
+                    service.reSync();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                    Log.e(TAG,e.getStackTrace().toString());
+                }
+
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            enableUI();
+        }
     }
 
     @Override
