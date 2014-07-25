@@ -1,7 +1,6 @@
 package ppc.signalize.mira.conversation.conversationservicetrainer.conversationservicetrainer;
 
 import android.content.Context;
-import android.text.Layout;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -12,7 +11,6 @@ import android.widget.Toast;
 import java.util.Iterator;
 import java.util.Map;
 
-import ppc.signalize.mira.conversation.Util;
 
 /**
  * Created by mukundan on 7/24/14.
