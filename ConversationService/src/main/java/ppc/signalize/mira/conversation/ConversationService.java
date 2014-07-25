@@ -64,12 +64,19 @@ public class ConversationService extends Service{
 
         @Override
         public String process(String input) throws RemoteException {
-            return conversation.process(input);
+            String response = conversation.process(input);
+            Log.d(TAG,"Going to send "+ response);
+            return response;
         }
 
         @Override
         public String inputThatTopic() throws RemoteException {
             return conversation.inputThatTopic();
+        }
+
+        @Override
+        public String getPatterns() throws RemoteException {
+            return conversation.getPatterns();
         }
 
         @Override

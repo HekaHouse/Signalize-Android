@@ -52,8 +52,6 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
         if(!FileUtility.storeExists()){
         FileUtility.copyAssetsToStorage();
         }
-
-
         sendText = (Button)findViewById(R.id.sendButton);
         input = (EditText)findViewById(R.id.inputText);
         input.setOnFocusChangeListener(new EditTextFocusChangeListener());
@@ -61,17 +59,10 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
         response = (TextView)findViewById(R.id.responseTextView);
         listPatternFile = (ListView) findViewById(R.id.pattern_file_list);
         listPatternFile.setOnItemClickListener(this);
-        AsyncTask asyncTask = new AsyncTask() {
-            @Override
-            protected Object doInBackground(Object[] params) {
-                Intent intent = new Intent();
-                intent.setAction(UtilityStrings.StartServiceBroadcast);
-                sendBroadcast(intent);
-                connectToService();
-                return null;
-            }
-        };
-        asyncTask.execute("");
+        Intent intent = new Intent();
+        intent.setAction(UtilityStrings.StartServiceBroadcast);
+        sendBroadcast(intent);
+        connectToService();
     }
 
     @Override
@@ -144,7 +135,7 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
     private void connectToService() {
         Intent intent;
         intent = new Intent(UtilityStrings.ConversationServiceTAG);
-        intent.setClassName(this, UtilityStrings.ConversationServiceTAG);
+        intent.setClassName(UtilityStrings.ConversationServicePackage,UtilityStrings.ConversationServiceTAG);
         this.bindService(intent,this,BIND_AUTO_CREATE);
         Log.d(TAG, "The Service will be connected soon!");
     }

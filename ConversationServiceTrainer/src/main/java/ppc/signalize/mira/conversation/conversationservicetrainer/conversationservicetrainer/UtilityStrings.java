@@ -11,6 +11,7 @@ public class UtilityStrings {
     protected static final String currentResponseIntent = "currentResponse";
     protected static final String ConversationServiceTAG= "ppc.signalize.mira.conversation.ConversationService";
     protected static final String StartServiceBroadcast = "ppc.signalize.mira.conversation.startService";
+    protected static final String ConversationServicePackage = "ppc.signalize.mira.conversation";
     protected static final HashMap<String,String> buttonIdMap = new HashMap<String,String>();
     protected static final HashMap<String,String> buttonToolTipMap = new HashMap<String,String>();
     protected static enum TAGTOADD{AIML,THAT_PREVIOUS,
