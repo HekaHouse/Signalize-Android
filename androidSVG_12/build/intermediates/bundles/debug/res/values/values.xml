@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- From: file:/C:/Users/Aron/Documents/GitHub/Signalize/androidSVG_12/src/main/res/values/attrs.xml -->
+    <eat-comment />
+
+    <declare-styleable name="SVGImageView">
+
+        <!-- Location of the SVG document. -->
+        <attr name="svg" format="reference|string" />
+    </declare-styleable>
+
+</resources>
