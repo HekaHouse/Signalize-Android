@@ -17,6 +17,7 @@ import java.io.OutputStream;
  */
 public class FileUtils {
 
+    public static String delimiter = "~";
     private static String TAG = "FILE UTILS";
     public static enum STORAGE_TYPE{INTERNAL_STORAGE,EXTERNAL_STORAGE,ASSETS_STORAGE};
     private static STORAGE_TYPE storageType = STORAGE_TYPE.ASSETS_STORAGE;

@@ -39,10 +39,16 @@ import java.util.Set;
  * https://docs.google.com/document/d/1wNT25hJRyupcG51aO89UcQEiG-HkXRXusukADpFnDs4/pub
  */
 
+/*
+*This file is just used to get the pattern string and the file names
+* No learning is done here and no modification to the graph is done here
+*/
 /**
  * Created by mukundan on 7/3/2014
  * Android optimization for AIML Processor based on Feb 19 2013 code
+ * Used to get the list of file names from the recursive search for further processing
  */
+
 public class AndroidAIML {
     /**
      * when parsing an AIML file, process a category element.
@@ -53,7 +59,6 @@ public class AndroidAIML {
      * @param aimlFile                        name of AIML file being parsed.
      */
     private static final String TAG = "AndroidAIML";
-    public static String delimieter = "~";
     public ArrayList<String> filenames;
     public ArrayList<String> inputs;
     public AIMLProcessorExtension extension;
@@ -69,14 +74,14 @@ public class AndroidAIML {
     public String strFileNames(){
         String names = "";
         for(String name:filenames){
-            names += name + delimieter;
+            names += name + FileUtils.delimiter;
         }
         return names;
     }
     public String strInputs(){
         String inps = "";
         for(String input:inputs){
-            inps += input + delimieter;
+            inps += input + FileUtils.delimiter;
         }
         return inps;
     }
@@ -853,10 +858,14 @@ public class AndroidAIML {
                 else {// learnf
                     c = new Category(0, pattern, that, "*", template, MagicStrings.learnf_aiml_file);
                     //ps.chatSession.bot.learnfCategories.add(c);
-                    ps.chatSession.bot.learnfGraph.addCategory(c);
+                    /*
+                    *This file is just used to get the pattern string and the filenames
+                    *
+                     */
+                    //ps.chatSession.bot.learnfGraph.addCategory(c);
                     //ps.chatSession.bot.categories.add(c);
                 }
-                ps.chatSession.bot.brain.addCategory(c);
+                //ps.chatSession.bot.brain.addCategory(c);
                 //ps.chatSession.bot.brain.printgraph();
             }
         }
