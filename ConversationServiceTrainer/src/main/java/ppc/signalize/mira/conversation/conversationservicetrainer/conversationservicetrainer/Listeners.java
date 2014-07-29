@@ -396,7 +396,7 @@ public class Listeners {
             }
             else{
 
-                String tag = "<srai>" + Ghost.listOfPatterns.get(position) + "</srai>";
+                String tag = "<srai>" + TrainerActivity.listOfPatterns.get(position) + "</srai>";
                 addTag(tag,">");
             }
         }

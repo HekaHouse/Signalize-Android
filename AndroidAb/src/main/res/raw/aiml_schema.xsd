@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- AIML Schema confirm with AIML 2.0 specifications
+    https://docs.google.com/document/d/1wNT25hJRyupcG51aO89UcQEiG-HkXRXusukADpFnDs4/pub
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    elementFormDefault="qualified"
+    attributeFormDefault="unqualified"
+    version="1.1" xml:lang="EN">
+    <xs:simpleType name="BotPredicateName">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="\c+"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="simplepatternexpression">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:pattern value="([a-zA-Z0-9\-., ]|\*|\_)*"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:element name="aiml">
+        <xs:annotation>
+            <xs:documentation>
+                An AIML object is represented by an aiml element in the AIML document.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:choice minOccurs="1" maxOccurs="unbounded">
+                <xs:element name="topic">
+                    <xs:complexType>
+                        <xs:annotation>
+                            <xs:documentation>A topic is an optional top-level element that contains
+                                category elements. A</xs:documentation>
+                        </xs:annotation>
+                        <xs:group ref="categoryExpression" maxOccurs="unbounded"/>
+                        <xs:attribute name="name" type="simplepatternexpression" use="optional"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="category" type="Category"/>
+            </xs:choice>
+
+            <xs:attribute name="version" use="optional">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="1.0"/>
+                        <xs:enumeration value="1.0.1"/>
+                        <xs:enumeration value="2.0" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+    <xs:group name="categoryExpression">
+        <xs:sequence>
+            <xs:element name="category" type="Category"/>
+        </xs:sequence>
+    </xs:group>
+    <xs:complexType name="Category">
+        <xs:annotation>
+            <xs:documentation>A category is a top-level (or second-level, if contained within a
+                topic) element that contains exactly one pattern and exactly one template. A
+                category does not have any attributes.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="pattern" type="PatternExpression">
+                <xs:annotation>
+                    <xs:documentation>A pattern is an element whose content is a mixed pattern
+                        expression. Exactly one pattern must appear in each category. Pattern does not have any attributes.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="that" type="PatternExpression" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The pattern-side that element is a special type of pattern
+                        element used for context matching. </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="template" type="TemplateContentResponse">
+                <xs:annotation>
+                    <xs:documentation>The majority of AIML content is within the template. The
+                        template may contain zero or more AIML template elements mixed with
+                        character data.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="PatternExpression" mixed="true">
+        <xs:annotation>
+            <xs:documentation>A mixed pattern expression is composed from one or more mixed pattern
+                expression constituents, separated by XML spaces (&amp;#x20).</xs:documentation>
+        </xs:annotation>
+
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="eval" type="TemplateContentResponse"/>
+            <xs:element name="bot" type="Bot"/>
+        </xs:choice>
+
+    </xs:complexType>
+    <xs:complexType name="Bot">
+        <xs:annotation>
+            <xs:documentation> An element called bot, which may be considered a restricted
+                version of get, is used to tell the AIML interpreter that it should
+                substitute the contents of a "bot predicate". The value of a bot predicate
+                is set at load-time, and cannot be changed at run-time. </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="name" type="BotPredicateName" use="required"/>
+    </xs:complexType>
+
+
+    <xs:group name="atomicElement">
+        <xs:choice>
+            <xs:element name="star" type="IndexedElement"/>
+            <xs:element name="that" type="OneOrTwoDIndexedElement"/>
+            <xs:element name="input" type="OneOrTwoDIndexedElement"/>
+            <xs:element name="thatstar" type="IndexedElement"/>
+            <xs:element name="topicstar" type="IndexedElement"/>
+            <xs:element name="get">
+                <xs:complexType>
+                    <xs:attribute name="name" type="BotPredicateName"/>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="bot" type="Bot"/>
+            <xs:group ref="shortcutElements"/>
+            <xs:group ref="systemDefinedPredicates"/>
+        </xs:choice>
+    </xs:group>
+
+    <xs:group name="shortcutElements">
+        <xs:choice>
+            <xs:element name="sr">
+                <xs:annotation>
+                    <xs:documentation>The sr element is a shortcut for:
+                        &lt;srai&gt;&lt;star/&gt;&lt;/srai&gt; The atomic sr
+                        does not have any content. </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+        </xs:choice>
+    </xs:group>
+    <xs:group name="systemDefinedPredicates">
+        <xs:annotation>
+            <xs:documentation>Several atomic AIML elements require the AIML interpreter to
+                substitute a value that is determined from the system, independently of the AIML
+                content.</xs:documentation>
+        </xs:annotation>
+        <xs:choice>
+            <xs:element name="date">
+                <xs:annotation>
+                    <xs:documentation> The date element tells the AIML interpreter that it should
+                        substitute the system local date and time. No formatting constraints on the
+                        output are specified.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="id">
+                <xs:annotation>
+                    <xs:documentation>The id element tells the AIML interpreter that it should
+                        substitute the user ID. The determination of the user ID is not specified,
+                        since it will vary by application. A suggested default return value is
+                        "localhost".</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="size">
+                <xs:annotation>
+                    <xs:documentation>The size element tells the AIML interpreter that it should
+                        substitute the number of categories currently loaded.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="version">
+                <xs:annotation>
+                    <xs:documentation>The version element tells the AIML interpreter that it should
+                        substitute the version number of the AIML interpreter.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:choice>
+    </xs:group>
+    <xs:group name="formattingElements">
+        <xs:annotation>
+            <xs:documentation>Text-formatting elements instruct an AIML interpreter to perform
+                locale-specific post-processing of the textual results of the processing of their
+                contents.</xs:documentation>
+        </xs:annotation>
+        <xs:choice>
+            <xs:element name="uppercase" type="TemplateContentResponse"/>
+            <xs:element name="lowercase" type="TemplateContentResponse"/>
+            <xs:element name="formal" type="TemplateContentResponse"/>
+            <xs:element name="sentence" type="TemplateContentResponse"/>
+        </xs:choice>
+    </xs:group>
+    <xs:group name="conditionalElements">
+        <xs:choice>
+            <xs:element name="condition">
+                <xs:complexType mixed="true">
+                    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+                        <xs:element name="li" type="liConditionElement" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                    <xs:attribute name="value" type="simplepatternexpression"/>
+                    <xs:attribute name="name" type="simplepatternexpression"/>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="random">
+                <xs:annotation>
+                    <xs:documentation>The random element instructs the AIML interpreter to return
+                        exactly one of its contained li elements randomly.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="li" type="TemplateContentResponse" minOccurs="0"
+                            maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:choice>
+    </xs:group>
+    <xs:complexType name="liConditionElement" mixed="true">
+        <xs:complexContent>
+            <xs:extension base="TemplateContentResponse">
+                <xs:choice minOccurs="0" maxOccurs="1">
+                    <xs:element name="name" type="TemplateContentResponse"/>
+                    <xs:element name="value" type="TemplateContentResponse"/>
+                    <xs:element name="loop"/>
+                </xs:choice>
+
+                <xs:attribute name="value" type="simplepatternexpression"/>
+                <xs:attribute name="name" type="simplepatternexpression"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:group name="captureElements">
+        <xs:choice>
+            <xs:element name="set">
+                <xs:annotation>
+                    <xs:documentation>The set element instructs the AIML interpreter to set the
+                        value of a predicate to the result of processing the contents of the set
+                        element. The set element has a required attribute name, which must be a
+                        valid AIML predicate name. If the predicate has not yet been defined, the
+                        AIML interpreter should define it in memory.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:extension base="TemplateContentResponse">
+                            <xs:attribute name="name" type="BotPredicateName"/>
+                            <xs:attribute name="var" type="BotPredicateName"/>
+                        </xs:extension>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+            <!-- Remoeved Gossip Tag in 2.0 -->
+        </xs:choice>
+    </xs:group>
+    <xs:group name="sRElements">
+        <xs:choice>
+            <xs:element name="srai" type="TemplateContentResponse"/>
+            <xs:element name="sraix">
+                <xs:complexType mixed="true">
+                    <xs:complexContent>
+                        <xs:extension base="TemplateContentResponse">
+                            <xs:choice>
+                                <xs:element name="host" type="simplepatternexpression"/>
+                                <xs:element name="service" type="simplepatternexpression"/>
+                                <xs:element name="apikey" type="simplepatternexpression"/>
+                                <xs:element name="botid" type="simplepatternexpression"/>
+                                <xs:element name="hint" type="simplepatternexpression"/>
+                            </xs:choice>
+                        </xs:extension>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+        </xs:choice>
+    </xs:group>
+    <xs:group name="transformationalElements">
+        <xs:choice>
+            <xs:element name="person" type="TemplateContentResponse"/>
+            <xs:element name="person2" type="TemplateContentResponse"/>
+            <xs:element name="gender" type="TemplateContentResponse"/>
+        </xs:choice>
+    </xs:group>
+    <xs:group name="learnElements">
+        <xs:annotation>
+            <xs:documentation>AIML defines three learn/think elements that instruct the AIML interpreter
+                to perform some processing on their contents, but to not return any
+                value.</xs:documentation>
+        </xs:annotation>
+        <xs:choice>
+            <xs:element name="think" type="TemplateContentResponse"/>
+            <xs:element name="learn" type="learnType"/>
+            <xs:element name="learnf" type="learnType"/>	<!-- Added in 2.0 specification -->
+        </xs:choice>
+    </xs:group>
+    <xs:complexType name="learnType">
+        <xs:group ref="categoryExpression"/>
+    </xs:complexType>
+    <xs:group name="externalProcessorElements">
+        <xs:choice>
+            <xs:element name="system" type="TemplateContentResponse"/>
+            <!-- Removed the JS tag -->
+        </xs:choice>
+    </xs:group>
+    <xs:complexType name="OneOrTwoDIndexedElement">
+        <xs:attribute name="index" use="optional">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:minLength value="1"/>
+                    <xs:pattern value="\d+|\d+,\d+|\*,\*|\d+,\*|\*,\d+"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+    <xs:complexType name="IndexedElement">
+        <xs:attribute name="index" type="xs:integer" use="optional"/>
+    </xs:complexType>
+
+    <!-- Need to modify the OOB definition later on when OOB tags are added. -->
+    <xs:group name="oobTags">
+        <xs:annotation>
+            <xs:documentation>
+                OOB Tag allows the Interpreter to perform device funcitons like call, schedule alarm etc.
+                This is the set of definitions for the oob tags that need to be allowed.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:choice>
+            <xs:element name="oob" type="OOB"/>
+        </xs:choice>
+    </xs:group>
+    <xs:complexType name="OOB">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:complexType name="TemplateContentResponse" mixed="true">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="vocabulary"/>
+            <xs:element name="interval" type="intervalType"/>
+            <xs:element name="eval" type="TemplateContentResponse"/>
+            <xs:element name="response" type="IndexedElement"/>
+            <xs:element name="request" type="IndexedElement"/>
+            <xs:element name="explode" type="TemplateContentResponse"></xs:element>
+            <xs:group ref="atomicElement"/>
+            <xs:group ref="formattingElements"/>
+            <xs:group ref="conditionalElements"/>
+            <xs:group ref="captureElements"/>
+            <xs:group ref="sRElements"/>
+            <xs:group ref="transformationalElements"/>
+            <xs:group ref="learnElements"/>
+            <xs:group ref="externalProcessorElements"/>
+            <xs:group ref="oobTags"/>
+        </xs:choice>
+    </xs:complexType>
+    <xs:complexType name="intervalType">
+        <xs:sequence>
+            <xs:choice>
+                <xs:element name="format" type="TemplateContentResponse"/>
+                <xs:element name="jformat" type="TemplateContentResponse"/>
+            </xs:choice>
+            <xs:element name="style" type="TemplateContentResponse"/>
+            <xs:element name="from" type="TemplateContentResponse"/>
+            <xs:element name="to" type="TemplateContentResponse"/>
+        </xs:sequence>
+    </xs:complexType>
+
+
+</xs:schema>

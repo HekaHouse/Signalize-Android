@@ -26,6 +26,10 @@ public class AddButtons {
         this.editText = editText;
     }
 
+    public void setEditText(EditText editText){
+        this.editText = editText;
+    }
+
     public boolean addButtons(){
         if(root.getChildCount() == 1){
             Iterator idIterator = UtilityStrings.buttonIdMap.entrySet().iterator();

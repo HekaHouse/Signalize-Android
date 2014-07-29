@@ -20,19 +20,10 @@ public class ConversationService extends Service{
     @Override
     public void onCreate() {
         super.onCreate();
-        context = this.getApplicationContext();
-        conversation = Conversation.initialize(context);
-        Log.d(TAG,"The Service was created");
-        PackageManager pm = getPackageManager();
-        ComponentName compName =
-        new ComponentName(getApplicationContext(),StartServiceReciever.class);
-        pm.setComponentEnabledSetting(
-                compName,
-                PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                PackageManager.DONT_KILL_APP);
-        Log.d(TAG,"Disabled Braodcast Receiver");
-        Toast.makeText(this,"Service was created",Toast.LENGTH_LONG).show();
+
     }
+
+
 
     @Override
     public void onDestroy() {
@@ -57,6 +48,18 @@ public class ConversationService extends Service{
     @Override
     public IBinder onBind(Intent intent) {
         if(intent.getAction().equals("ppc.signalize.mira.conversation.ConversationService")){
+            context = this.getApplicationContext();
+            conversation = Conversation.initialize(context);
+            Log.d(TAG,"The Service was created");
+            PackageManager pm = getPackageManager();
+            ComponentName compName =
+                    new ComponentName(getApplicationContext(),StartServiceReciever.class);
+            pm.setComponentEnabledSetting(
+                    compName,
+                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                    PackageManager.DONT_KILL_APP);
+            Log.d(TAG,"Disabled Braodcast Receiver");
+            Toast.makeText(this,"Service was created",Toast.LENGTH_LONG).show();
             Log.d(TAG,"The service is now bound to the application");
             return new Proxy();
         }

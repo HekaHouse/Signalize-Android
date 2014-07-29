@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="android-xerces">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/AndroidAb/libs/android-xerces.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

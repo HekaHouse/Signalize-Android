@@ -28,78 +28,131 @@ import java.util.Collections;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import aiml.aimlValidate.AIMLValidate;
+
 public class AdvancedSettings extends Activity implements View.OnClickListener{
 
-    protected final String TAG = "Advanced Setting Activiy";
+    protected final String TAG = "Advanced Setting Activity";
     private String currentResponse, strFileName, strPattern;
-    EditText currentResponseET;
-    Button setResponse,viewAIMLTags;
+    private String newFile;
+    EditText currentResponseET,newFileET;
+    Button setResponse,viewAIMLTags,createNewFile;
     Spinner addSraiTag;
     AddButtons addButtons;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_advanced_settings);
         Bundle extras = getIntent().getExtras();
-        currentResponse = extras.getString(UtilityStrings.currentResponseIntent);
-        strFileName = extras.getString(UtilityStrings.fileIntent);
-        strPattern = extras.getString(UtilityStrings.patternIntent);
-        setResponse = (Button)findViewById(R.id.advanced_set_response);
-        setResponse.setOnClickListener(this);
-        final LinearLayout linearLayout = (LinearLayout) findViewById(R.id.aiml_tag_set);
-        currentResponseET = (EditText) findViewById(R.id.advanced_currentResponse);
-        currentResponseET.setText(currentResponse);
-        //validateXML(currentResponseET,TAGTOADD.RANDOM_LI);
-        currentResponseET.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
-                    //Toast.makeText(getApplicationContext(), "" + currentResponseET.getSelectionStart(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        currentResponseET.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (v.getId() == R.id.advanced_currentResponse) {
-                    v.getParent().requestDisallowInterceptTouchEvent(true);
-                    switch (event.getAction() & MotionEvent.ACTION_MASK) {
-                        case MotionEvent.ACTION_UP:
-                            v.getParent().requestDisallowInterceptTouchEvent(false);
-                            break;
+        newFile = extras.getString(UtilityStrings.newFileIntent);
+        if(newFile==null) {
+            setContentView(R.layout.activity_advanced_settings);
+            final LinearLayout linearLayout = (LinearLayout) findViewById(R.id.aiml_tag_set);
+            addButtons = new AddButtons(this, linearLayout, currentResponseET);
+            viewAIMLTags = (Button) findViewById(R.id.aiml_tag_button);
+            viewAIMLTags.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if (linearLayout.getVisibility() == View.GONE) {
+                        addButtons.addButtons();
+                        viewAIMLTags.setText(getString(R.string.close_aiml_tags));
+                        linearLayout.setVisibility(View.VISIBLE);
+                    } else if (linearLayout.getVisibility() == View.VISIBLE) {
+                        viewAIMLTags.setText(getString(R.string.view_aiml_tags));
+                        linearLayout.setVisibility(View.GONE);
                     }
                 }
-                return false;
+            });
+            addSraiTag = (Spinner) findViewById(R.id.add_srai_tag);
+            if (!TrainerActivity.listOfPatterns.contains(getString(R.string.select_srai))) {
+                Collections.sort(TrainerActivity.listOfPatterns);
+                TrainerActivity.listOfPatterns.add(0, getString(R.string.select_srai));
             }
-        });
-        addButtons = new AddButtons(this,linearLayout,currentResponseET);
-        viewAIMLTags = (Button)findViewById(R.id.aiml_tag_button);
-        viewAIMLTags.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            addSraiTag.setOnItemSelectedListener(new Listeners.SraiSelected(this, UtilityStrings.TAGTOADD.SRAI, currentResponseET));
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
+                    TrainerActivity.listOfPatterns);
+            addSraiTag.setAdapter(arrayAdapter);
+            addButtons.setEditText(currentResponseET);
+            currentResponse = extras.getString(UtilityStrings.currentResponseIntent);
+            strFileName = extras.getString(UtilityStrings.fileIntent);
+            strPattern = extras.getString(UtilityStrings.patternIntent);
+            setResponse = (Button) findViewById(R.id.advanced_set_response);
+            setResponse.setOnClickListener(this);
+            currentResponseET = (EditText) findViewById(R.id.advanced_currentResponse);
+            currentResponseET.setText(currentResponse);
+            //validateXML(currentResponseET,TAGTOADD.RANDOM_LI);
+            currentResponseET.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if (!hasFocus) {
+                        //Toast.makeText(getApplicationContext(), "" + currentResponseET.getSelectionStart(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+            currentResponseET.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (v.getId() == R.id.advanced_currentResponse) {
+                        v.getParent().requestDisallowInterceptTouchEvent(true);
+                        switch (event.getAction() & MotionEvent.ACTION_MASK) {
+                            case MotionEvent.ACTION_UP:
+                                v.getParent().requestDisallowInterceptTouchEvent(false);
+                                break;
+                        }
+                    }
+                    return false;
+                }
+            });
 
-                if(linearLayout.getVisibility() == View.GONE){
-                    addButtons.addButtons();
-                    viewAIMLTags.setText(getString(R.string.close_aiml_tags));
-                    linearLayout.setVisibility(View.VISIBLE);
-                }
-                else if(linearLayout.getVisibility() == View.VISIBLE){
-                    viewAIMLTags.setText(getString(R.string.view_aiml_tags));
-                    linearLayout.setVisibility(View.GONE);
-                }
-            }
-        });
-        addSraiTag = (Spinner) findViewById(R.id.add_srai_tag);
-        Collections.sort(Ghost.listOfPatterns);
-        if(!Ghost.listOfPatterns.contains(getString(R.string.select_srai))){
-            Ghost.listOfPatterns.add(0,getString(R.string.select_srai));
+
         }
-        addSraiTag.setOnItemSelectedListener(new Listeners.SraiSelected(this,UtilityStrings.TAGTOADD.SRAI,currentResponseET));
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,
-                Ghost.listOfPatterns);
-        addSraiTag.setAdapter(arrayAdapter);
+        else if(newFile != null){
+            setContentView(R.layout.new_file_activity);
+            newFileET = (EditText)findViewById(R.id.newFile);
+            final LinearLayout linearLayout = (LinearLayout) findViewById(R.id.new_file_aiml_tag_set);
+            addButtons = new AddButtons(this, linearLayout, newFileET);
+            viewAIMLTags = (Button) findViewById(R.id.new_file_aiml_tag_button);
+            viewAIMLTags.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-
+                    if (linearLayout.getVisibility() == View.GONE) {
+                        addButtons.addButtons();
+                        viewAIMLTags.setText(getString(R.string.close_aiml_tags));
+                        linearLayout.setVisibility(View.VISIBLE);
+                    } else if (linearLayout.getVisibility() == View.VISIBLE) {
+                        viewAIMLTags.setText(getString(R.string.view_aiml_tags));
+                        linearLayout.setVisibility(View.GONE);
+                    }
+                }
+            });
+            addSraiTag = (Spinner) findViewById(R.id.new_file_add_srai_tag);
+            if (!TrainerActivity.listOfPatterns.contains(getString(R.string.select_srai))) {
+                Collections.sort(TrainerActivity.listOfPatterns);
+                TrainerActivity.listOfPatterns.add(0, getString(R.string.select_srai));
+            }
+            addSraiTag.setOnItemSelectedListener(new Listeners.SraiSelected(this, UtilityStrings.TAGTOADD.SRAI, newFileET));
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
+                    TrainerActivity.listOfPatterns);
+            addSraiTag.setAdapter(arrayAdapter);
+            ((TextView)findViewById(R.id.new_file_name)).setText(newFile);
+            createNewFile = (Button)findViewById(R.id.create_new_file);
+            createNewFile.setOnClickListener(this);
+            newFileET.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (v.getId() == R.id.newFile) {
+                        v.getParent().requestDisallowInterceptTouchEvent(true);
+                        switch (event.getAction() & MotionEvent.ACTION_MASK) {
+                            case MotionEvent.ACTION_UP:
+                                v.getParent().requestDisallowInterceptTouchEvent(false);
+                                break;
+                        }
+                    }
+                    return false;
+                }
+            });
+        }
 
 
 
@@ -174,24 +227,40 @@ public class AdvancedSettings extends Activity implements View.OnClickListener{
     @Override
     public void onClick(View v) {
          /*
-        * On click method for the Set Response button.
+        * On click method for the Set Response Button.
+        * On click method for the Create New File Button
         * */
-        FileUtility.openFile(strFileName);
-        Node responseElement = FileUtility.getReqResponse(strPattern);
-        try {
-            FileUtility.setAdvancedResponseElement(responseElement, currentResponseET.getText().toString(), strFileName);
-            FileUtility.changedString = currentResponseET.getText().toString();
-            Log.d(TAG,"ADDED TO FILE AND WROTE FILE");
-            Intent intent;
-            intent = new Intent(getApplicationContext(),ViewFileActivity.class);
-            intent.putExtra(UtilityStrings.fileIntent,strFileName);
-            startActivity(intent);
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.e(TAG,"IO EXCEPTION");
-        } catch (SAXException e) {
-            e.printStackTrace();
-            Log.e(TAG,"SAX EXCEPTION");
+        if(newFile == null) {
+            FileUtility.openFile(strFileName);
+            Node responseElement = FileUtility.getReqResponse(strPattern);
+            try {
+                FileUtility.setAdvancedResponseElement(responseElement, currentResponseET.getText().toString(), strFileName);
+                FileUtility.changedString = currentResponseET.getText().toString();
+                Log.d(TAG, "ADDED TO FILE AND WROTE FILE");
+                Intent intent;
+                intent = new Intent(getApplicationContext(), ViewFileActivity.class);
+                intent.putExtra(UtilityStrings.fileIntent, strFileName);
+                startActivity(intent);
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.e(TAG, "IO EXCEPTION");
+            } catch (SAXException e) {
+                e.printStackTrace();
+                Log.e(TAG, "SAX EXCEPTION");
+            }
+        }
+        else if(newFile!=null){
+            AIMLValidate aimlValidate = new AIMLValidate(this.getApplicationContext());
+            boolean valid = aimlValidate.aimlValidate(newFileET.getText().toString());
+            if(valid){
+                valid = FileUtility.createFile(newFile,newFileET.getText().toString());
+                if(valid){
+                    AdvancedSettings.showValidToast(this,"Created wrote to " + newFile + " successfully.");
+                }
+                else{
+                    AdvancedSettings.showErrorToast(this, newFile + " creation and opening error.");
+                }
+            }
         }
 
     }

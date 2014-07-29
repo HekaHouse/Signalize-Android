@@ -3,10 +3,16 @@ package ppc.signalize.mira.conversation;
 import android.content.Context;
 import android.util.Log;
 
+import net.reduls.sanmoku.dic.Char;
+
 import org.alicebot.ab.AndroidAIML;
 import org.alicebot.ab.AndroidChat;
+import org.alicebot.ab.Category;
+import org.alicebot.ab.FileUtils;
 import org.alicebot.ab.Ghost;
 import org.alicebot.ab.Nodemapper;
+
+import java.util.ArrayList;
 
 /**
  * Created by mukundan on 5/28/14.
@@ -19,6 +25,7 @@ public final class Conversation {
     private static boolean resync = false;
     AndroidAIML androidAIML;
     private String inputs, filenames;
+
 
 
     private Conversation(Context context) {
@@ -54,6 +61,15 @@ public final class Conversation {
         return null;
     }
 
+    public String getListofPatterns(){
+        ArrayList<Category> categories = ghost.brain.getCategories();
+        String strCategories = "";
+        for(Category c: categories){
+            strCategories += c.getPattern() + FileUtils.delimiter;
+        }
+        return strCategories;
+    }
+
     public String getFilename(){
         if(nodemapper != null){
             return nodemapper.category.getFilename();
@@ -87,6 +103,13 @@ public final class Conversation {
             Log.w(TAG,inputs);
             Log.w(TAG, "input that topic = " + nodemapper.category.inputThatTopic());
             Log.w(TAG, "Corresponding AIML File = " + nodemapper.category.getFilename());
+            Log.d(TAG,"Filename " + nodemapper.category.getFilename());
+            Log.d(TAG,"That " + nodemapper.category.getThat());
+            Log.d(TAG,"Template " + nodemapper.category.getTemplate());
+            Log.d(TAG,"Topic " + nodemapper.category.getTopic());
+            Log.d(TAG,"Activation Count " + nodemapper.category.getActivationCnt());
+            Log.d(TAG,"Pattern " + nodemapper.category.getPattern());
+            Log.d(TAG,"Category Number " + nodemapper.category.getCategoryNumber());
         }
     }
 

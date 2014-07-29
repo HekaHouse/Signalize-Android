@@ -6,6 +6,7 @@ import java.util.HashMap;
  * Created by mukundan on 7/22/14.
  */
 public class UtilityStrings {
+    protected static final String newFileIntent = "newFile";
     protected static final String fileIntent = "fileName";
     protected static final String patternIntent = "pattern";
     protected static final String currentResponseIntent = "currentResponse";
@@ -28,33 +29,36 @@ public class UtilityStrings {
          * Loaded the tooltip and tag from the web page
          * http://www.alicebot.org/documentation/aiml101.html
          *
+         * Reference manual used
+         * http://www.alicebot.org/documentation/aiml-reference.html
+         *
          * */
-        buttonIdMap.put("aiml","add_aiml_tag");
-        buttonIdMap.put("topic","add_topic_tag");
-        buttonIdMap.put("category","add_category_tag");
-        buttonIdMap.put("pattern","add_pattern_tag");
-        buttonIdMap.put("that","add_that_tag");
-        buttonIdMap.put("template","add_template_tag");
-        buttonIdMap.put("star","add_star_tag");
-        buttonIdMap.put("that_previous","add_that_previous_tag");
-        buttonIdMap.put("input","add_input_tag");
-        buttonIdMap.put("thatstar","add_thatstar_tag");
-        buttonIdMap.put("topicstar","add_topicstar_tag");
-        buttonIdMap.put("get","add_get_tag");
-        buttonIdMap.put("bot","add_bot_tag");
-        buttonIdMap.put("sr","add_sr_tag");
-        buttonIdMap.put("person2","add_person2_tag");
-        buttonIdMap.put("person","add_person_tag");
-        buttonIdMap.put("gender","add_gender_tag");
-        buttonIdMap.put("date","add_date_tag");
-        buttonIdMap.put("id","add_id_tag");
-        buttonIdMap.put("size","add_size_tag");
-        buttonIdMap.put("version","add_version_tag");
-        buttonIdMap.put("uppercase","add_uppercase_tag");
-        buttonIdMap.put("lowercase","add_lowercase_tag");
-        buttonIdMap.put("formal","add_formal_tag");
-        buttonIdMap.put("sentence","add_sentence_tag");
-        buttonIdMap.put("condition","add_condition_tag");
+        buttonIdMap.put("aiml","file");
+        buttonIdMap.put("topic","category root");
+        buttonIdMap.put("category","category");
+        buttonIdMap.put("pattern","category child");
+        buttonIdMap.put("that","category child");
+        buttonIdMap.put("template","category child");
+        buttonIdMap.put("star","template possible");
+        buttonIdMap.put("that_previous","template possible");
+        buttonIdMap.put("input","unknown");
+        buttonIdMap.put("thatstar","template possible");
+        buttonIdMap.put("topicstar","template possible");
+        buttonIdMap.put("get","template child pattern possible");
+        buttonIdMap.put("bot","template or pattern possible");
+        buttonIdMap.put("sr","template possible");
+        buttonIdMap.put("person2","template possible");
+        buttonIdMap.put("person","template possible");
+        buttonIdMap.put("gender","template child");
+        buttonIdMap.put("date","builtin");
+        buttonIdMap.put("id","builtin");
+        buttonIdMap.put("size","builtin");
+        buttonIdMap.put("version","builtin");
+        buttonIdMap.put("uppercase","template child");
+        buttonIdMap.put("lowercase","template child");
+        buttonIdMap.put("formal","template child");
+        buttonIdMap.put("sentence","template child");
+        buttonIdMap.put("condition","template possible");
         buttonIdMap.put("random","add_random_tag");
         buttonIdMap.put("li","add_li_tag");
         buttonIdMap.put("set","add_set_tag");

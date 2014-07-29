@@ -8,5 +8,10 @@
         android:showAsAction="always"
         android:title="@string/resync_action"
         />
+    <item android:icon="@android:drawable/ic_menu_add"
+        android:id="@+id/add_new_aiml_file"
+        android:showAsAction="ifRoom"
+        android:title="@string/add_new_aiml_file"
+        />
 
 </menu>

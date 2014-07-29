@@ -17,8 +17,12 @@ import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
 
@@ -101,6 +105,18 @@ public class FileUtility extends org.alicebot.ab.FileUtils{
             }
         }
         return null;
+    }
+    protected static boolean createFile(String filename, String content){
+        try {
+            PrintWriter file = new PrintWriter(new File(org.alicebot.ab.FileUtils.getStorageDirectory(), AIMLdir + "/" + filename));
+            file.println(content);
+            file.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            Log.e(TAG,"File not Found Exception");
+            return false;
+        }
+        return true;
     }
     protected static void openFile(String filename){
         if(xmlstate.dom == null) {

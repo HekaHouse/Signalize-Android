@@ -29,6 +29,13 @@
     <string name="view_aiml_tags">View AIML Tags</string>
     <string name="close_aiml_tags">Close AIML Tags</string>
     <string name="select_srai">SELECT SRAI</string>
-    <string name="resync_action">Resync AIML files</string>
+    <string name="resync_action">Resync AIML Files</string>
+    <string name="add_new_aiml_file">Add New AIML File</string>
+    <string name="top_xml_string">&lt;? xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</string>
+    <string name="create_file">Create File</string>
+    <string name="new_file_name_hint">New File Name</string>
+    <string name="aiml_extension">.aiml</string>
+    <string name="ok_button">OK</string>
+    <string name="cancel_button">Cancel</string>
 
 </resources>

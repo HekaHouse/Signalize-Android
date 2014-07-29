@@ -1,6 +1,7 @@
 package ppc.signalize.mira.conversation.conversationservicetrainer.conversationservicetrainer;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +22,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.alicebot.ab.FileUtils;
 import org.alicebot.ab.Ghost;
 
 import java.util.ArrayList;
@@ -32,6 +34,8 @@ import ppc.signalize.mira.conversation.IConversation;
 public class TrainerActivity extends Activity implements View.OnClickListener,ServiceConnection,AdapterView.OnItemClickListener{
 
 
+    protected static ArrayList<String> listOfPatterns;
+    private boolean bound;
     private final String TAG = "ConversationServiceTrainer";
     private LazyListAdapter listAdapter;
     private IConversation service;
@@ -90,17 +94,37 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
     }
     @Override
     public void onClick(View v) {
+        String responseFromService;
+        String inputs;
+        String filenames;
         try {
             if(service == null) throw new RemoteException();
             input.clearFocus();
             responseTemplate = service.getTemplate();
-            response.setText(service.process(input.getText().toString()));
-            String inputs = service.getPatterns();
+            String inputPattern = input.getText().toString();
+            if(inputPattern.length() == 0){
+                inputPattern = "*";
+                Log.e(TAG,"Setting input Pattern to " + inputPattern + "~" + inputPattern.length());
+                input.setText("*");
+            }
+            responseFromService = service.process(inputPattern);
+            inputs = service.getPatterns();
+            filenames = service.getFilenames();
+            if(inputs == null || filenames == null || responseFromService == null){
+                if(inputs == null)
+                    inputs = "";
+                if(filenames == null)
+                    filenames = "";
+                if(responseFromService == null)
+                   responseFromService = "";
+
+                Toast.makeText(this,"No input or no filename or no response from service",Toast.LENGTH_LONG).show();
+            }
+            response.setText(responseFromService);
             Toast.makeText(this,"INPUT " + inputs , Toast.LENGTH_SHORT).show();
-            String[] inps = inputs.split("~");
+            String[] inps = inputs.split(FileUtils.delimiter);
             listInpNames = new ArrayList<String>();
             listInpNames.addAll(Arrays.asList(inps));
-            String filenames = service.getFilenames();
             String[] names = filenames.split("~");
             listNames = new ArrayList<String>();
             listNames.addAll(Arrays.asList(names));
@@ -115,23 +139,27 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
             Log.e(TAG, "NO SERVICE");
             Toast.makeText(this, "NO SERVICE", Toast.LENGTH_LONG).show();
         }
+
     }
 
     @Override
     protected void onDestroy(){
+
         try{
-            this.unbindService(this);
+            if(bound) {
+                this.unbindService(this);
+                if(this.service!=null){
+                    Log.d(TAG, "The connection to the service was closed.!");
+                    Toast.makeText(this, "The connection to the service was closed.!",Toast.LENGTH_SHORT).show();
+                }
+            }
+            else
+                Log.e(TAG,"NOT BOUND TO SERVICE");
         }
         catch (IllegalArgumentException e){
             Log.e(TAG, e.getLocalizedMessage());
         }
-        if(this.service!=null){
 
-
-            Log.d(TAG, "The connection to the service was closed.!");
-
-            Toast.makeText(this, "The connection to the service was closed.!",Toast.LENGTH_SHORT).show();
-        }
         super.onDestroy();
 
     }
@@ -140,8 +168,8 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
         Intent intent;
         intent = new Intent(UtilityStrings.ConversationServiceTAG);
         intent.setClassName(UtilityStrings.ConversationServicePackage,UtilityStrings.ConversationServiceTAG);
-        this.bindService(intent,this,BIND_AUTO_CREATE);
-        Log.d(TAG, "The Service will be connected soon!");
+        bound = this.bindService(intent,this,BIND_AUTO_CREATE);
+        Log.d(TAG, "The Service will be connected soon! " +Ghost.listOfPatterns.size());
     }
 
 
@@ -168,6 +196,10 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
 
             return true;
         }
+        else if(id == R.id.add_new_aiml_file){
+            new CreateFileDialog(this).show();
+
+        }
         return super.onOptionsItemSelected(item);
     }
     protected void enableUI(){
@@ -183,6 +215,43 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
                 Toast.makeText(getApplicationContext(),"Finished Resync Enabling UI",Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    private class CreateFileDialog extends Dialog implements View.OnClickListener{
+
+        Button ok,cancel;
+        EditText filenameET;
+        public CreateFileDialog(Context context) {
+            super(context);
+            this.setContentView(R.layout.custom_create_file_dialog);
+            ok = (Button)findViewById(R.id.create_file_dialog_ok_button);
+            this.setTitle("Create New File");
+            cancel = (Button)findViewById(R.id.create_file_dialog_cancel_button);
+            filenameET = (EditText)findViewById(R.id.new_file_name_dialog_et);
+            ok.setOnClickListener(this);
+            cancel.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if(v.getId() == R.id.create_file_dialog_ok_button){
+                Intent intent = new Intent(getApplicationContext(),AdvancedSettings.class);
+                if(filenameET.getText().length() == 0){
+                    AdvancedSettings.showErrorToast(getApplicationContext(),"Enter valid filename");
+                    return;
+                }
+                String filename = filenameET.getText().toString();
+                if(!filename.contains(".aiml")){
+                    filename += ".aiml";
+                }
+                intent.putExtra(UtilityStrings.newFileIntent,filename);
+
+                this.dismiss();
+                startActivity(intent);
+            }
+            else if(v.getId() == R.id.create_file_dialog_cancel_button){
+                this.dismiss();
+            }
+        }
     }
 
     private class LongResync extends AsyncTask<Void,Void,Void>{
@@ -212,6 +281,13 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
         }
     }
 
+    protected void setListOfPatterns(){
+       listOfPatterns = new ArrayList<String>();
+        Log.e(TAG,"ADDING LIST OF PATTERNS");
+        Log.e(TAG,Ghost.listOfPatterns.size() + " ");
+        listOfPatterns.addAll(Ghost.listOfPatterns);
+    }
+
     @Override
     public void onServiceConnected(ComponentName name, IBinder service) {
         Log.d(TAG,"The service is now connected");
@@ -220,6 +296,7 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
         this.input.setEnabled(true);
         this.sendText.setEnabled(true);
         this.input.requestFocus();
+        setListOfPatterns();
     }
 
     @Override
