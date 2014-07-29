@@ -46,7 +46,9 @@ import root.gast.speech.activation.SpeechActivator;
 import root.gast.speech.tts.TextToSpeechInitializer;
 import root.gast.speech.tts.TextToSpeechStartupListener;
 
-
+/**
+* Changed by Mukundan on 7/9/14. Connection to service through Mira Facade.
+* */
 public abstract class MiraAbstractActivity extends
         SpeechRecognizingActivity implements  TextToSpeechStartupListener, SpeechActivationListener {
     public static final String TAG = "MiraAbstractActivity";
@@ -86,6 +88,7 @@ public abstract class MiraAbstractActivity extends
         speechActivator = new MiraActivator(myVoice, this, new String[]{INITIATE, END_CONVERSATION});
         mira = new Mira(myVoice);
 
+
     }
 
     @Override
@@ -118,7 +121,7 @@ public abstract class MiraAbstractActivity extends
     @Override
     public void onPause() {
         super.onPause();
-        mira._brain.writeAIMLOut();
+        mira.writeAIMLOut();
         tts.stop();
         tts.shutdown();
     }

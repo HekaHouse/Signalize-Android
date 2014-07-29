@@ -1,0 +1,105 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="ppc.signalize.mira.conversation.conversationservicetrainer.conversationservicetrainer.FileActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/fileLabel"
+        android:text="@string/filename"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/fileName"
+        android:text="@string/staraiml"
+        android:layout_toRightOf="@id/fileLabel"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/patternLabel"
+        android:text="@string/patternname"
+        android:layout_below="@id/fileLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/pattern"
+        android:text="@string/star"
+        android:textSize="@dimen/largeText"
+        android:layout_below="@id/patternLabel"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/currentResponseLabel"
+        android:text="@string/current"
+        android:gravity="center"
+        android:layout_below="@id/pattern"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+        <View
+            android:layout_above="@+id/currentResponseView"
+            android:background="@color/Black"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+        <ScrollView
+        android:id="@+id/currentResponseView"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_below="@id/currentResponseLabel">
+        <TextView
+            android:id="@+id/currentResponse"
+            android:singleLine="false"
+            android:textSize="@dimen/largeText"
+            android:text="@string/currentResponse"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"/>
+    </ScrollView>
+        <View
+            android:layout_below="@+id/currentResponseView"
+            android:background="@color/Black"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+        <ScrollView
+        android:id="@+id/newResponseScroll"
+        android:layout_below="@id/currentResponseView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <EditText
+        android:id="@+id/newResponse"
+        android:hint="New Response"
+        android:singleLine="false"
+        android:lines="5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    </ScrollView>
+        <View
+            android:layout_below="@+id/newResponseScroll"
+            android:background="@color/Black"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+        <Button
+        android:id="@+id/setResponse"
+        android:text="@string/set_response"
+        android:layout_below="@id/newResponseScroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/advancedResponse"
+        android:layout_below="@id/setResponse"
+        android:text="Advanced Settings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/viewFile"
+        android:layout_below="@id/advancedResponse"
+        android:text="View File"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+</ScrollView>

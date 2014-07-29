@@ -143,10 +143,10 @@
             android:id="@+id/menu_slot_9"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_alignParentBottom="true"
+            android:layout_alignParentBottom="false"
             android:layout_gravity="left|bottom"
             android:layout_marginRight="-10dp"
-            android:layout_toLeftOf="@id/menu_slot_8"
+            android:layout_toLeftOf="@id/menu_slot_2"
             android:orientation="vertical">
 
             <ToggleButton

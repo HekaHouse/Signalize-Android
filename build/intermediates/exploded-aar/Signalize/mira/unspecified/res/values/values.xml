@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- From: file:/home/mukundan/Documents/Signalize/Signalize/mira/src/main/res/values/speech_activation.xml -->
+    <eat-comment />
+
+    <array name="speech_activation_types">
+        <item>@string/speech_activation_button</item>
+        <item>@string/speech_activation_movement</item>
+        <item>@string/speech_activation_clap</item>
+        <item>@string/speech_activation_speak</item>
+    </array>
+    <!-- From: file:/home/mukundan/Documents/Signalize/Signalize/mira/src/main/res/values/voiceaction_strings.xml -->
+    <eat-comment />
+
+    <array name="voiceaction_neutralwords">
+        <item>cancel</item>
+        <item>done</item>
+    </array>
+    <array name="voiceaction_nowords">
+        <item>no</item>
+    </array>
+    <array name="voiceaction_yeswords">
+        <item>yes</item>
+        <item>ok</item>
+    </array>
+    <!-- From: file:/home/mukundan/Documents/Signalize/Signalize/mira/src/main/res/values/xwalk_resources_list.xml -->
+    <eat-comment />
+
+    <string-array name="xwalk_resources_list">
+        <item>xwalk.pak</item>
+    </string-array>
+    <!-- From: file:/home/mukundan/Documents/Signalize/Signalize/mira/src/main/res/values/attrs_new.xml -->
+    <eat-comment />
+
+    <attr name="select_dialog_multichoice" format="reference" />
+    <attr name="select_dialog_singlechoice" format="reference" />
+    <!-- From: file:/home/mukundan/Documents/Signalize/Signalize/mira/src/main/res/values/colors_new.xml -->
+    <eat-comment />
+
+    <color name="autofill_dark_divider_color">#C0C0C0</color>
+    <color name="autofill_divider_color">#E5E5E5</color>
+    <!-- From: file:/home/mukundan/Documents/Signalize/Signalize/mira/src/main/res/values/colors.xml -->
+    <eat-comment />
+
+    <color name="black_overlay">#66000000</color>
+    <!-- From: file:/home/mukundan/Documents/Signalize/Signalize/mira/src/main/res/values/colors_new.xml -->
+    <eat-comment />
+
+    <color name="color_picker_background_color">#FFFFFF</color>
+    <color name="color_picker_border_color">#B0B0B0</color>
+    <!-- From: file:/home/mukundan/Documents/Signalize/Signalize/mira/src/main/res/values/colors.xml -->
+    <eat-comment />
+
+    <color name="mira_text">#FFF</color>
+    <!-- From: file:/home/mukundan/Documents/Signalize/Signalize/mira/src/main/res/values/attrs.xml -->
+    <eat-comment />
+
+    <declare-styleable name="ButtonBarContainerTheme">
+        <attr name="metaButtonBarStyle" format="reference" />
+        <attr name="metaButtonBarButtonStyle" format="reference" />
+    </declare-styleable>
+    <!-- From: file:/home/mukundan/Documents/Signalize/Signalize/mira/src/main/res/values/dimens.xml -->
+    <eat-comment />
+
+    <dimen name="autofill_text_divider_height">1px</dimen>
+    <dimen name="autofill_text_height">44dp</dimen>
+    <dimen name="color_button_height">60dp</dimen>
+    <dimen name="color_picker_gradient_margin">14.5dp</dimen>
+    <!-- From: file:/home/mukundan/Documents/Signalize/Signalize/mira/src/main/res/values/content_dimens.xml -->
+    <eat-comment />
+
+    <dimen name="link_preview_overlay_radius">7dp</dimen>
+    <!-- From: file:/home/mukundan/Documents/Signalize/Signalize/mira/src/main/res/values/values.xml -->
+    <eat-comment />
+
+    <item name="autofill_popup_window" type="id"/>
+    <!-- From: file:/home/mukundan/Documents/Signalize/Signalize/mira/src/main/res/values/android_content_strings.xml -->
+    <eat-comment />
+
+    <string name="accessibility_content_view">"Web View"</string>
+    <string name="accessibility_date_picker_month">"Month"</string>
+    <string name="accessibility_date_picker_week">"Week"</string>
+    <string name="accessibility_date_picker_year">"Year"</string>
+    <string name="accessibility_datetime_picker_date">"Date"</string>
+    <string name="accessibility_datetime_picker_time">"Time"</string>
+    <string name="accessibility_time_picker_ampm">"AM/PM"</string>
+    <string name="accessibility_time_picker_hour">"Hour"</string>
+    <string name="accessibility_time_picker_milli">"Millisecond"</string>
+    <string name="accessibility_time_picker_minute">"Minute"</string>
+    <string name="accessibility_time_picker_second">"Second"</string>
+    <string name="actionbar_share">"Share"</string>
+    <string name="actionbar_web_search">"Web search"</string>
+    <!-- From: file:/home/mukundan/Documents/Signalize/Signalize/mira/src/main/res/values/strings.xml -->
+    <eat-comment />
+
+    <string name="all_loaded">ready to go</string>
+    <string name="app_name">base</string>
+    <string name="blank_links">\n\n\n\n\n</string>
+    <!-- From: file:/home/mukundan/Documents/Signalize/Signalize/mira/src/main/res/values/android_ui_strings.xml -->
+    <eat-comment />
+
+    <string name="color_picker_button_black">"Black"</string>
+    <string name="color_picker_button_blue">"Blue"</string>
+    <string name="color_picker_button_cancel">"Cancel"</string>
+    <string name="color_picker_button_cyan">"Cyan"</string>
+    <string name="color_picker_button_green">"Green"</string>
+    <string name="color_picker_button_magenta">"Magenta"</string>
+    <string name="color_picker_button_more">"More"</string>
+    <string name="color_picker_button_red">"Red"</string>
+    <string name="color_picker_button_set">"Set"</string>
+    <string name="color_picker_button_white">"White"</string>
+    <string name="color_picker_button_yellow">"Yellow"</string>
+    <string name="color_picker_dialog_title">"Select color"</string>
+    <string name="color_picker_hue">"Hue"</string>
+    <string name="color_picker_saturation">"Saturation"</string>
+    <string name="color_picker_value">"Value"</string>
+    <string name="copy_to_clipboard_failure_message">"Failed to copy to the clipboard"</string>
+    <!-- From: file:/home/mukundan/Documents/Signalize/Signalize/mira/src/main/res/values/android_content_strings.xml -->
+    <eat-comment />
+
+    <string name="date_picker_dialog_clear">"Clear"</string>
+    <string name="date_picker_dialog_other_button_label">"Other"</string>
+    <string name="date_picker_dialog_set">"Set"</string>
+    <string name="date_picker_dialog_title">"Set date"</string>
+    <string name="date_time_picker_dialog_title">"Set date and time"</string>
+    <!-- From: file:/home/mukundan/Documents/Signalize/Signalize/mira/src/main/res/values/android_xwalk_strings.xml -->
+    <eat-comment />
+
+    <string name="download_already_exists_toast">"Downloading file already exists, abort."</string>
+    <string name="download_failed_toast">"Failed to download file."</string>
+    <string name="download_finished_toast">"Finished to download file."</string>
+    <string name="download_no_permission_toast">"No permission to write, abort."</string>
+    <string name="download_start_toast">"Downloading file:"</string>
+    <!-- From: file:/home/mukundan/Documents/Signalize/Signalize/mira/src/main/res/values/strings.xml -->
+    <eat-comment />
+
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <!-- From: file:/home/mukundan/Documents/Signalize/Signalize/mira/src/main/res/values/android_xwalk_strings.xml -->
+    <eat-comment />
+
+    <string name="http_auth_log_in">"Log In"</string>
+    <string name="http_auth_password">"Password"</string>
+    <string name="http_auth_title">"Authentication Required"</string>
+    <string name="http_auth_user_name">"Username"</string>
+    <string name="js_alert_title">"Javascript Alert"</string>
+    <string name="js_confirm_title">"Javascript Confirm"</string>
+    <string name="js_prompt_title">"Javascript Prompt"</string>
+    <!-- From: file:/home/mukundan/Documents/Signalize/Signalize/mira/src/main/res/values/android_ui_strings.xml -->
+    <eat-comment />
+
+    <string name="low_memory_error">"Unable to complete previous operation due to low memory"</string>
+    <!-- From: file:/home/mukundan/Documents/Signalize/Signalize/mira/src/main/res/values/android_content_strings.xml -->
+    <eat-comment />
+
+    <string name="media_player_error_button">"OK"</string>
+    <string name="media_player_error_text_invalid_progressive_playback">"Sorry, this video is not valid for streaming to this device."</string>
+    <string name="media_player_error_text_unknown">"Sorry, this video cannot be played."</string>
+    <string name="media_player_error_title">"Cannot play video"</string>
+    <string name="media_player_loading_video">"Loading video"</string>
+    <!-- From: file:/home/mukundan/Documents/Signalize/Signalize/mira/src/main/res/values/strings.xml -->
+    <eat-comment />
+
+    <string name="mira_activation_notification_title">Talk to MIRA</string>
+    <!-- From: file:/home/mukundan/Documents/Signalize/Signalize/mira/src/main/res/values/android_content_strings.xml -->
+    <eat-comment />
+
+    <string name="month_picker_dialog_title">"Set month"</string>
+    <!-- From: file:/home/mukundan/Documents/Signalize/Signalize/mira/src/main/res/values/android_ui_strings.xml -->
+    <eat-comment />
+
+    <string name="opening_file_error">"Failed to open selected file"</string>
+    <!-- From: file:/home/mukundan/Documents/Signalize/Signalize/mira/src/main/res/values/android_content_strings.xml -->
+    <eat-comment />
+
+    <string name="profiler_error_toast">"Failed to start profiler"</string>
+    <string name="profiler_no_storage_toast">"Can\'t start profiler because external storage is not ready"</string>
+    <string name="profiler_started_toast">"Profiler started"</string>
+    <string name="profiler_stopped_toast">"Profiler finished. Results are in %1$s."</string>
+    <!-- From: file:/home/mukundan/Documents/Signalize/Signalize/mira/src/main/res/values/nfc_base_strings.xml -->
+    <eat-comment />
+
+    <string name="ready_to_write">Ready to write to NFC tag!</string>
+    <string name="ready_to_write_instructions">Touch your device to a computer\'s tag to update its inventory.</string>
+    <!-- From: file:/home/mukundan/Documents/Signalize/Signalize/mira/src/main/res/values/strings.xml -->
+    <eat-comment />
+
+    <string name="respond_to_goodbye">goodbye</string>
+    <string name="respond_to_target_word">Hello</string>
+    <!-- From: file:/home/mukundan/Documents/Signalize/Signalize/mira/src/main/res/values/speech_activation.xml -->
+    <eat-comment />
+
+    <string name="speech_activation_button">Button</string>
+    <string name="speech_activation_camera">Camera</string>
+    <string name="speech_activation_clap">Clap</string>
+    <string name="speech_activation_default_label">Speak</string>
+    <string name="speech_activation_movement">Movement</string>
+    <string name="speech_activation_nfc">NFC Scan</string>
+    <string name="speech_activation_notification_listening">Listening for </string>
+    <string name="speech_activation_notification_title">Speech Activation</string>
+    <string name="speech_activation_speak">Speak Hello</string>
+    <!-- From: file:/home/mukundan/Documents/Signalize/Signalize/mira/src/main/res/values/android_xwalk_strings.xml -->
+    <eat-comment />
+
+    <string name="ssl_alert_title">"Ssl Alert"</string>
+    <!-- From: file:/home/mukundan/Documents/Signalize/Signalize/mira/src/main/res/values/android_content_strings.xml -->
+    <eat-comment />
+
+    <string name="time_picker_dialog_am">"AM"</string>
+    <string name="time_picker_dialog_hour_minute_separator">":"</string>
+    <string name="time_picker_dialog_minute_second_separator">":"</string>
+    <string name="time_picker_dialog_pm">"PM"</string>
+    <string name="time_picker_dialog_second_subsecond_separator">"."</string>
+    <string name="time_picker_dialog_title">"Set time"</string>
+    <!-- From: file:/home/mukundan/Documents/Signalize/Signalize/mira/src/main/res/values/strings.xml -->
+    <eat-comment />
+
+    <string name="title_activity_mira">Mira</string>
+    <!-- From: file:/home/mukundan/Documents/Signalize/Signalize/mira/src/main/res/values/nfc_base_strings.xml -->
+    <eat-comment />
+
+    <string name="turn_on_nfc">NFC can\'t be used without NFC enabled. Please turn on NFC in the Settings and then use the back button to return to this app.</string>
+    <!-- From: file:/home/mukundan/Documents/Signalize/Signalize/mira/src/main/res/values/voiceaction_strings.xml -->
+    <eat-comment />
+
+    <string name="voiceaction_cancelled_response">Cancelled.</string>
+    <string name="voiceaction_dontunderstand">I did not understand, please try again.</string>
+    <string name="voiceaction_heard_nothing">I did not understand because I heard nothing.</string>
+    <string name="voiceaction_inaccurate">I did not understand because I did not hear you well.</string>
+    <string name="voiceaction_not_command">%1$s is not a command</string>
+    <string name="voiceaction_retry">, please try again.</string>
+    <string name="voiceaction_unknown">I did not understand.</string>
+    <!-- From: file:/home/mukundan/Documents/Signalize/Signalize/mira/src/main/res/values/nfc_base_strings.xml -->
+    <eat-comment />
+
+    <string name="warning_nfc_is_off">NFC is currently turned off!</string>
+    <!-- From: file:/home/mukundan/Documents/Signalize/Signalize/mira/src/main/res/values/android_content_strings.xml -->
+    <eat-comment />
+
+    <string name="week_picker_dialog_title">"Set week"</string>
+    <!-- From: file:/home/mukundan/Documents/Signalize/Signalize/mira/src/main/res/values/styles.xml -->
+    <eat-comment />
+
+    <style name="AppTheme" parent="android:Theme">
+        <!-- Customize your theme here. -->
+    </style>
+    <!-- From: file:/home/mukundan/Documents/Signalize/Signalize/mira/src/main/res/values/styles_new.xml -->
+    <eat-comment />
+
+    <style name="AutofillPopupWindow" parent="@android:style/Widget.ListPopupWindow">
+        <item name="android:popupBackground">@drawable/autofill_popup_background</item>
+    </style>
+    <!-- From: file:/home/mukundan/Documents/Signalize/Signalize/mira/src/main/res/values/styles.xml -->
+    <eat-comment />
+
+    <style name="ButtonBar">
+        <item name="android:paddingLeft">2dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingRight">2dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:background">@android:drawable/bottom_bar</item>
+    </style>
+
+    <style name="ButtonBarButton" />
+
+    <style name="FullscreenTheme" parent="android:Theme.NoTitleBar">
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="metaButtonBarStyle">@style/ButtonBar</item>
+        <item name="metaButtonBarButtonStyle">@style/ButtonBarButton</item>
+    </style>
+    <!-- From: file:/home/mukundan/Documents/Signalize/Signalize/mira/src/main/res/values/content_styles.xml -->
+    <eat-comment />
+
+    <style name="SelectPopupDialog">
+        <item name="select_dialog_singlechoice">@android:layout/select_dialog_singlechoice</item>
+        <item name="select_dialog_multichoice">@android:layout/select_dialog_multichoice</item>
+    </style>
+
+</resources>

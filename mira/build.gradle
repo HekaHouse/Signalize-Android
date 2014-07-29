@@ -1,11 +1,15 @@
+/**Changed by Mukundan on 7/9/14.
+ * to include the service ConversationService.
+ * to remove the classes Brain and BrainFragment.
+ * */
 apply plugin: 'android-library'
 
 android {
     compileSdkVersion 19
-    buildToolsVersion "19.0.2"
+    buildToolsVersion "19.1.0"
 
     defaultConfig {
-        minSdkVersion 17
+        minSdkVersion 16
         targetSdkVersion 19
         versionCode 1
         versionName "1.0"
@@ -35,6 +39,7 @@ dependencies {
 
 
 
+android { sourceSets { main { aidl.srcDirs = ['src/main/aidl', 'src/main/aidl/'] } } }
 android {
     packagingOptions {
         exclude 'META-INF/LICENSE.txt'

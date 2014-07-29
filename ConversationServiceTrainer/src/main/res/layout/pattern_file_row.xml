@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/list_selector">
+    <TextView
+        android:id="@+id/pattern_row_textview"
+        android:text = "Pattern"
+        android:textColor="@color/DarkRed"
+        android:textSize="@dimen/largeText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal">
+        <TextView
+            android:text="@string/depth"
+            android:textSize="@dimen/tinyText"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent" />
+        <TextView
+            android:text="@string/number"
+            android:id="@+id/depthText"
+            android:textColor="@color/Coral"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent" />
+        <TextView
+            android:id="@+id/file_row_textview"
+            android:text = "File"
+            android:gravity="center"
+            android:textColor="@color/Black"
+            android:textSize="@dimen/smallText"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+        </LinearLayout>
+
+</LinearLayout>

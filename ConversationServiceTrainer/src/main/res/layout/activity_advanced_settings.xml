@@ -1,0 +1,82 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/advanced_settings_root"
+    tools:context="ppc.signalize.mira.conversation.conversationservicetrainer.conversationservicetrainer.AdvancedSettings">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:textColor="@color/Red"
+                android:text="@string/current"
+                android:textSize="@dimen/mediumText"
+                android:gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <View
+                android:background="@color/Black"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+            <EditText
+                android:id="@+id/advanced_currentResponse"
+                android:text="@string/currentResponse"
+                android:singleLine="false"
+                android:layout_width="match_parent"
+                android:lines="5"
+                android:scrollbars="vertical"
+                android:maxLines="10"
+                android:gravity="top"
+                android:layout_height="wrap_content" />
+            <View
+                android:background="@color/Black"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+            <Button
+                android:id="@+id/advanced_set_response"
+                android:text="@string/set_response"
+                android:textSize="@dimen/mediumText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <View
+                android:background="@color/Black"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+            <Button
+                android:id="@+id/aiml_tag_button"
+                android:text="@string/view_aiml_tags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:scrollbars="vertical"
+                android:scrollbarStyle="outsideInset"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:background="@color/Aquamarine"
+                android:layout_height="wrap_content"
+                android:id="@+id/aiml_tag_set">
+                <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/add_srai_tag"
+                android:text="@string/srai"
+                android:layout_gravity="center"/>
+                android:layout_height="wrap_content" />
+            </LinearLayout>
+
+
+            <View
+                android:background="@color/Black"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

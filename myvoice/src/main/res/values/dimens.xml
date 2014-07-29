@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="circle_white_radius">50dp</dimen>
+    <dimen name="circle_white_top_margin">75dp</dimen>
+    <dimen name="menu_top_bar_height">100dp</dimen>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="largeText">26dp</dimen>
+    <dimen name="mediumText">20dp</dimen>
+    <dimen name="smallText">16dp</dimen>
+    <dimen name="tinyText">12dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+</resources>

@@ -8,9 +8,13 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/AndroidAb" />
+            <option value="$PROJECT_DIR$/ConversationService" />
+            <option value="$PROJECT_DIR$/ConversationServiceClient" />
+            <option value="$PROJECT_DIR$/ConversationServiceTrainer" />
+            <option value="$PROJECT_DIR$/androidSVG_12" />
             <option value="$PROJECT_DIR$/mira" />
             <option value="$PROJECT_DIR$/myvoice" />
-            <option value="$PROJECT_DIR$/perspectives" />
           </set>
         </option>
       </GradleProjectSettings>

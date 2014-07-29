@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ConversationServiceTrainer</string>
+    <string name="filename">Filename : </string>
+    <string name="staraiml">*.aiml</string>
+    <string name="star">*</string>
+    <string name="down_arrow">\\/</string>
+    <string name="up_arrow">/\\</string>
+    <string name="set_response">Set Response</string>
+    <string name="current">Current Response</string>
+    <string name="currentResponse">Response</string>
+    <string name="patternname">Pattern</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_file">FileActivity</string>
+    <string name="title_activity_view_file">ViewFileActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="depth">Depth : </string>
+    <string name="number">0</string>
+    <string name="title_activity_advanced_settings">AdvancedSettings</string>
+    <string name="template_button">template</string>
+    <string name="randomli_button">random/li</string>
+    <string name="srai">Srai</string>
+    <string name="topic_button">topic</string>
+    <string name="star_button">star</string>
+    <string name="get_button">get</string>
+    <string name="set_button">set</string>
+    <string name="condition_button">condition</string>
+    <string name="view_aiml_tags">View AIML Tags</string>
+    <string name="close_aiml_tags">Close AIML Tags</string>
+    <string name="select_srai">SELECT SRAI</string>
+    <string name="resync_action">Resync AIML files</string>
+
+</resources>

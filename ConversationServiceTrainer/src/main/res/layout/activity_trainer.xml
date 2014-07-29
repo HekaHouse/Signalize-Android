@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/inputLabel"
+        android:text="Input"
+        android:textSize="@dimen/mediumText"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/holo_orange_dark"/>
+    <EditText
+        android:id="@+id/inputText"
+        android:enabled="false"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/sendButton"
+        android:textColor="@color/Olive"
+        android:background="@drawable/button_selector"
+        android:text="Get"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:text="Response"
+        android:textSize="@dimen/mediumText"
+        android:gravity="center"
+        android:id="@+id/ResponseLabel1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/holo_orange_dark"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+        <TextView
+            android:text="Res"
+            android:textSize="@dimen/largeText"
+            android:background="@color/Black"
+            android:textColor="@color/White"
+            android:gravity="center"
+            android:id="@+id/responseTextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </ScrollView>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/holo_blue_dark"/>
+
+    <TextView
+        android:text="Pattern/File List"
+        android:gravity="center"
+        android:textSize="@dimen/mediumText"
+        android:id="@+id/responseLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/holo_orange_dark"/>
+
+    <ListView
+        android:id="@+id/pattern_file_list"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:divider="@color/DarkKhaki"
+        android:dividerHeight="3dp"
+        android:listSelector="@drawable/list_selector" />
+
+</LinearLayout>

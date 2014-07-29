@@ -1,4 +1,6 @@
-<resources>
+<?xml version="1.0" encoding="utf-8"?>
+    <resources>
+
 
     <color name="black_overlay">#66000000</color>
     <color name="light_blue">#FFFFFF</color>
@@ -6,4 +8,18 @@
     <color name="mira_bg">#aea3b5</color>
     <color name="voice_text">#31789e</color>
     <color name="head_text">#64407d</color>
-</resources>
+
+        <color name="primary">#00bcd4</color>
+        <color name="primary_dark">#0097a7</color>
+        <color name="primary_light">#b2ebf2</color>
+        <color name="accent_light">#ffccbc</color>
+        <color name="accent_dark">#ff5722</color>
+        <color name="accent_transparent">#80ffffff</color>
+        <color name="white">#ffffff</color>
+        <color name="accent_off">#00ffffff</color>
+        <color name="semi_dark">#60000000</color>
+
+
+
+
+    </resources>
