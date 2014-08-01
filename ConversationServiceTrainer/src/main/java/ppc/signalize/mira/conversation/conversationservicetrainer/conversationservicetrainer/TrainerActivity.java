@@ -169,7 +169,7 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
         intent = new Intent(UtilityStrings.ConversationServiceTAG);
         intent.setClassName(UtilityStrings.ConversationServicePackage,UtilityStrings.ConversationServiceTAG);
         bound = this.bindService(intent,this,BIND_AUTO_CREATE);
-        Log.d(TAG, "The Service will be connected soon! " +Ghost.listOfPatterns.size());
+        Log.d(TAG, "The Service will be connected soon! ");
     }
 
 
@@ -283,9 +283,17 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
 
     protected void setListOfPatterns(){
        listOfPatterns = new ArrayList<String>();
-        Log.e(TAG,"ADDING LIST OF PATTERNS");
-        Log.e(TAG,Ghost.listOfPatterns.size() + " ");
-        listOfPatterns.addAll(Ghost.listOfPatterns);
+        try {
+            ArrayList<String> test = (ArrayList<String>) service.listOfPatterns();
+            Log.e(TAG,"ADDING LIST OF PATTERNS");
+            Log.e(TAG,test.size() + " ");
+            listOfPatterns.addAll(test);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
+
+
     }
 
     @Override

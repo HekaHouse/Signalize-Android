@@ -12,4 +12,5 @@ interface IConversation {
     String getTemplate();
     void writeAIMLOut();
     void reSync();
+    List<String> listOfPatterns();
 }

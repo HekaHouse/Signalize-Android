@@ -10,6 +10,8 @@ import android.os.RemoteException;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.util.List;
+
 /**
  * Created by mukundan on 5/28/14.
  */
@@ -108,6 +110,11 @@ public class ConversationService extends Service{
         @Override
         public void reSync() throws RemoteException {
             conversation = Conversation.sync(context);
+        }
+
+        @Override
+        public List<String> listOfPatterns() throws RemoteException {
+            return conversation.getListofPatterns();
         }
     }
 

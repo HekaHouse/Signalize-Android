@@ -8,17 +8,17 @@
         revision="19.1.0"
         sha1="95c5858707dcb34204f55128180417f5c7926768"/>
     <item
+        dex="/home/mukundan/Documents/Signalize/Signalize/ConversationServiceTrainer/build/intermediates/pre-dexed/debug/Ab-730b4f7ab6b25aa491fa5a9757047b227c70b227.jar"
+        jar="/home/mukundan/Documents/Signalize/Signalize/ConversationServiceTrainer/libs/Ab.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="af7496189919b4d17d8edff988421623653cc8b1"/>
+    <item
         dex="/home/mukundan/Documents/Signalize/Signalize/ConversationServiceTrainer/build/intermediates/pre-dexed/debug/classes-e1213ef543258c4dbb6555058c0e3565499ec828.jar"
         jar="/home/mukundan/Documents/Signalize/Signalize/ConversationServiceTrainer/build/intermediates/exploded-aar/Signalize/AndroidAb/unspecified/classes.jar"
         jumboMode="false"
         revision="19.1.0"
-        sha1="4a03e51bf5e9b9b00f11206c8517f2c16ac44ab6"/>
-    <item
-        dex="/home/mukundan/Documents/Signalize/Signalize/ConversationServiceTrainer/build/intermediates/pre-dexed/debug/Ab-227ca76b4ccc1117e347b86d9603a63e29f60b34.jar"
-        jar="/home/mukundan/Documents/Signalize/Signalize/ConversationServiceTrainer/build/intermediates/exploded-aar/Signalize/AndroidAb/unspecified/libs/Ab.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="af7496189919b4d17d8edff988421623653cc8b1"/>
+        sha1="15c6ac972b889b8082828168145fb37b71490c97"/>
     <item
         dex="/home/mukundan/Documents/Signalize/Signalize/ConversationService/build/intermediates/pre-dexed/debug/support-v4-19.1.0-668b44f3ce8a8e24422b3bf705a108530bdce780.jar"
         jar="/home/mukundan/Documents/android-studio/sdk/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0.jar"
@@ -42,7 +42,7 @@
         jar="/home/mukundan/Documents/Signalize/Signalize/ConversationService/build/intermediates/exploded-aar/Signalize/AndroidAb/unspecified/classes.jar"
         jumboMode="false"
         revision="19.1.0"
-        sha1="4a03e51bf5e9b9b00f11206c8517f2c16ac44ab6"/>
+        sha1="15c6ac972b889b8082828168145fb37b71490c97"/>
     <item
         dex="/home/mukundan/Documents/Signalize/Signalize/ConversationService/build/intermediates/pre-dexed/debug/Ab-d7c0576b57d1c2f163d63c98d0a92626d56dfd9c.jar"
         jar="/home/mukundan/Documents/Signalize/Signalize/ConversationService/libs/Ab.jar"

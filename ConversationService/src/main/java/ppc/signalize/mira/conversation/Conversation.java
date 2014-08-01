@@ -13,6 +13,7 @@ import org.alicebot.ab.Ghost;
 import org.alicebot.ab.Nodemapper;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by mukundan on 5/28/14.
@@ -61,13 +62,14 @@ public final class Conversation {
         return null;
     }
 
-    public String getListofPatterns(){
+    public List<String> getListofPatterns(){
+        ArrayList<String> patterns = new ArrayList<String>();
         ArrayList<Category> categories = ghost.brain.getCategories();
-        String strCategories = "";
         for(Category c: categories){
-            strCategories += c.getPattern() + FileUtils.delimiter;
+            if(!patterns.contains(c.getPattern()))
+                patterns.add(c.getPattern());
         }
-        return strCategories;
+        return patterns;
     }
 
     public String getFilename(){
