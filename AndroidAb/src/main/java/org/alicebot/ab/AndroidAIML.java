@@ -72,17 +72,24 @@ public class AndroidAIML {
         inputs = new ArrayList<String>();
     }
     public String strFileNames(){
-        String names = "";
+        StringBuilder builder = new StringBuilder();
+        String names;
         for(String name:filenames){
-            names += name + FileUtils.delimiter;
+            builder.append(name);
+            builder.append(FileUtils.delimiter);
         }
+        names = builder.toString();
         return names;
     }
     public String strInputs(){
-        String inps = "";
+        StringBuilder builder = new StringBuilder();
+        String inps;
         for(String input:inputs){
-            inps += input + FileUtils.delimiter;
+            builder.append(input);
+            builder.append(FileUtils.delimiter);
+
         }
+        inps = builder.toString();
         return inps;
     }
 
