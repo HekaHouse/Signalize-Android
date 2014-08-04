@@ -2,6 +2,7 @@ package ppc.signalize.mira.conversation.conversationservicetrainer.conversations
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,7 @@ public class LazyListAdapter extends BaseAdapter {
     private Activity activity;
     private ArrayList<String> filenames,patterns;
     private static LayoutInflater inflater = null;
-    private ImageView delete_button;
+    private ImageView delete_button,add_button;
 
     public LazyListAdapter(Activity a, ArrayList<String> filenames, ArrayList<String> patterns){
         this.activity = a;
@@ -58,6 +59,20 @@ public class LazyListAdapter extends BaseAdapter {
         TextView pattern = (TextView)vi.findViewById(R.id.pattern_row_textview);
         TextView file = (TextView)vi.findViewById(R.id.file_row_textview);
         depth.setText(""+(position+1));
+        add_button = (ImageView) vi.findViewById(R.id.new_reduction);
+        add_button.setFocusable(false);
+        add_button.setTag(position);
+        add_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = (Integer) v.getTag();
+                Log.d("LazyListAdapter", "position " + position + " " + TrainerActivity.listInpNames.get(position) +
+                        ", " + TrainerActivity.listNames.get(position));
+                NewReductionDialog nrd = new NewReductionDialog(activity,position);
+                nrd.show();
+
+            }
+        });
         delete_button = (ImageView) vi.findViewById(R.id.delete_reduction);
         delete_button.setFocusable(false);
         delete_button.setTag(position);

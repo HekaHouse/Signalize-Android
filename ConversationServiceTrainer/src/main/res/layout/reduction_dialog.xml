@@ -6,7 +6,8 @@
     android:background="@color/Black">
     <TextView
         android:textColor="@color/Red"
-        android:text="@string/delete_reduction_dialog_prompt"
+        android:id="@+id/reduction_dialog_text"
+        android:text="test"
         android:textSize="@dimen/largeText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -17,7 +18,7 @@
         android:padding="10dp"
         >
         <Button
-            android:id="@+id/delete_reduction_dialog_cancel_button"
+            android:id="@+id/reduction_dialog_cancel_button"
             android:text="@string/cancel_button"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -26,7 +27,7 @@
             android:padding="10dp"/>
 
         <Button
-            android:id="@+id/delete_reduction_dialog_ok_button"
+            android:id="@+id/reduction_dialog_ok_button"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/ok_button"

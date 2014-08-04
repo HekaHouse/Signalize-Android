@@ -15,6 +15,7 @@
             android:layout_height="match_parent">
             <TextView
                 android:textColor="@color/Green"
+                android:id="@+id/add_new_aiml_heading"
                 android:text="@string/add_new_aiml_file"
                 android:textSize="@dimen/mediumText"
                 android:gravity="center_horizontal"

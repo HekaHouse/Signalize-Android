@@ -107,7 +107,7 @@ public class FileUtility extends org.alicebot.ab.FileUtils{
         for(int i=0;i<patterns.getLength();++i){
             Node item = patterns.item(i);
             String pat = item.getTextContent();
-            if(pat.equals(pattern.trim())){
+            if(pat.equalsIgnoreCase(pattern.trim())){
                 ele =  item.getParentNode();
                 Log.e("PARENT NODE","PARENT");
                 FileUtility.xmltoString(ele);
@@ -129,6 +129,21 @@ public class FileUtility extends org.alicebot.ab.FileUtils{
         }
         return true;
     }
+
+    protected static String addReduction(String strFileName, String newReduction) throws IOException, SAXException, TransformerException {
+        Node response = appendXmlFragment(XMLState.docRoot,newReduction);
+        TransformerFactory transformerFactory;
+        Transformer transformer;
+        transformerFactory = TransformerFactory.newInstance();
+        transformer = transformerFactory.newTransformer();
+        DOMSource source = new DOMSource(FileUtility.xmlstate.dom);
+        StreamResult result = new StreamResult(new File(org.alicebot.ab.FileUtils.getStorageDirectory(),"MIRA/aiml/" + strFileName));
+        Log.d("Stream","Got Stream");
+        transformer.transform(source, result);
+        Toast.makeText(context, "Wrote to file",Toast.LENGTH_LONG).show();
+        return FileUtility.xmltoString(response);
+    }
+
     protected static void openFile(String filename){
         if(xmlstate.dom == null) {
             try {

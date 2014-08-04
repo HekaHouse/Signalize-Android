@@ -12,6 +12,7 @@ public class UtilityStrings {
     protected static final String newFileIntent = "newFile";
     protected static final String fileIntent = "fileName";
     protected static final String patternIntent = "pattern";
+    protected static final String inputPatternIntent = "inputPattern";
     protected static final String currentResponseIntent = "currentResponse";
     protected static final String ConversationServiceTAG= "ppc.signalize.mira.conversation.ConversationService";
     protected static final String StartServiceBroadcast = "ppc.signalize.mira.conversation.startService";

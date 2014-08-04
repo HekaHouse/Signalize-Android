@@ -40,6 +40,7 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
     protected static ArrayList<String> listOfPatterns;
     private boolean bound;
     private final String TAG = "ConversationServiceTrainer";
+    protected static String inputPattern;
     private LazyListAdapter listAdapter;
     private TopServiceConnectionBarActions bar;
     private IConversation service;
@@ -113,7 +114,8 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
             if(service == null) throw new RemoteException();
             input.clearFocus();
             responseTemplate = service.getTemplate();
-            String inputPattern = input.getText().toString();
+
+            inputPattern = input.getText().toString();
             if(inputPattern.length() == 0){
                 inputPattern = "*";
                 Log.e(TAG,"Setting input Pattern to " + inputPattern + "~" + inputPattern.length());

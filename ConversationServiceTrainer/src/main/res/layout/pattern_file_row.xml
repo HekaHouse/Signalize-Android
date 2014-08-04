@@ -37,12 +37,13 @@
             android:layout_weight="0.1"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent" />
-        <LinearLayout
+        <RelativeLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center">
+            android:gravity="center_vertical">
             <ImageButton
+                android:layout_alignParentTop="true"
                 android:clickable="true"
                 android:focusable="false"
                 android:id="@+id/new_reduction"
@@ -50,13 +51,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <ImageButton
+                android:layout_below="@id/new_reduction"
                 android:clickable="true"
                 android:focusable="false"
                 android:id="@+id/delete_reduction"
                 android:background="@android:drawable/ic_delete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-            </LinearLayout>
+            </RelativeLayout>
         </LinearLayout>
 
 </LinearLayout>
