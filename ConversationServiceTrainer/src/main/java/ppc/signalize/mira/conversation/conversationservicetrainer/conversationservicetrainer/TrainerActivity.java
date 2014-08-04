@@ -115,6 +115,7 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
             input.clearFocus();
             responseTemplate = service.getTemplate();
 
+
             inputPattern = input.getText().toString();
             if(inputPattern.length() == 0){
                 inputPattern = "*";
@@ -153,7 +154,14 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
             Log.e(TAG, "NO SERVICE");
             Toast.makeText(this, "NO SERVICE", Toast.LENGTH_LONG).show();
         }
-
+        catch (Exception ex){
+            Log.e(TAG, "Unknown Exception");
+            AdvancedSettings.showErrorToast(this, "Unknown Exception " + ex.getCause());
+        }
+        catch (Error er){
+            Log.e(TAG,"FATAL ERROR");
+            AdvancedSettings.showErrorToast(this,"Unknown ERROR " + er.getCause());
+        }
     }
 
     @Override
@@ -337,7 +345,7 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
     @Override
     public void onServiceDisconnected(ComponentName name) {
         Log.d(TAG,"Disconnected from the service");
-        this.input.setEnabled(false);
+        disableUI();
         bar.notConnected();
     }
 
