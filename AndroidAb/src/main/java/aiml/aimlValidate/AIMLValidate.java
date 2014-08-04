@@ -28,29 +28,30 @@ public class AIMLValidate {
         this.context = context;
     }
 
-    public boolean aimlValidate(String xmlDoc){
+    public boolean aimlValidate(String xmlDoc) throws Exception {
         try {
             factory = new XMLSchemaFactory();
             schemaFile = new StreamSource(context.getResources().openRawResource(R.raw.aiml_schema));
             xmlSource = new StreamSource(new StringReader(xmlDoc));
             schema = factory.newSchema(schemaFile);
             validator = schema.newValidator();
-            validator.validate(xmlSource);
             validator.setErrorHandler(new SimpleErrorHandler());
+            validator.validate(xmlSource);
+
         } catch (SAXException e) {
 
             Log.e(TAG,"SAX EXCEPTION "+e.getMessage());
-            return false;
+            throw e;
         } catch (IOException e) {
             Log.e(TAG,"IO EXCEPTION");
-            return false;
+            throw e;
         } catch (Exception e) {
             e.printStackTrace();
             Log.e(TAG,"EXCEPTION");
-            return false;
+            throw e;
         } catch (Error e) {
             e.printStackTrace();
-            return false;
+            throw e;
         }
 
         return true;
