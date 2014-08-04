@@ -47,6 +47,7 @@ public class AdvancedSettings extends Activity implements View.OnClickListener{
         if(newFile==null) {
             setContentView(R.layout.activity_advanced_settings);
             final LinearLayout linearLayout = (LinearLayout) findViewById(R.id.aiml_tag_set);
+            currentResponseET = (EditText) findViewById(R.id.advanced_currentResponse);
             addButtons = new AddButtons(this, linearLayout, currentResponseET);
             viewAIMLTags = (Button) findViewById(R.id.aiml_tag_button);
             viewAIMLTags.setOnClickListener(new View.OnClickListener() {
@@ -78,7 +79,7 @@ public class AdvancedSettings extends Activity implements View.OnClickListener{
             strPattern = extras.getString(UtilityStrings.patternIntent);
             setResponse = (Button) findViewById(R.id.advanced_set_response);
             setResponse.setOnClickListener(this);
-            currentResponseET = (EditText) findViewById(R.id.advanced_currentResponse);
+
             currentResponseET.setText(currentResponse);
             //validateXML(currentResponseET,TAGTOADD.RANDOM_LI);
             currentResponseET.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -181,14 +182,14 @@ public class AdvancedSettings extends Activity implements View.OnClickListener{
     }
     public static void showErrorToast(Context context, String message){
         Toast toast = Toast.makeText(context,message,Toast.LENGTH_LONG);
-        toast.getView().setBackgroundColor(Color.RED);
+        toast.getView().setBackground(context.getResources().getDrawable(R.drawable.toast_bg_red));
         TextView textView= (TextView) toast.getView().findViewById(android.R.id.message);
         textView.setTextColor(Color.YELLOW);
         toast.show();
     }
     public static void showValidToast(Context context, String message){
         Toast toast = Toast.makeText(context,message,Toast.LENGTH_LONG);
-        toast.getView().setBackgroundColor(Color.GREEN);
+        toast.getView().setBackground(context.getResources().getDrawable(R.drawable.toast_bg_green));
         TextView textView= (TextView) toast.getView().findViewById(android.R.id.message);
         textView.setTextColor(Color.YELLOW);
         toast.show();
@@ -236,19 +237,36 @@ public class AdvancedSettings extends Activity implements View.OnClickListener{
             FileUtility.openFile(strFileName);
             Node responseElement = FileUtility.getReqResponse(strPattern);
             try {
-                FileUtility.setAdvancedResponseElement(responseElement, currentResponseET.getText().toString(), strFileName);
-                FileUtility.changedString = currentResponseET.getText().toString();
-                Log.d(TAG, "ADDED TO FILE AND WROTE FILE");
-                Intent intent;
-                intent = new Intent(getApplicationContext(), ViewFileActivity.class);
-                intent.putExtra(UtilityStrings.fileIntent, strFileName);
-                startActivity(intent);
+                AIMLValidate aimlValidate = new AIMLValidate(this.getApplicationContext());
+                boolean valid = aimlValidate.aimlValidate("<aiml>" + currentResponseET.getText().toString() + "</aiml>");
+                if(valid){
+                    AdvancedSettings.showValidToast(this,"Valid AIML TAGS");
+
+                    FileUtility.setAdvancedResponseElement(responseElement, currentResponseET.getText().toString(), strFileName);
+                    FileUtility.changedString = currentResponseET.getText().toString();
+                    Log.d(TAG, "ADDED TO FILE AND WROTE FILE");
+                    AdvancedSettings.showValidToast(this,"Added to file and opening file for view.");
+                    Intent intent;
+                    intent = new Intent(getApplicationContext(), ViewFileActivity.class);
+                    intent.putExtra(UtilityStrings.fileIntent, strFileName);
+                    startActivity(intent);
+                }
+                else{
+                    AdvancedSettings.showErrorToast(this,"Invalid AIML");
+                }
+
             } catch (IOException e) {
                 e.printStackTrace();
                 Log.e(TAG, "IO EXCEPTION");
+                AdvancedSettings.showErrorToast(this,"File Exception " +e.getMessage());
             } catch (SAXException e) {
                 e.printStackTrace();
                 Log.e(TAG, "SAX EXCEPTION");
+                AdvancedSettings.showErrorToast(this,"Exception " +e.getMessage());
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.e(TAG,"AIML Validation Error/ Unknown Error " + e.getMessage() + " " + e.getCause());
+                AdvancedSettings.showErrorToast(this, "Error " + e.getMessage() + " " + e.getCause());
             }
         }
         else if(newFile!=null){
