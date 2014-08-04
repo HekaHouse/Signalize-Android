@@ -28,7 +28,7 @@ public class AIMLValidate {
         this.context = context;
     }
 
-    public boolean aimlValidate(String xmlDoc) throws Exception {
+    public boolean aimlValidate(String xmlDoc) throws Error, Exception {
         try {
             factory = new XMLSchemaFactory();
             schemaFile = new StreamSource(context.getResources().openRawResource(R.raw.aiml_schema));
@@ -67,20 +67,21 @@ class SimpleErrorHandler implements ErrorHandler{
     public void error(SAXParseException arg0) throws SAXException {
         // TODO Auto-generated method stub
         Log.e(AIMLValidate.TAG,"Error " + arg0.getLineNumber() + " Message " + arg0.getMessage());
-
+        throw arg0;
     }
 
     @Override
     public void fatalError(SAXParseException arg0) throws SAXException {
         // TODO Auto-generated method stub
         Log.e(AIMLValidate.TAG, "Fatal Error " + arg0.getLineNumber() + " Message " + arg0.getMessage());
-
+        throw arg0;
     }
 
     @Override
     public void warning(SAXParseException arg0) throws SAXException {
         // TODO Auto-generated method stub
         Log.w(AIMLValidate.TAG,"Warning " + arg0.getLineNumber() + " Message " + arg0.getMessage());
+        throw arg0;
     }
 
 }
