@@ -109,6 +109,8 @@ public class AdvancedSettings extends Activity implements View.OnClickListener{
         else if(newFile != null){
             setContentView(R.layout.new_file_activity);
             newFileET = (EditText)findViewById(R.id.newFile);
+            newFileET.setText(UtilityStrings.XML_PROCESSING_STRING);
+            newFileET.setSelection(UtilityStrings.XML_PROCESSING_STRING.length());
             final LinearLayout linearLayout = (LinearLayout) findViewById(R.id.new_file_aiml_tag_set);
             addButtons = new AddButtons(this, linearLayout, newFileET);
             viewAIMLTags = (Button) findViewById(R.id.new_file_aiml_tag_button);
@@ -251,16 +253,23 @@ public class AdvancedSettings extends Activity implements View.OnClickListener{
         }
         else if(newFile!=null){
             AIMLValidate aimlValidate = new AIMLValidate(this.getApplicationContext());
-            boolean valid = aimlValidate.aimlValidate(newFileET.getText().toString());
-            if(valid){
-                valid = FileUtility.createFile(newFile,newFileET.getText().toString());
+            boolean valid = false;
+            try {
+                valid = aimlValidate.aimlValidate(newFileET.getText().toString());
                 if(valid){
-                    AdvancedSettings.showValidToast(this,"Created wrote to " + newFile + " successfully.");
+                    valid = FileUtility.createFile(newFile,newFileET.getText().toString());
+                    if(valid){
+                        AdvancedSettings.showValidToast(this,"Created wrote to " + newFile + " successfully.");
+                    }
+                    else{
+                        AdvancedSettings.showErrorToast(this, newFile + " creation and opening error.");
+                    }
                 }
-                else{
-                    AdvancedSettings.showErrorToast(this, newFile + " creation and opening error.");
-                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                AdvancedSettings.showErrorToast(this,"Exception at line " + e.getMessage());
             }
+
         }
 
     }

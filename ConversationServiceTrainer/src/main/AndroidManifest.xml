@@ -35,6 +35,8 @@
             android:label="@string/title_activity_advanced_settings"
             android:screenOrientation="landscape">
         </activity>
+        <activity android:name=".DeleteReduction"
+            android:label="Delete Reduction"/>
     </application>
 
 </manifest>

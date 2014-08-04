@@ -66,10 +66,21 @@ public class FileUtility extends org.alicebot.ab.FileUtils{
         span.setSpan(new ForegroundColorSpan(color), i, i+subString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 
+    protected static Node removeNode(Node element){
+        return element.getParentNode().removeChild(element);
+    }
+
     protected static Node getReqResponse(String strPattern){
         Node responseElement = null;
         Toast.makeText(context, strPattern.split("<")[0], Toast.LENGTH_SHORT).show();
-        responseElement = getRequiredResponse(XMLState.docRoot, strPattern.split("<")[0]);
+        if(strPattern.contains("<")) {
+            Log.e(TAG,"Testing XML Pattern " + strPattern);
+            responseElement = getRequiredResponse(XMLState.docRoot, strPattern.split("<")[0]);
+        }
+        else{
+            Log.e(TAG,"Testing XML Pattern " + strPattern);
+            responseElement = getRequiredResponse(XMLState.docRoot, strPattern);
+        }
         return responseElement;
     }
 
@@ -90,7 +101,7 @@ public class FileUtility extends org.alicebot.ab.FileUtils{
         System.out.println(str.toString());
         return str.toString();
     }
-    private static Node getRequiredResponse(Element root, String pattern){
+    protected static Node getRequiredResponse(Element root, String pattern){
         Node ele = null;
         NodeList patterns = root.getElementsByTagName("pattern");
         for(int i=0;i<patterns.getLength();++i){
@@ -141,7 +152,7 @@ public class FileUtility extends org.alicebot.ab.FileUtils{
                 Log.e("ParseException", "Parser Config Exception");
             } catch (SAXException e) {
                 Log.e("ParseException", "SAX Exception");
-                ;
+                Log.e("SAX Exception ",e.getCause() + "" + e.getMessage());
             }
         }
     }
@@ -205,7 +216,7 @@ public class FileUtility extends org.alicebot.ab.FileUtils{
         try {
             transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(FileUtility.xmlstate.dom);
-            StreamResult result = new StreamResult(new File(org.alicebot.ab.FileUtils.getStorageDirectory(),"MIRA/aiml/" + strFileName));
+            StreamResult result = new StreamResult(new File(org.alicebot.ab.FileUtils.getStorageDirectory(),AIMLdir +"/" + strFileName));
             Log.d("Stream","Got Stream");
             transformer.transform(source, result);
             Toast.makeText(context, "Wrote to file",Toast.LENGTH_LONG).show();
@@ -219,6 +230,21 @@ public class FileUtility extends org.alicebot.ab.FileUtils{
         }
         return FileUtility.xmltoString(responseElement);
     }
+
+    protected static void saveFile(String strFileName) throws TransformerException {
+        TransformerFactory transformerFactory;
+        Transformer transformer;
+        transformerFactory = TransformerFactory.newInstance();
+
+        transformer = transformerFactory.newTransformer();
+        DOMSource source = new DOMSource(FileUtility.xmlstate.dom);
+        StreamResult result = new StreamResult(new File(org.alicebot.ab.FileUtils.getStorageDirectory(),AIMLdir + "/" + strFileName));
+        Log.d("Stream","Got Stream");
+        transformer.transform(source, result);
+        Toast.makeText(context, "Wrote to file",Toast.LENGTH_LONG).show();
+
+    }
+
     private static boolean containsSrai(Node element){
         if(element.hasChildNodes()) {
             NodeList childNodes = element.getChildNodes();
@@ -278,6 +304,7 @@ class XMLState{
     protected void setDom(InputStream file) throws IOException, SAXException {
         dom = builder.parse(file);
         docRoot = dom.getDocumentElement();
+        FileUtility.xmltoString(docRoot);
     }
 
     protected void init() throws ParserConfigurationException {

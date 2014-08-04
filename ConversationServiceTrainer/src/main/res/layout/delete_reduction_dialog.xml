@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/Black">
+    <TextView
+        android:textColor="@color/Red"
+        android:text="@string/delete_reduction_dialog_prompt"
+        android:textSize="@dimen/largeText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        >
+        <Button
+            android:id="@+id/delete_reduction_dialog_cancel_button"
+            android:text="@string/cancel_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:background="@drawable/green_selector"
+            android:padding="10dp"/>
+
+        <Button
+            android:id="@+id/delete_reduction_dialog_ok_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ok_button"
+            android:layout_weight="0.5"
+            android:background="@drawable/red_selector"
+            android:padding="10dp"
+            />
+    </LinearLayout>
+
+</LinearLayout>

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.AsyncTask;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +20,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,13 +41,16 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
     private boolean bound;
     private final String TAG = "ConversationServiceTrainer";
     private LazyListAdapter listAdapter;
+    private TopServiceConnectionBarActions bar;
     private IConversation service;
     private EditText input;
-    private ArrayList<String> listInpNames,listNames;
+    protected static ArrayList<String> listInpNames,listNames;
     ListView listPatternFile;
     String responseTemplate, strFilename, strPattern;
     Button sendText;
     TextView response;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +72,11 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
         Intent intent = new Intent();
         intent.setAction(UtilityStrings.StartServiceBroadcast);
         sendBroadcast(intent);
+        bar = new TopServiceConnectionBarActions(this);
+        bar.addToRoot(((LinearLayout)findViewById(R.id.top_service_connection_bar_root)));
+        bar.notConnected();
         connectToService();
+
     }
 
     @Override
@@ -78,6 +88,8 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
         intent.putExtra(UtilityStrings.patternIntent,strPattern);
         startActivity(intent);
     }
+
+
 
     private class EditTextFocusChangeListener implements View.OnFocusChangeListener{
 
@@ -170,6 +182,7 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
         intent.setClassName(UtilityStrings.ConversationServicePackage,UtilityStrings.ConversationServiceTAG);
         bound = this.bindService(intent,this,BIND_AUTO_CREATE);
         Log.d(TAG, "The Service will be connected soon! ");
+        bar.connectionStart();
     }
 
 
@@ -189,9 +202,7 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
         if (id == R.id.resync_action) {
             //service.writeAIMLOut();
 
-            input.setEnabled(false);
-            sendText.setEnabled(false);
-            Toast.makeText(getApplicationContext(),"Starting Resync UI Disabled",Toast.LENGTH_LONG).show();
+            disableUI();
             new LongResync().execute();
 
             return true;
@@ -202,6 +213,15 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
         }
         return super.onOptionsItemSelected(item);
     }
+
+    protected void disableUI(){
+        input.setEnabled(false);
+        sendText.setEnabled(false);
+        listPatternFile.setEnabled(false);
+        Toast.makeText(getApplicationContext(),"Starting Resync UI Disabled",Toast.LENGTH_LONG).show();
+
+    }
+
     protected void enableUI(){
         Log.d(TAG,"Enabling UI");
         runOnUiThread(new Runnable() {
@@ -211,11 +231,15 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
                 input = (EditText)findViewById(R.id.inputText);
                 input.setEnabled(true);
                 sendText.setEnabled(true);
+                listPatternFile.setEnabled(true);
                 input.requestFocus();
                 Toast.makeText(getApplicationContext(),"Finished Resync Enabling UI",Toast.LENGTH_SHORT).show();
             }
         });
     }
+
+
+
     private class CreateFileDialog extends Dialog implements View.OnClickListener{
 
         Button ok,cancel;
@@ -305,12 +329,32 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
         this.sendText.setEnabled(true);
         this.input.requestFocus();
         setListOfPatterns();
+        bar.connected();
     }
 
     @Override
     public void onServiceDisconnected(ComponentName name) {
         Log.d(TAG,"Disconnected from the service");
         this.input.setEnabled(false);
+        bar.notConnected();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == UtilityStrings.DELETE_REDUCTION_RESULT_CODE){
+            if(resultCode == RESULT_OK){
+                int position = data.getExtras().getInt(UtilityStrings.positionIntent);
+                listInpNames.remove(position);
+                listNames.remove(position);
+                listPatternFile.deferNotifyDataSetChanged();
+                disableUI();
+                new LongResync().execute();
+            }
+            else if(resultCode == RESULT_CANCELED){
+                AdvancedSettings.showErrorToast(this,"Error in removing the reduction!!");
+            }
+        }
+
+    }
 }

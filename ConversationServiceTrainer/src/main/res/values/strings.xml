@@ -37,5 +37,6 @@
     <string name="aiml_extension">.aiml</string>
     <string name="ok_button">OK</string>
     <string name="cancel_button">Cancel</string>
+    <string name="delete_reduction_dialog_prompt">Do you want to remove this reduction?</string>
 
 </resources>

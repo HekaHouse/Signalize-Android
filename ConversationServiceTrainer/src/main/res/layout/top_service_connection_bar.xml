@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="30dp"
+    android:id="@+id/top_service_connection_bar"
+    android:background="@color/Red"
+    android:gravity="top">
+    <TextView
+        android:id="@+id/top_service_connection_bar_text"
+        android:textColor="@color/White"
+        android:text="Test"
+        android:gravity="center"
+        android:textSize="@dimen/largeText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
