@@ -144,7 +144,7 @@ public class FileUtils {
         return storageType;
     }
 
-    protected static String[] listFiles(Context context, String path) throws IOException {
+    public static String[] listFiles(Context context, String path) throws IOException {
         String[] listOfFiles;
         if (FileUtils.getStorageType() == STORAGE_TYPE.ASSETS_STORAGE) {
             if (context.getAssets().list(path).length > 0) {
