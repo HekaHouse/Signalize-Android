@@ -13,7 +13,7 @@
         </LinearLayout>
     <TextView
         android:id="@+id/inputLabel"
-        android:text="Input"
+        android:text="@string/input_tv"
         android:textSize="@dimen/mediumText"
         android:gravity="center"
         android:layout_width="match_parent"
@@ -32,11 +32,11 @@
         android:id="@+id/sendButton"
         android:textColor="@color/Olive"
         android:background="@drawable/button_selector"
-        android:text="Get"
+        android:text="@string/get_response"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <TextView
-        android:text="Response"
+        android:text="@string/response_text"
         android:textSize="@dimen/mediumText"
         android:gravity="center"
         android:id="@+id/ResponseLabel1"
@@ -50,15 +50,25 @@
         android:layout_width="match_parent"
         android:layout_height="100dp">
         <TextView
-            android:text="Res"
             android:textSize="@dimen/largeText"
             android:background="@color/Black"
             android:textColor="@color/White"
             android:gravity="center"
             android:id="@+id/responseTextView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content" />
     </ScrollView>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/holo_blue_dark"/>
+    <Button
+        android:id="@+id/trainer_add_new_reduction"
+        android:textColor="@color/Olive"
+        android:background="@drawable/button_selector"
+        android:text="@string/create_reduction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"

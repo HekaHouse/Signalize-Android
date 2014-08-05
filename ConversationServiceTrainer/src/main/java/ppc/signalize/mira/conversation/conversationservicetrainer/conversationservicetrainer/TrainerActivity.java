@@ -1,6 +1,7 @@
 package ppc.signalize.mira.conversation.conversationservicetrainer.conversationservicetrainer;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
@@ -28,6 +29,7 @@ import android.widget.Toast;
 import org.alicebot.ab.FileUtils;
 import org.alicebot.ab.Ghost;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -48,7 +50,7 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
     protected static ArrayList<String> listInpNames,listNames;
     ListView listPatternFile;
     String responseTemplate, strFilename, strPattern;
-    Button sendText;
+    Button sendText,addReduction;
     TextView response;
 
 
@@ -64,6 +66,48 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
         FileUtility.copyAssetsToStorage();
         }
         sendText = (Button)findViewById(R.id.sendButton);
+        addReduction = (Button) findViewById(R.id.trainer_add_new_reduction);
+        addReduction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(input.getText().length() == 0){
+                    AdvancedSettings.showErrorToast(getApplicationContext(),"Specify input pattern first");
+                }
+                else{
+                    try {
+                        final String[] filelist = FileUtility.listFiles(getApplicationContext(),FileUtility.AIMLdir);
+                        Log.d(TAG,"FILEIST " + filelist.length);
+                        final AlertDialog.Builder builder = new AlertDialog.Builder(TrainerActivity.this);
+                        builder.setTitle(getString(R.string.choose_file));
+                        Dialog dialog = null;
+
+                        builder.setItems(filelist,new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                (new NewReductionDialog(TrainerActivity.this,filelist[which],input.getText().toString())).show();
+                                dialog.dismiss();
+                            }
+                        });
+                        builder.setNegativeButton(getString(R.string.cancel_button),new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                dialog.dismiss();
+
+
+                            }
+                        });
+                        dialog = builder.create();
+                        dialog.show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        AdvancedSettings.showErrorToast(getApplicationContext(),"Cannot load file list!!");
+                    }
+
+
+                }
+            }
+        });
         input = (EditText)findViewById(R.id.inputText);
         input.setOnFocusChangeListener(new EditTextFocusChangeListener());
         sendText.setOnClickListener(this);

@@ -21,11 +21,6 @@
     <string name="template_button">template</string>
     <string name="randomli_button">random/li</string>
     <string name="srai">Srai</string>
-    <string name="topic_button">topic</string>
-    <string name="star_button">star</string>
-    <string name="get_button">get</string>
-    <string name="set_button">set</string>
-    <string name="condition_button">condition</string>
     <string name="view_aiml_tags">View AIML Tags</string>
     <string name="close_aiml_tags">Close AIML Tags</string>
     <string name="select_srai">SELECT SRAI</string>
@@ -41,5 +36,9 @@
     <string name="new_reduction_dialog_prompt">Do you want to add a new reduction?</string>
     <string name="title_activity_new_reduction">NewReduction</string>
     <string name="create_reduction">Add Reduction</string>
-
+    <string name="get_response">Get Response</string>
+    <string name="input_tv">Input</string>
+    <string name="response_text">Response</string>
+    <string name="choose_file">Choose file to add reduction to …</string>
+    <string name="add_new_reduction_question">Add New Reduction?</string>
 </resources>
