@@ -66,8 +66,7 @@ public class UtilityStrings {
         buttonIdMap.put("random","add_random_tag");
         buttonIdMap.put("li","add_li_tag");
         buttonIdMap.put("set","add_set_tag");
-        buttonIdMap.put("gossip","add_gossip_tag");
-        buttonIdMap.put("srai","add_srai_tag"); // This alone is a Spinner
+        buttonIdMap.put("srai","add_srai_tag"); // This alone is a Spinner as well as button
         buttonIdMap.put("think","add_think_tag");
         buttonIdMap.put("learn","add_learn_tag");
         buttonIdMap.put("oob","add_oob_tag");

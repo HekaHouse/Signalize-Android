@@ -333,23 +333,13 @@ public class Listeners {
 
         private void addTemplateTag(){
             currentResponseET.clearFocus();
-            if(currentResponseET.getText().toString().contains("<template>")){
-                AdvancedSettings.showErrorToast(context,"Response already contains template tag, cannot add one more!!");
-            }
-            else{
-                String tag = "<template> </template>";
-                addTag(tag, ">");
-            }
+            String tag = "<template> </template>";
+            addTag(tag, ">");
         }
         private void addRandom_LiTag(){
             currentResponseET.clearFocus();
-            if(currentResponseET.getText().toString().contains("<random>")){
-                AdvancedSettings.showErrorToast(context,"Response already contains random tag, cannot add one more!!");
-            }
-            else{
-                String tag = "<random><li> </li></random>";
-                addTag(tag, "li>");
-            }
+            String tag = "<random><li> </li></random>";
+            addTag(tag, "li>");
         }
 
     }

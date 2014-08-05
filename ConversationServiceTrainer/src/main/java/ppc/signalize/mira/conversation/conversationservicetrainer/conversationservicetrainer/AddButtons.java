@@ -42,32 +42,30 @@ public class AddButtons {
             while(idIterator.hasNext()){
                 Map.Entry pairs = (Map.Entry) idIterator.next();
                 final String key = pairs.getKey().toString();
-                if(!key.equals("srai")) {
-                    Button button = new Button(context);
+                Button button = new Button(context);
 
-                    button.setText(pairs.getKey().toString());
-                    button.setOnClickListener(new Listeners.AddTagListener(context, UtilityStrings.TAGTOADD.valueOf(key.toUpperCase()), editText));
-                    button.setOnLongClickListener(new View.OnLongClickListener() {
-                        @Override
-                        public boolean onLongClick(View v) {
-                            Toast.makeText(context, UtilityStrings.buttonToolTipMap.get(key), Toast.LENGTH_SHORT).show();
-                            return false;
-                        }
-                    });
-                    childcount ++;
-                    linearLayout.addView(button);
-                    LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)button.getLayoutParams();
-                    params.weight = 1f;
-                    button.setLayoutParams(params);
-                    if(childcount == 2){
-                        root.addView(linearLayout);
-                        linearLayout = new LinearLayout(context);
-                        linearLayout.setOrientation(LinearLayout.HORIZONTAL);
-                        childcount = 0;
+                button.setText(pairs.getKey().toString());
+                button.setOnClickListener(new Listeners.AddTagListener(context, UtilityStrings.TAGTOADD.valueOf(key.toUpperCase()), editText));
+                button.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        Toast.makeText(context, UtilityStrings.buttonToolTipMap.get(key), Toast.LENGTH_SHORT).show();
+                        return false;
                     }
-
-                    Log.d("AddButtons", "Added button " + key);
+                });
+                childcount ++;
+                linearLayout.addView(button);
+                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)button.getLayoutParams();
+                params.weight = 1f;
+                button.setLayoutParams(params);
+                if(childcount == 2){
+                    root.addView(linearLayout);
+                    linearLayout = new LinearLayout(context);
+                    linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+                    childcount = 0;
                 }
+
+                Log.d("AddButtons", "Added button " + key);
 
             }
             if(childcount!=0){
