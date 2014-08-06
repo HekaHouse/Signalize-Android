@@ -32,6 +32,7 @@ public class Listeners {
                     addRandom_LiTag();
                     break;
                 case SRAI:
+                    addSraiTag();
                     break;
                 case CATEGORY:
                     addCategoryTag();
@@ -148,42 +149,47 @@ public class Listeners {
 
         }
 
+        private void addSraiTag(){
+            String tag = "<srai></srai>";
+            addTag(tag,">");
+        }
+
         private void addGossipTag() {
-            String tag = "<gossip> </gossip>";
+            String tag = "<gossip></gossip>";
             addTag(tag,">");
 
         }
 
         private void addOobTag() {
-            String tag = "<oob> </oob>";
+            String tag = "<oob></oob>";
             addTag(tag,">");
 
         }
 
         private void addLiTag() {
-            String tag = "<li> </li>";
+            String tag = "<li></li>";
             addTag(tag,">");
 
         }
 
         private void addSentenceTag() {
-            String tag = "<sentence> </sentence>";
+            String tag = "<sentence></sentence>";
             addTag(tag,">");
 
         }
 
         private void addFormalTag() {
-            String tag = "<formal> </formal>";
+            String tag = "<formal></formal>";
             addTag(tag,">");
         }
 
         private void addLowercaseTag() {
-            String tag = "<lowercase> </lowercase>";
+            String tag = "<lowercase></lowercase>";
             addTag(tag,">");
         }
 
         private void addUpperCaseTag() {
-            String tag = "<uppercase> </uppercase>";
+            String tag = "<uppercase></uppercase>";
             addTag(tag,">");
 
         }
@@ -207,7 +213,7 @@ public class Listeners {
         }
 
         private void addAIMLTag() {
-            String tag = "<aiml> </aiml>";
+            String tag = "<aiml>\n</aiml>";
             addTag(tag,">");
 
         }
@@ -234,17 +240,17 @@ public class Listeners {
 
         private void addTopicTag() {
 
-            String tag = "<topic name= \"\" > </topic>";
+            String tag = "<topic name= \"\" >\n</topic>";
             addTag(tag,"\"");
         }
 
         private void addThinkTag() {
-            String tag = "<think > </think>";
+            String tag = "<think ></think>";
             addTag(tag,">");
         }
 
         private void addThatTag() {
-            String tag = "<that> </that>";
+            String tag = "<that></that>";
             addTag(tag,">");
 
         }
@@ -261,7 +267,7 @@ public class Listeners {
         }
 
         private void addSetTag() {
-            String tag = "<set name = \"\"> </set>";
+            String tag = "<set name = \"\"></set>";
             addTag(tag,"\"");
 
         }
@@ -279,7 +285,7 @@ public class Listeners {
         }
 
         private void addPatternTag() {
-            String tag = "<pattern> </pattern>";
+            String tag = "<pattern></pattern>";
             addTag(tag,">");
 
         }
@@ -291,7 +297,7 @@ public class Listeners {
         }
 
         private void addLearnTag() {
-            String tag = "<learn> </learn>";
+            String tag = "<learn></learn>";
             addTag(tag,">");
 
         }
@@ -320,25 +326,25 @@ public class Listeners {
         }
 
         private void addConditionTag() {
-            String tag = "<condition> </condition>";
+            String tag = "<condition></condition>";
             addTag(tag,">");
 
         }
 
         private void addCategoryTag() {
-            String tag = "<category> </category>";
+            String tag = "<category>\n</category>";
             addTag(tag,">");
 
         }
 
         private void addTemplateTag(){
             currentResponseET.clearFocus();
-            String tag = "<template> </template>";
+            String tag = "<template>\n</template>";
             addTag(tag, ">");
         }
         private void addRandom_LiTag(){
             currentResponseET.clearFocus();
-            String tag = "<random><li> </li></random>";
+            String tag = "<random>\n<li> </li>\n</random>";
             addTag(tag, "li>");
         }
 
