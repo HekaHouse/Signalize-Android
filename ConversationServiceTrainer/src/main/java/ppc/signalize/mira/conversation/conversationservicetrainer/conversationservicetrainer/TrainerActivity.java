@@ -41,6 +41,7 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
 
     private Menu menu;
 
+    protected static ReductionMap map;
     protected static ArrayList<String> listOfPatterns;
     private boolean bound;
     private final String TAG = "ConversationServiceTrainer";
@@ -187,6 +188,7 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
             String[] inps = inputs.split(FileUtils.delimiter);
             listInpNames = new ArrayList<String>();
             listInpNames.addAll(Arrays.asList(inps));
+            map = new ReductionMap(listInpNames);
             String[] names = filenames.split("~");
             listNames = new ArrayList<String>();
             listNames.addAll(Arrays.asList(names));
@@ -386,7 +388,7 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
 
     @Override
     public void onServiceConnected(ComponentName name, IBinder service) {
-        Log.d(TAG,"The service is now connected");
+        Log.d(TAG, "The service is now connected");
         Toast.makeText(this,"The service is now connected",Toast.LENGTH_LONG).show();
         this.service = IConversation.Stub.asInterface(service);
         this.input.setEnabled(true);

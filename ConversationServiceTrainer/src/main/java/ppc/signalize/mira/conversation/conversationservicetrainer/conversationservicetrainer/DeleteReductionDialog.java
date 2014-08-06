@@ -14,7 +14,8 @@ import android.widget.TextView;
 public class DeleteReductionDialog extends Dialog implements View.OnClickListener {
     TrainerActivity activity;
     int position;
-    Button ok_button,cancel_button;
+    private Button ok_button,cancel_button;
+    private String pattern;
 
     public DeleteReductionDialog(Context context) {
         super(context);
@@ -25,9 +26,17 @@ public class DeleteReductionDialog extends Dialog implements View.OnClickListene
         super(activity);
         this.activity = (activity instanceof TrainerActivity)?(TrainerActivity)activity:null;
         this.position = position;
+        pattern = TrainerActivity.listInpNames.get(position);
         this.setContentView(R.layout.reduction_dialog);
-        this.setTitle("Delete Reduction?");
-        ((TextView)this.findViewById(R.id.reduction_dialog_text)).setText(activity.getString(R.string.delete_reduction_dialog_prompt));
+        this.setTitle(UtilityStrings.deleteReducitonTitle);
+        if(TrainerActivity.map.isTopPattern(pattern)) {
+            ((TextView)this.findViewById(R.id.reduction_dialog_text)).setText(activity.getString(R.string.delete_reduction_dialog_prompt) +  " " + pattern);
+        }
+        else{
+            ((TextView)this.findViewById(R.id.reduction_dialog_text)).setText(
+                    UtilityStrings.not_safe_text + "\n" +
+                    activity.getString(R.string.delete_reduction_dialog_prompt) +  " " + pattern);
+        }
         ok_button = (Button) this.findViewById(R.id.reduction_dialog_ok_button);
         cancel_button = (Button) this.findViewById(R.id.reduction_dialog_cancel_button);
         ok_button.setOnClickListener(this);
@@ -42,7 +51,7 @@ public class DeleteReductionDialog extends Dialog implements View.OnClickListene
             if(activity!=null) {
                 Intent intent = new Intent((activity != null) ? activity : getContext(), DeleteReduction.class);
                 intent.putExtra(UtilityStrings.fileIntent, TrainerActivity.listNames.get(position));
-                intent.putExtra(UtilityStrings.patternIntent, TrainerActivity.listInpNames.get(position));
+                intent.putExtra(UtilityStrings.patternIntent, pattern);
                 activity.startActivityForResult(intent, UtilityStrings.DELETE_REDUCTION_RESULT_CODE);
             }
             this.dismiss();
