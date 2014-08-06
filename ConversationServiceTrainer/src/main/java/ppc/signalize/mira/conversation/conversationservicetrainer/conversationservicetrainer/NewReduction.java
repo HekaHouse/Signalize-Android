@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -24,7 +25,7 @@ public class NewReduction extends Activity implements View.OnClickListener{
     protected final String newReductionPostfix = "</template></category>";
     EditText newReductionET;
     Button addReduction,viewAIMLTags;
-    Spinner addSraiTag;
+    AutoCompleteTextView addSraiTag;
     String strFileName,strPattern;
     AddButtons addButtons;
 
@@ -36,13 +37,13 @@ public class NewReduction extends Activity implements View.OnClickListener{
         strFileName = extras.getString(UtilityStrings.fileIntent);
         strPattern = extras.getString(UtilityStrings.inputPatternIntent);
         setContentView(R.layout.activity_new_reduction);
-        newReductionET = (EditText)findViewById(R.id.newFile);
+        newReductionET = (EditText)findViewById(R.id.advanced_currentResponse);
         String newR = newReductionPrefix + strPattern + newReductionPostPattern;
         newReductionET.setText(newR + " " + newReductionPostfix);
         newReductionET.setSelection(newR.length());
-        final LinearLayout linearLayout = (LinearLayout) findViewById(R.id.new_file_aiml_tag_set);
+        final LinearLayout linearLayout = (LinearLayout) findViewById(R.id.aiml_tag_set);
         addButtons = new AddButtons(this, linearLayout, newReductionET);
-        viewAIMLTags = (Button) findViewById(R.id.new_file_aiml_tag_button);
+        viewAIMLTags = (Button) findViewById(R.id.aiml_tag_button);
         viewAIMLTags.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,18 +58,14 @@ public class NewReduction extends Activity implements View.OnClickListener{
                 }
             }
         });
-        addSraiTag = (Spinner) findViewById(R.id.new_file_add_srai_tag);
-        if (!TrainerActivity.listOfPatterns.contains(getString(R.string.select_srai))) {
-            Collections.sort(TrainerActivity.listOfPatterns);
-            TrainerActivity.listOfPatterns.add(0, getString(R.string.select_srai));
-        }
-        addSraiTag.setOnItemSelectedListener(new Listeners.SraiSelected(this, UtilityStrings.TAGTOADD.SRAI, newReductionET));
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
+        addSraiTag = (AutoCompleteTextView) findViewById(R.id.add_srai_tag);
+        addSraiTag.setOnItemClickListener(new Listeners.SraiClicked(this, UtilityStrings.TAGTOADD.SRAI, newReductionET));
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line,
                 TrainerActivity.listOfPatterns);
         addSraiTag.setAdapter(arrayAdapter);
         ((TextView)findViewById(R.id.add_new_aiml_heading)).setText(getString(R.string.create_reduction));
-        ((TextView)findViewById(R.id.new_file_name)).setVisibility(View.GONE);
-        addReduction = (Button) findViewById(R.id.create_new_file);
+        findViewById(R.id.name_text_view).setVisibility(View.GONE);
+        addReduction = (Button) findViewById(R.id.advanced_set_response);
         addReduction.setText(getString(R.string.create_reduction));
         addReduction.setOnClickListener(this);
     }

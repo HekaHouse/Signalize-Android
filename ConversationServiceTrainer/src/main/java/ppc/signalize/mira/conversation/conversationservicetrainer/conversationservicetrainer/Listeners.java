@@ -3,7 +3,9 @@ package ppc.signalize.mira.conversation.conversationservicetrainer.conversations
 import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import org.alicebot.ab.Ghost;
 
@@ -386,19 +388,57 @@ public class Listeners {
 
         private void addSraiTag(int position){
             currentResponseET.clearFocus();
-            if(currentResponseET.getText().toString().contains("<srai>") ||
-                    currentResponseET.getText().toString().contains("<sraix>")){
-                AdvancedSettings.showErrorToast(context,"Response already contains srai/sraix tag, cannot add one more!!");
-            }
-            else{
-
-                String tag = "<srai>" + TrainerActivity.listOfPatterns.get(position) + "</srai>";
-                addTag(tag,">");
-            }
+            String tag = "<srai>" + TrainerActivity.listOfPatterns.get(position) + "</srai>";
+            addTag(tag,">");
         }
 
         @Override
         public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    }
+    static class SraiClicked implements AdapterView.OnItemClickListener{
+
+        String previousText;
+        UtilityStrings.TAGTOADD tagtoadd;
+        Context context;
+        EditText currentResponseET;
+        public SraiClicked(Context context,UtilityStrings.TAGTOADD tagtoadd, EditText editText){
+            this.context = context;
+            this.tagtoadd = tagtoadd;
+            this.currentResponseET = editText;
+        }
+
+
+        private void addTag(String tag, String end){
+            currentResponseET.clearFocus();
+            previousText = currentResponseET.getText().toString();
+
+            int start = currentResponseET.getSelectionStart();
+            String s = currentResponseET.getText().toString();
+            s = s.substring(0,start) + tag + s.substring(start);
+            currentResponseET.setText(s);
+
+
+            currentResponseET.setSelection(start + tag.indexOf(end) + end.length());
+            //activity.validateXML(activity.currentResponseET, TAGTOADD.TEMPLATE);
+            currentResponseET.requestFocus();
+            AdvancedSettings.showValidToast(context,"Added " + tag + " Tag");
+
+        }
+
+        private void addSraiTag(String text){
+            currentResponseET.clearFocus();
+
+                String tag = "<srai>" + text + "</srai>";
+                addTag(tag,">");
+
+        }
+
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            addSraiTag(((TextView)view).getText().toString());
 
         }
     }

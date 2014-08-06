@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -35,129 +36,88 @@ public class AdvancedSettings extends Activity implements View.OnClickListener{
     protected final String TAG = "Advanced Setting Activity";
     private String currentResponse, strFileName, strPattern;
     private String newFile;
-    EditText currentResponseET,newFileET;
-    Button setResponse,viewAIMLTags,createNewFile;
-    Spinner addSraiTag;
+    EditText currentResponseET;
+    Button setResponse,viewAIMLTags;
+    AutoCompleteTextView addSraiTv;
     AddButtons addButtons;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle extras = getIntent().getExtras();
         newFile = extras.getString(UtilityStrings.newFileIntent);
-        if(newFile==null) {
-            setContentView(R.layout.activity_advanced_settings);
-            final LinearLayout linearLayout = (LinearLayout) findViewById(R.id.aiml_tag_set);
-            currentResponseET = (EditText) findViewById(R.id.advanced_currentResponse);
-            addButtons = new AddButtons(this, linearLayout, currentResponseET);
-            viewAIMLTags = (Button) findViewById(R.id.aiml_tag_button);
-            viewAIMLTags.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+        setContentView(R.layout.activity_advanced_settings);
+        final LinearLayout linearLayout = (LinearLayout) findViewById(R.id.aiml_tag_set);
+        currentResponseET = (EditText) findViewById(R.id.advanced_currentResponse);
+        addButtons = new AddButtons(this, linearLayout, currentResponseET);
+        viewAIMLTags = (Button) findViewById(R.id.aiml_tag_button);
+        viewAIMLTags.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-                    if (linearLayout.getVisibility() == View.GONE) {
-                        addButtons.addButtons();
-                        viewAIMLTags.setText(getString(R.string.close_aiml_tags));
-                        linearLayout.setVisibility(View.VISIBLE);
-                    } else if (linearLayout.getVisibility() == View.VISIBLE) {
-                        viewAIMLTags.setText(getString(R.string.view_aiml_tags));
-                        linearLayout.setVisibility(View.GONE);
-                    }
+                if (linearLayout.getVisibility() == View.GONE) {
+                    addButtons.addButtons();
+                    viewAIMLTags.setText(getString(R.string.close_aiml_tags));
+                    linearLayout.setVisibility(View.VISIBLE);
+                } else if (linearLayout.getVisibility() == View.VISIBLE) {
+                    viewAIMLTags.setText(getString(R.string.view_aiml_tags));
+                    linearLayout.setVisibility(View.GONE);
                 }
-            });
-            addSraiTag = (Spinner) findViewById(R.id.add_srai_tag);
-            if (!TrainerActivity.listOfPatterns.contains(getString(R.string.select_srai))) {
-                Collections.sort(TrainerActivity.listOfPatterns);
-                TrainerActivity.listOfPatterns.add(0, getString(R.string.select_srai));
             }
-            addSraiTag.setOnItemSelectedListener(new Listeners.SraiSelected(this, UtilityStrings.TAGTOADD.SRAI, currentResponseET));
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
-                    TrainerActivity.listOfPatterns);
-            addSraiTag.setAdapter(arrayAdapter);
-            addButtons.setEditText(currentResponseET);
+        });
+
+
+        if(newFile != null) {
+            findViewById(R.id.add_new_aiml_heading).setVisibility(View.VISIBLE);
+            ((TextView) findViewById(R.id.name_text_view)).setText(newFile);
+        }
+        addButtons.setEditText(currentResponseET);
+        if(newFile == null) {
             currentResponse = extras.getString(UtilityStrings.currentResponseIntent);
-            strFileName = extras.getString(UtilityStrings.fileIntent);
-            strPattern = extras.getString(UtilityStrings.patternIntent);
-            setResponse = (Button) findViewById(R.id.advanced_set_response);
-            setResponse.setOnClickListener(this);
-
             currentResponseET.setText(currentResponse);
-            //validateXML(currentResponseET,TAGTOADD.RANDOM_LI);
-            currentResponseET.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                @Override
-                public void onFocusChange(View v, boolean hasFocus) {
-                    if (!hasFocus) {
-                        //Toast.makeText(getApplicationContext(), "" + currentResponseET.getSelectionStart(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-            currentResponseET.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    if (v.getId() == R.id.advanced_currentResponse) {
-                        v.getParent().requestDisallowInterceptTouchEvent(true);
-                        switch (event.getAction() & MotionEvent.ACTION_MASK) {
-                            case MotionEvent.ACTION_UP:
-                                v.getParent().requestDisallowInterceptTouchEvent(false);
-                                break;
-                        }
-                    }
-                    return false;
-                }
-            });
-
-
         }
-        else if(newFile != null){
-            setContentView(R.layout.new_file_activity);
-            newFileET = (EditText)findViewById(R.id.newFile);
-            newFileET.setText(UtilityStrings.XML_PROCESSING_STRING);
-            newFileET.setSelection(UtilityStrings.XML_PROCESSING_STRING.length());
-            final LinearLayout linearLayout = (LinearLayout) findViewById(R.id.new_file_aiml_tag_set);
-            addButtons = new AddButtons(this, linearLayout, newFileET);
-            viewAIMLTags = (Button) findViewById(R.id.new_file_aiml_tag_button);
-            viewAIMLTags.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+        else{
+            currentResponseET.setText(UtilityStrings.XML_PROCESSING_STRING + "\n");
+            currentResponseET.setSelection((UtilityStrings.XML_PROCESSING_STRING + "\n").length());
+        }
+        strFileName = extras.getString(UtilityStrings.fileIntent);
+        strPattern = extras.getString(UtilityStrings.patternIntent);
+        setResponse = (Button) findViewById(R.id.advanced_set_response);
+        setResponse.setOnClickListener(this);
+        if(newFile != null){
+            setResponse.setText(getString(R.string.create_file));
+        }
+        addSraiTv = (AutoCompleteTextView)findViewById(R.id.add_srai_tag);
 
-                    if (linearLayout.getVisibility() == View.GONE) {
-                        addButtons.addButtons();
-                        viewAIMLTags.setText(getString(R.string.close_aiml_tags));
-                        linearLayout.setVisibility(View.VISIBLE);
-                    } else if (linearLayout.getVisibility() == View.VISIBLE) {
-                        viewAIMLTags.setText(getString(R.string.view_aiml_tags));
-                        linearLayout.setVisibility(View.GONE);
-                    }
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line,
+                TrainerActivity.listOfPatterns);
+        addSraiTv.setAdapter(arrayAdapter);
+        addSraiTv.setOnItemClickListener(new Listeners.SraiClicked(this,UtilityStrings.TAGTOADD.SRAI,currentResponseET));
+
+
+
+        currentResponseET.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    //Toast.makeText(getApplicationContext(), "" + currentResponseET.getSelectionStart(), Toast.LENGTH_SHORT).show();
                 }
-            });
-            addSraiTag = (Spinner) findViewById(R.id.new_file_add_srai_tag);
-            if (!TrainerActivity.listOfPatterns.contains(getString(R.string.select_srai))) {
-                Collections.sort(TrainerActivity.listOfPatterns);
-                TrainerActivity.listOfPatterns.add(0, getString(R.string.select_srai));
             }
-            addSraiTag.setOnItemSelectedListener(new Listeners.SraiSelected(this, UtilityStrings.TAGTOADD.SRAI, newFileET));
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
-                    TrainerActivity.listOfPatterns);
-            addSraiTag.setAdapter(arrayAdapter);
-            ((TextView)findViewById(R.id.new_file_name)).setText(newFile);
-            createNewFile = (Button)findViewById(R.id.create_new_file);
-            createNewFile.setOnClickListener(this);
-            newFileET.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    if (v.getId() == R.id.newFile) {
-                        v.getParent().requestDisallowInterceptTouchEvent(true);
-                        switch (event.getAction() & MotionEvent.ACTION_MASK) {
-                            case MotionEvent.ACTION_UP:
-                                v.getParent().requestDisallowInterceptTouchEvent(false);
-                                break;
-                        }
+        });
+        this.setTitle(getString(R.string.add_new_aiml_file));
+        currentResponseET.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (v.getId() == R.id.advanced_currentResponse) {
+                    v.getParent().requestDisallowInterceptTouchEvent(true);
+                    switch (event.getAction() & MotionEvent.ACTION_MASK) {
+                        case MotionEvent.ACTION_UP:
+                            v.getParent().requestDisallowInterceptTouchEvent(false);
+                            break;
                     }
-                    return false;
                 }
-            });
-        }
-
-
+                return false;
+            }
+        });
 
     }
 
@@ -193,37 +153,6 @@ public class AdvancedSettings extends Activity implements View.OnClickListener{
         TextView textView= (TextView) toast.getView().findViewById(android.R.id.message);
         textView.setTextColor(Color.YELLOW);
         toast.show();
-    }
-    protected void validateXML(EditText currentResponse, UtilityStrings.TAGTOADD tagtoadd){
-        try {
-            Log.d(TAG,"Current Response " + currentResponse.getText());
-            GenericAIMLValidator genericAIMLValidator = new GenericAIMLValidator(currentResponse.getText().toString());
-            String []childrenInOrder = {"pattern"};
-            switch (tagtoadd){
-                case TEMPLATE:
-                     childrenInOrder = new String[]{"pattern", "template"};
-                     break;
-                case RANDOM:
-                    childrenInOrder = new String[]{"pattern", "template", "random", "li"};
-                    break;
-            }
-
-            if(!genericAIMLValidator.isValidChild("category",childrenInOrder)){
-                AdvancedSettings.showErrorToast(getApplicationContext(),"AIML Validation Error");
-            }
-            else{
-                AdvancedSettings.showValidToast(getApplicationContext(),"Valid AIML TAGS");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.e(TAG,"Cannot convert to XML IO Exception");
-        } catch (SAXException e) {
-            e.printStackTrace();
-            Log.e(TAG,"Cannot convert to XML SAX Exception");
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-            Log.e(TAG,"Cannot convert to XML Parser Config Exception");
-        }
 
     }
 
@@ -273,9 +202,9 @@ public class AdvancedSettings extends Activity implements View.OnClickListener{
             AIMLValidate aimlValidate = new AIMLValidate(this.getApplicationContext());
             boolean valid = false;
             try {
-                valid = aimlValidate.aimlValidate(newFileET.getText().toString());
+                valid = aimlValidate.aimlValidate(currentResponseET.getText().toString());
                 if(valid){
-                    valid = FileUtility.createFile(newFile,newFileET.getText().toString());
+                    valid = FileUtility.createFile(newFile,currentResponseET.getText().toString());
                     if(valid){
                         AdvancedSettings.showValidToast(this,"Created wrote to " + newFile + " successfully.");
                     }
@@ -289,6 +218,8 @@ public class AdvancedSettings extends Activity implements View.OnClickListener{
             }
 
         }
+        finish();
+
 
     }
 }

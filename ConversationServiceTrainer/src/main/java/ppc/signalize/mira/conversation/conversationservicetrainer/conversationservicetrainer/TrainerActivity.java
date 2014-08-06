@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
@@ -38,6 +39,7 @@ import ppc.signalize.mira.conversation.IConversation;
 
 public class TrainerActivity extends Activity implements View.OnClickListener,ServiceConnection,AdapterView.OnItemClickListener{
 
+    private Menu menu;
 
     protected static ArrayList<String> listOfPatterns;
     private boolean bound;
@@ -120,6 +122,7 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
         bar = new TopServiceConnectionBarActions(this);
         bar.addToRoot(((LinearLayout)findViewById(R.id.top_service_connection_bar_root)));
         bar.notConnected();
+
         connectToService();
 
     }
@@ -244,6 +247,9 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.trainer_activity_actions, menu);
+        this.menu = menu;
+        enableConnectToService(true);
+        Log.d(TAG,"Created options menu");
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -264,6 +270,10 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
         else if(id == R.id.add_new_aiml_file){
             new CreateFileDialog(this).show();
 
+        }
+        else if(id == R.id.retry_connection){
+            Toast.makeText(this,"Clicked Retry Connection",Toast.LENGTH_SHORT).show();
+            connectToService();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -384,6 +394,7 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
         this.input.requestFocus();
         setListOfPatterns();
         bar.connected();
+        enableConnectToService(false);
     }
 
     @Override
@@ -391,6 +402,29 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
         Log.d(TAG,"Disconnected from the service");
         disableUI();
         bar.notConnected();
+        enableConnectToService(true);
+    }
+
+    private void enableConnectToService(final boolean flag){
+        if(menu == null){
+            (new Handler()).postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    runOnUiThread( new Runnable() {
+                        @Override
+                        public void run() {
+                            enableConnectToService(flag);
+                        }
+                    });
+                }
+            },5000);
+        }
+        else {
+            MenuItem menuItem = menu.findItem(R.id.retry_connection);
+            Log.d(TAG,"Connect to service " + flag);
+            menuItem.setVisible(flag);
+            //menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        }
     }
 
     @Override

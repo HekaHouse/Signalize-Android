@@ -20,7 +20,7 @@
     <string name="title_activity_advanced_settings">AdvancedSettings</string>
     <string name="template_button">template</string>
     <string name="randomli_button">random/li</string>
-    <string name="srai">Srai</string>
+    <string name="srai">SRAI template</string>
     <string name="view_aiml_tags">View AIML Tags</string>
     <string name="close_aiml_tags">Close AIML Tags</string>
     <string name="select_srai">SELECT SRAI</string>
@@ -41,4 +41,5 @@
     <string name="response_text">Response</string>
     <string name="choose_file">Choose file to add reduction to …</string>
     <string name="add_new_reduction_question">Add New Reduction?</string>
+    <string name="connect_to_service">Click to start/connect to service</string>
 </resources>
