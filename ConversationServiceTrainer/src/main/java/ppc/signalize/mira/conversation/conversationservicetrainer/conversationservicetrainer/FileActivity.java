@@ -58,6 +58,7 @@ public class FileActivity extends Activity implements View.OnClickListener{
             AdvancedSettings.showErrorToast(this,"Internal Storage Defined !!! Cannot Modify Files!! Read Only !!");
             Log.w(TAG,"Internal Storage Defined !!! Cannot Modify Files!! Read Only !!");
             newResponse.setEnabled(false);
+            setResponse.setEnabled(false);
         }
         else {
             setResponse.setOnClickListener(this);
