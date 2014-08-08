@@ -42,6 +42,10 @@ public class Ghost extends Bot {
         return false;
     }
 
+    public static void setAssetsStorage(){
+        FileUtils.setStorageType(FileUtils.STORAGE_TYPE.ASSETS_STORAGE);
+    }
+
     public static void setInternalStorage(boolean internalStorage) {
         FileUtils.setStorageType(FileUtils.STORAGE_TYPE.INTERNAL_STORAGE);
     }
