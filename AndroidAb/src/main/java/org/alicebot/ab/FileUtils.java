@@ -143,7 +143,7 @@ public class FileUtils {
         storageType = s;
     }
 
-    protected static STORAGE_TYPE getStorageType(){
+    public static STORAGE_TYPE getStorageType(){
         return storageType;
     }
 
