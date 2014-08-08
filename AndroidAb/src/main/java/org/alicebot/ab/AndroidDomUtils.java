@@ -44,7 +44,7 @@ public class AndroidDomUtils {
         }
         else {
             dBuilder.setInput(new FileReader(new File(FileUtils.getStorageDirectory(), fileName)));
-            Log.e(TAG,"Accessing file " + FileUtils.getStorageDirectory() + "/" + fileName);
+            Log.d(TAG,"Accessing file " + FileUtils.getStorageDirectory() + "/" + fileName);
         }
         return dBuilder;
     }
