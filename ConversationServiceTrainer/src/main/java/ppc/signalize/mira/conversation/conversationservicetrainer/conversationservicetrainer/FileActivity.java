@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.alicebot.ab.FileUtils;
 import org.w3c.dom.Node;
 
 
@@ -22,7 +24,7 @@ public class FileActivity extends Activity implements View.OnClickListener{
     private EditText newResponse;
     private Button setResponse,advancedResponse;
     private String strFileName,strPattern,strTemplate;
-
+    private final String TAG = "FILE ACTIVITY";
 
 
 
@@ -46,54 +48,64 @@ public class FileActivity extends Activity implements View.OnClickListener{
         currentResponse = (TextView)findViewById(R.id.currentResponse);
         newResponse = (EditText)findViewById(R.id.newResponse);
         setResponse = (Button)findViewById(R.id.setResponse);
-        setResponse.setOnClickListener(this);
+
         advancedResponse = (Button)findViewById(R.id.advancedResponse);
-        advancedResponse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+
+        fileName.setText(strFileName);
+        pattern.setText(strPattern);
+        Log.d(TAG,FileUtility.getStorageType().name());
+        if(FileUtility.getStorageType() == FileUtils.STORAGE_TYPE.INTERNAL_STORAGE){
+            AdvancedSettings.showErrorToast(this,"Internal Storage Defined !!! Cannot Modify Files!! Read Only !!");
+            Log.w(TAG,"Internal Storage Defined !!! Cannot Modify Files!! Read Only !!");
+            newResponse.setEnabled(false);
+        }
+        else {
+            setResponse.setOnClickListener(this);
+            advancedResponse.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                 /*
                 * Onclick method for the Advanced Settings button.
                 * */
-                Intent intent = new Intent(getApplicationContext(),AdvancedSettings.class);
-                intent.putExtra(UtilityStrings.currentResponseIntent,currentResponse.getText());
-                intent.putExtra(UtilityStrings.fileIntent,strFileName);
-                intent.putExtra(UtilityStrings.patternIntent,strPattern);
-                startActivity(intent);
-            }
-        });
-        fileName.setText(strFileName);
-        pattern.setText(strPattern);
-        FileUtility.openFile(strFileName);
-        Node responseElement = FileUtility.getReqResponse(strPattern);
-        FileUtility.changedString = FileUtility.getChangedNodeString(responseElement);
-        currentResponse.setText(FileUtility.getChangedNodeString(responseElement));
-        Button viewFile = (Button)findViewById(R.id.viewFile);
-        viewFile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(),AdvancedSettings.class);
+                    intent.putExtra(UtilityStrings.currentResponseIntent,currentResponse.getText());
+                    intent.putExtra(UtilityStrings.fileIntent,strFileName);
+                    intent.putExtra(UtilityStrings.patternIntent,strPattern);
+                    startActivity(intent);
+                }
+            });
+            FileUtility.openFile(strFileName);
+            Node responseElement = FileUtility.getReqResponse(strPattern);
+            FileUtility.changedString = FileUtility.getChangedNodeString(responseElement);
+            currentResponse.setText(FileUtility.getChangedNodeString(responseElement));
+            Button viewFile = (Button) findViewById(R.id.viewFile);
+            viewFile.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                 /*
                 * On Click method for the View File Button.
                 * */
-                Intent intent;
-                intent = new Intent(getApplicationContext(),ViewFileActivity.class);
-                intent.putExtra(UtilityStrings.fileIntent,strFileName);
-                startActivity(intent);
-            }
-        });
-        currentResponse.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (v.getId() == R.id.currentResponse) {
-                    v.getParent().requestDisallowInterceptTouchEvent(true);
-                    switch (event.getAction() & MotionEvent.ACTION_MASK) {
-                        case MotionEvent.ACTION_UP:
-                            v.getParent().requestDisallowInterceptTouchEvent(false);
-                            break;
-                    }
+                    Intent intent;
+                    intent = new Intent(getApplicationContext(), ViewFileActivity.class);
+                    intent.putExtra(UtilityStrings.fileIntent, strFileName);
+                    startActivity(intent);
                 }
-                return false;
-            }
-        });
+            });
+            currentResponse.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (v.getId() == R.id.currentResponse) {
+                        v.getParent().requestDisallowInterceptTouchEvent(true);
+                        switch (event.getAction() & MotionEvent.ACTION_MASK) {
+                            case MotionEvent.ACTION_UP:
+                                v.getParent().requestDisallowInterceptTouchEvent(false);
+                                break;
+                        }
+                    }
+                    return false;
+                }
+            });
+        }
     }
 
     public static void init(Context context){

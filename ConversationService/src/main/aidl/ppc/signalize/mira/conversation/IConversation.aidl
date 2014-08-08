@@ -13,4 +13,5 @@ interface IConversation {
     void writeAIMLOut();
     void reSync();
     List<String> listOfPatterns();
+    String getStorageType();
 }

@@ -12,6 +12,7 @@ import org.alicebot.ab.FileUtils;
 import org.alicebot.ab.Ghost;
 import org.alicebot.ab.Nodemapper;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +31,11 @@ public final class Conversation {
 
 
     private Conversation(Context context) {
-        Ghost.setContext(context,Util.storageType);
+        Util.setStorageType(context);
+        FileUtils.setContext(context);
+        Ghost.setContext(context, Util.getStorageType());
+        Log.d(TAG,"STORAGE TYPE IN FILEUTILS FILE " + FileUtils.getStorageType().name());
+        Log.d(TAG,"STORAGE TYPE FROM UTIL FILE" + Util.getStorageType().name());
         //FileUtils.setContext(context);
         if(resync || ghost==null) ghost = new Ghost(Util._name, Util._AIML_path);
         session = new AndroidChat(ghost);
@@ -126,6 +131,10 @@ public final class Conversation {
         resync = false;
         Log.d("ConversationClass","Resynced");
         return synced;
+    }
+
+    public String getStorageType(){
+        return FileUtils.getStorageType().name();
     }
 
 

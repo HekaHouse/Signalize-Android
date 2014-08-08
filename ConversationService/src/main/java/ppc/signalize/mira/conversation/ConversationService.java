@@ -50,7 +50,7 @@ public class ConversationService extends Service{
     @Override
     public IBinder onBind(Intent intent) {
         if(intent.getAction().equals("ppc.signalize.mira.conversation.ConversationService")){
-            context = this.getApplicationContext();
+            context = this;
             conversation = Conversation.initialize(context);
             Log.d(TAG,"The Service was created");
             PackageManager pm = getPackageManager();
@@ -115,6 +115,11 @@ public class ConversationService extends Service{
         @Override
         public List<String> listOfPatterns() throws RemoteException {
             return conversation.getListofPatterns();
+        }
+
+        @Override
+        public String getStorageType() throws RemoteException {
+            return conversation.getStorageType();
         }
     }
 

@@ -60,7 +60,7 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FileUtility.setContext(this);
+        //FileUtility.setContext(this);
 
         setContentView(R.layout.activity_trainer);
         //Ghost.setInternalStorage(true);
@@ -394,6 +394,12 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
         setListOfPatterns();
         bar.connected();
         enableConnectToService(false);
+        try {
+            FileUtility.setStorageType(FileUtility.STORAGE_TYPE.valueOf(this.service.getStorageType()));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            AdvancedSettings.showErrorToast(this,"Not Able to get the defined Storage Type!!!");
+        }
     }
 
     @Override

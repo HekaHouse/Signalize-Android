@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <string name="share_preference_file">preferencesText</string>
+    <string name="storage_type_pref">storage_type_name</string>
     <string name="app_name">ConversationService</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -9,5 +10,9 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_conversation">ConversationActivity</string>
+    <string name="which_storage">Which Storage should be used ?</string>
+    <string name="radio_internal_storage">Internal Storage</string>
+    <string name="radio_external_storage">External Storage</string>
+    <string name="copy_files">Copy Files</string>
 
 </resources>

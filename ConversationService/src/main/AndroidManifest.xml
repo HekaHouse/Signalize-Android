@@ -24,10 +24,6 @@
         </receiver>
 
         <activity
-            android:name=".ModifyFile"
-            android:label="@string/title_activity_modify_file" >
-        </activity>
-        <activity
             android:name=".ConversationActivity"
             android:label="@string/title_activity_conversation" >
             <intent-filter>
