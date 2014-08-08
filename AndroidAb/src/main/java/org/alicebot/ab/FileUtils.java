@@ -139,7 +139,7 @@ public class FileUtils {
         return null;
     }
 
-    protected static void setStorageType(STORAGE_TYPE s){
+    public static void setStorageType(STORAGE_TYPE s){
         storageType = s;
     }
 
