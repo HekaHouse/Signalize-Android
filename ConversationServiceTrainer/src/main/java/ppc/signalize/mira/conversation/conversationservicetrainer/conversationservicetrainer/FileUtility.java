@@ -1,6 +1,5 @@
 package ppc.signalize.mira.conversation.conversationservicetrainer.conversationservicetrainer;
 
-import android.content.Context;
 import android.os.RemoteException;
 import android.text.Spannable;
 import android.text.style.ForegroundColorSpan;
@@ -46,9 +45,7 @@ public class FileUtility extends org.alicebot.ab.FileUtils{
 
     static String changedString = "";
     protected static XMLState xmlstate = new XMLState();
-    protected static void setContext(Context context){
-        FileUtility.context = context;
-    }
+
 
     protected static String getChangedNodeString(Node responseText){
         String response = xmltoString(responseText);

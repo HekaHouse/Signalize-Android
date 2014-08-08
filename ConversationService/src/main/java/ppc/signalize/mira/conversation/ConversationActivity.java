@@ -1,21 +1,13 @@
 package ppc.signalize.mira.conversation;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.IOException;
-import java.util.ArrayList;
+import org.alicebot.ab.FileUtils;
+import org.alicebot.ab.Ghost;
+
 
 public class ConversationActivity extends Activity {
 
@@ -23,33 +15,9 @@ public class ConversationActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversation);
-        /*Intent intent = new Intent(this,ConversationService.class);
-        startService(intent);*/
-        ListView listView=(ListView)findViewById(R.id.listView);
-        try {
-            String []files = this.getAssets().list("MIRA/aiml");
-            ArrayList listFiles;
-            listFiles = new ArrayList<String>();
-            for(String filename:files){
-                listFiles.add(filename);
-            }
-            ArrayAdapter<String> arrayAdapter;
-            arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,listFiles);
-            listView.setAdapter(arrayAdapter);
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    TextView textView = (TextView)view;
-                    Toast.makeText(getApplicationContext(),"Clicked "+textView.getText().toString(),Toast.LENGTH_SHORT).show();
-                    Intent intent;
-                    intent = new Intent(getApplication(),ModifyFile.class);
-                    intent.putExtra("fileName","MIRA/aiml/"+textView.getText().toString());
-                    startActivity(intent);
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        FileUtils.setContext(this);
+        Ghost.setExternalStorage();
+        FileUtils.copyAssetsToStorage();
 
     }
 

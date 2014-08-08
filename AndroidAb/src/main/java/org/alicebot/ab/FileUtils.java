@@ -24,6 +24,9 @@ public class FileUtils {
     public static Context context = null;
     public static String AIMLdir = "MIRA/aiml";
     public static String MIRAdir = "MIRA";
+    public static void setContext(Context context){
+        FileUtils.context = context;
+    }
     public static void copyAssetsToStorage(){
         if(storageType == STORAGE_TYPE.INTERNAL_STORAGE) {
             Log.d(TAG,"Going to copy to internal storage");

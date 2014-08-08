@@ -64,10 +64,7 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
 
         setContentView(R.layout.activity_trainer);
         //Ghost.setInternalStorage(true);
-        Ghost.setExternalStorage();
-        if(!FileUtility.storeExists()){
-        FileUtility.copyAssetsToStorage();
-        }
+
         sendText = (Button)findViewById(R.id.sendButton);
         addReduction = (Button) findViewById(R.id.trainer_add_new_reduction);
         addReduction.setOnClickListener(new View.OnClickListener() {
