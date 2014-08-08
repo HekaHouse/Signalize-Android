@@ -1,6 +1,7 @@
 package ppc.signalize.mira.conversation;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,6 +37,7 @@ public class ConversationActivity extends Activity {
         copyFiles = (Button)findViewById(R.id.copyFilesButton);
         radioStorageGroup = (RadioGroup)findViewById(R.id.radioStorageGroup);
         fileList = (ListView)findViewById(R.id.fileList);
+
         Ghost.setContext(this);
         SharedPreferences prefs = this.getSharedPreferences(getString(R.string.share_preference_file),MODE_PRIVATE);
         final SharedPreferences.Editor edit = prefs.edit();
@@ -50,7 +52,7 @@ public class ConversationActivity extends Activity {
                     Log.d("Conversation Activity","Selected External Storage");
                     Toast.makeText(getApplicationContext(),"Selected External Storage",Toast.LENGTH_LONG).show();
                     Util.setStorageType(FileUtils.STORAGE_TYPE.EXTERNAL_STORAGE);
-                    edit.putString(getString(R.string.storage_type_pref),FileUtils.STORAGE_TYPE.EXTERNAL_STORAGE.name());
+                    edit.putString(getString(R.string.storage_type_pref), FileUtils.STORAGE_TYPE.EXTERNAL_STORAGE.name());
                     edit.commit();
                 }
                 else if(text.contains(getString(R.string.radio_internal_storage))){
@@ -59,7 +61,7 @@ public class ConversationActivity extends Activity {
                     Log.d("Conversation Activity","Selected Internal Storage");
                     Toast.makeText(getApplicationContext(),"Selected Internal Storage",Toast.LENGTH_LONG).show();
                     Util.setStorageType(FileUtils.STORAGE_TYPE.INTERNAL_STORAGE);
-                    edit.putString(getString(R.string.storage_type_pref),FileUtils.STORAGE_TYPE.INTERNAL_STORAGE.name());
+                    edit.putString(getString(R.string.storage_type_pref), FileUtils.STORAGE_TYPE.INTERNAL_STORAGE.name());
                     edit.commit();
                 }
                 try {
@@ -98,7 +100,14 @@ public class ConversationActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.stop_service) {
+            Intent intent = new Intent(this,ConversationService.class);
+            if(stopService(intent)){
+                Toast.makeText(this,"Stopped the Conversation Service",Toast.LENGTH_LONG).show();
+            }
+            else{
+                Toast.makeText(this,"Conversation Service is not running !!",Toast.LENGTH_SHORT).show();
+            }
             return true;
         }
         return super.onOptionsItemSelected(item);
