@@ -73,6 +73,9 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
                 if(input.getText().length() == 0){
                     AdvancedSettings.showErrorToast(getApplicationContext(),"Specify input pattern first");
                 }
+                else if(FileUtility.getStorageType() != FileUtility.STORAGE_TYPE.EXTERNAL_STORAGE){
+                    AdvancedSettings.showErrorToast(getApplicationContext(),UtilityStrings.cannot_modify_text);
+                }
                 else{
                     try {
                         final String[] filelist = FileUtility.listFiles(getApplicationContext(),FileUtility.AIMLdir);
@@ -267,7 +270,12 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
             return true;
         }
         else if(id == R.id.add_new_aiml_file){
-            new CreateFileDialog(this).show();
+            if(FileUtility.getStorageType() == FileUtils.STORAGE_TYPE.EXTERNAL_STORAGE) {
+                new CreateFileDialog(this).show();
+            }
+            else{
+                AdvancedSettings.showErrorToast(this,UtilityStrings.cannot_modify_text);
+            }
 
         }
         else if(id == R.id.retry_connection){

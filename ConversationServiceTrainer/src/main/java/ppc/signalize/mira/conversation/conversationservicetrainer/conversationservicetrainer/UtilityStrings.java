@@ -6,6 +6,7 @@ import java.util.HashMap;
  * Created by mukundan on 7/22/14.
  */
 public class UtilityStrings {
+    protected static final String cannot_modify_text = "Internal/Assets Storage selected!! Cannot create/modify files!! READ ONLY";
     protected static final String not_safe_text = "Not safe to delete reduction.Other patterns may depend upon this reduction.";
     protected static final String deleteReducitonTitle = "Delete Reduction?";
     protected static final String XML_PROCESSING_STRING = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";

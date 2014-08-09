@@ -54,9 +54,9 @@ public class FileActivity extends Activity implements View.OnClickListener{
         fileName.setText(strFileName);
         pattern.setText(strPattern);
         Log.d(TAG,FileUtility.getStorageType().name());
-        if(FileUtility.getStorageType() == FileUtils.STORAGE_TYPE.INTERNAL_STORAGE){
-            AdvancedSettings.showErrorToast(this,"Internal Storage Defined !!! Cannot Modify Files!! Read Only !!");
-            Log.w(TAG,"Internal Storage Defined !!! Cannot Modify Files!! Read Only !!");
+        if(FileUtility.getStorageType() != FileUtils.STORAGE_TYPE.EXTERNAL_STORAGE){
+            AdvancedSettings.showErrorToast(this,UtilityStrings.cannot_modify_text);
+            Log.w(TAG,UtilityStrings.cannot_modify_text);
             newResponse.setEnabled(false);
             setResponse.setEnabled(false);
         }

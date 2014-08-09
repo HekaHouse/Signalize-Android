@@ -18,7 +18,7 @@
         jar="/home/mukundan/Documents/Signalize/Signalize/ConversationServiceTrainer/build/intermediates/exploded-aar/Signalize/AndroidAb/unspecified/classes.jar"
         jumboMode="false"
         revision="19.1.0"
-        sha1="dce89dd6c5ee4b87be85bd26be20b9d98ec01479"/>
+        sha1="377cb7bc3b1d148d59a918efbb154ded8d25b3a6"/>
     <item
         dex="/home/mukundan/Documents/Signalize/Signalize/ConversationService/build/intermediates/pre-dexed/debug/support-v4-19.1.0-668b44f3ce8a8e24422b3bf705a108530bdce780.jar"
         jar="/home/mukundan/Documents/android-studio/sdk/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0.jar"
@@ -42,7 +42,7 @@
         jar="/home/mukundan/Documents/Signalize/Signalize/ConversationService/build/intermediates/exploded-aar/Signalize/AndroidAb/unspecified/classes.jar"
         jumboMode="false"
         revision="19.1.0"
-        sha1="dce89dd6c5ee4b87be85bd26be20b9d98ec01479"/>
+        sha1="377cb7bc3b1d148d59a918efbb154ded8d25b3a6"/>
     <item
         dex="/home/mukundan/Documents/Signalize/Signalize/ConversationService/build/intermediates/pre-dexed/debug/Ab-d7c0576b57d1c2f163d63c98d0a92626d56dfd9c.jar"
         jar="/home/mukundan/Documents/Signalize/Signalize/ConversationService/libs/Ab.jar"

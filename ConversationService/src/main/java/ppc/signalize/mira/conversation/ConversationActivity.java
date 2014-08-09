@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.alicebot.ab.FileUtils;
@@ -24,52 +25,63 @@ import java.util.Arrays;
 
 
 public class ConversationActivity extends Activity {
-    Button copyFiles;
+    Button setStorage;
     RadioGroup radioStorageGroup;
     RadioButton radioStorageButton;
     ListView fileList;
+    TextView currentStorage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversation);
         FileUtils.setContext(this);
-        copyFiles = (Button)findViewById(R.id.copyFilesButton);
+        setStorage = (Button)findViewById(R.id.copyFilesButton);
         radioStorageGroup = (RadioGroup)findViewById(R.id.radioStorageGroup);
         fileList = (ListView)findViewById(R.id.fileList);
-
+        currentStorage = (TextView)findViewById(R.id.currentStorage);
         Ghost.setContext(this);
         SharedPreferences prefs = this.getSharedPreferences(getString(R.string.share_preference_file),MODE_PRIVATE);
+        currentStorage.setText(prefs.getString(getString(R.string.storage_type_pref),"ASSETS_STORAGE"));
         final SharedPreferences.Editor edit = prefs.edit();
-        copyFiles.setOnClickListener(new View.OnClickListener() {
+        setStorage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                radioStorageButton = (RadioButton)findViewById(radioStorageGroup.getCheckedRadioButtonId());
+                radioStorageButton = (RadioButton) findViewById(radioStorageGroup.getCheckedRadioButtonId());
                 String text = radioStorageButton.getText().toString();
-                if(text.contains(getString(R.string.radio_external_storage))){
+                if (text.contains(getString(R.string.radio_external_storage))) {
                     Ghost.setExternalStorage();
                     FileUtils.copyAssetsToStorage();
-                    Log.d("Conversation Activity","Selected External Storage");
-                    Toast.makeText(getApplicationContext(),"Selected External Storage",Toast.LENGTH_LONG).show();
+                    Log.d("Conversation Activity", "Selected External Storage");
+                    Toast.makeText(getApplicationContext(), "Selected External Storage", Toast.LENGTH_LONG).show();
                     Util.setStorageType(FileUtils.STORAGE_TYPE.EXTERNAL_STORAGE);
                     edit.putString(getString(R.string.storage_type_pref), FileUtils.STORAGE_TYPE.EXTERNAL_STORAGE.name());
                     edit.commit();
-                }
-                else if(text.contains(getString(R.string.radio_internal_storage))){
+                    currentStorage.setText(FileUtils.STORAGE_TYPE.EXTERNAL_STORAGE.name());
+                } else if (text.contains(getString(R.string.radio_internal_storage))) {
                     Ghost.setInternalStorage(true);
                     FileUtils.copyAssetsToStorage();
-                    Log.d("Conversation Activity","Selected Internal Storage");
-                    Toast.makeText(getApplicationContext(),"Selected Internal Storage",Toast.LENGTH_LONG).show();
+                    Log.d("Conversation Activity", "Selected Internal Storage");
+                    Toast.makeText(getApplicationContext(), "Selected Internal Storage", Toast.LENGTH_LONG).show();
                     Util.setStorageType(FileUtils.STORAGE_TYPE.INTERNAL_STORAGE);
                     edit.putString(getString(R.string.storage_type_pref), FileUtils.STORAGE_TYPE.INTERNAL_STORAGE.name());
                     edit.commit();
+                    currentStorage.setText(FileUtils.STORAGE_TYPE.INTERNAL_STORAGE.name());
+                } else if (text.contains(getString(R.string.radio_assets_storage))) {
+                    Ghost.setAssetsStorage();
+                    Toast.makeText(getApplicationContext(), "Selected Assets Storage", Toast.LENGTH_LONG).show();
+                    Util.setStorageType(FileUtils.STORAGE_TYPE.ASSETS_STORAGE);
+                    edit.putString(getString(R.string.storage_type_pref), FileUtils.STORAGE_TYPE.ASSETS_STORAGE.name());
+                    edit.commit();
+                    currentStorage.setText(FileUtils.STORAGE_TYPE.ASSETS_STORAGE.name());
                 }
                 try {
                     setListAdapter();
+                    stopService();
                 } catch (IOException e) {
                     e.printStackTrace();
-                    Log.e("Conversation Activity","IO Exception " + e.getMessage()  + " " + e.getCause());
-                    Toast.makeText(getApplicationContext(),"IO Exception " + e.getMessage()  + " " + e.getCause(),Toast.LENGTH_LONG).show();
+                    Log.e("Conversation Activity", "IO Exception " + e.getMessage() + " " + e.getCause());
+                    Toast.makeText(getApplicationContext(), "IO Exception " + e.getMessage() + " " + e.getCause(), Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -91,7 +103,20 @@ public class ConversationActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.conversation, menu);
+
         return true;
+    }
+
+
+
+    private void stopService(){
+        Intent intent = new Intent(this,ConversationService.class);
+        if(stopService(intent)){
+            Toast.makeText(this,"Stopped the Conversation Service",Toast.LENGTH_LONG).show();
+        }
+        else{
+            Toast.makeText(this,"Conversation Service is not running !!",Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -101,15 +126,10 @@ public class ConversationActivity extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.stop_service) {
-            Intent intent = new Intent(this,ConversationService.class);
-            if(stopService(intent)){
-                Toast.makeText(this,"Stopped the Conversation Service",Toast.LENGTH_LONG).show();
-            }
-            else{
-                Toast.makeText(this,"Conversation Service is not running !!",Toast.LENGTH_SHORT).show();
-            }
+            stopService();
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 }

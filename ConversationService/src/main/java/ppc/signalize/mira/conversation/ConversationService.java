@@ -1,5 +1,6 @@
 package ppc.signalize.mira.conversation;
 
+import android.app.NotificationManager;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
@@ -7,7 +8,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.util.List;
@@ -18,11 +21,33 @@ import java.util.List;
 public class ConversationService extends Service{
     Conversation conversation;
     Context context;
+    NotificationCompat.Builder mBuilder;
+    protected static boolean started = false;
+
     private final String TAG = "ConversationService";
+    private NotificationManager notificationManager;
     @Override
     public void onCreate() {
         super.onCreate();
-
+        mBuilder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.customer_service_)
+                .setContentTitle(getString(R.string.mira_service))
+                .setContentText(getString(R.string.mira_service_running));
+        notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        started = true;
+        context = this;
+        conversation = Conversation.initialize(context);
+        Log.d(TAG,"The Service was created");
+        PackageManager pm = getPackageManager();
+        ComponentName compName =
+                new ComponentName(getApplicationContext(),StartServiceReciever.class);
+        pm.setComponentEnabledSetting(
+                compName,
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                PackageManager.DONT_KILL_APP);
+        Log.d(TAG, "Disabled Braodcast Receiver");
+        Toast.makeText(this,"Service was created",Toast.LENGTH_LONG).show();
+        notificationManager.notify(mBuilder.hashCode(), mBuilder.build());
     }
 
 
@@ -39,6 +64,8 @@ public class ConversationService extends Service{
                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                 PackageManager.DONT_KILL_APP);
         Log.d(TAG,"Enabled Broadcast Receiver");
+        notificationManager.cancel(mBuilder.hashCode());
+        started = false;
     }
 
     @Override
@@ -50,18 +77,20 @@ public class ConversationService extends Service{
     @Override
     public IBinder onBind(Intent intent) {
         if(intent.getAction().equals("ppc.signalize.mira.conversation.ConversationService")){
-            context = this;
-            conversation = Conversation.initialize(context);
-            Log.d(TAG,"The Service was created");
-            PackageManager pm = getPackageManager();
-            ComponentName compName =
-                    new ComponentName(getApplicationContext(),StartServiceReciever.class);
-            pm.setComponentEnabledSetting(
-                    compName,
-                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                    PackageManager.DONT_KILL_APP);
-            Log.d(TAG,"Disabled Braodcast Receiver");
-            Toast.makeText(this,"Service was created",Toast.LENGTH_LONG).show();
+            if(!started){
+                context = this;
+                conversation = Conversation.initialize(context);
+                Log.d(TAG,"The Service was created");
+                PackageManager pm = getPackageManager();
+                ComponentName compName =
+                        new ComponentName(getApplicationContext(),StartServiceReciever.class);
+                pm.setComponentEnabledSetting(
+                        compName,
+                        PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                        PackageManager.DONT_KILL_APP);
+                Log.d(TAG,"Disabled Braodcast Receiver");
+                Toast.makeText(this,"Service was created",Toast.LENGTH_LONG).show();
+            }
             Log.d(TAG,"The service is now bound to the application");
             return new Proxy();
         }
