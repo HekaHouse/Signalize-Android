@@ -153,6 +153,25 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
             }
         }
     }
+
+    /**
+     * Split an input into an array of sentences based on sentence-splitting characters.
+     *
+     * @param line   input text
+     * @return       array of sentences
+     */
+    private String[] sentenceSplit(String line) {
+        line = line.replace("。",".");
+        line = line.replace("？","?");
+        line = line.replace("！","!");
+        String result[] = line.split("[\\.!\\?]");
+        for (int i = 0; i < result.length; i++) result[i] = result[i].trim();
+        return result;
+    }
+
+    private String removePunctuations(String line){
+        return line.replace(".","").replace("?","").replace("!","");
+    }
     @Override
     public void onClick(View v) {
         String responseFromService;
@@ -165,6 +184,13 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
 
 
             inputPattern = input.getText().toString();
+
+
+            if(sentenceSplit(inputPattern).length > 1){
+                AdvancedSettings.showErrorToast(this,"Enter a single input sentence!!");
+                return;
+            }
+            inputPattern = removePunctuations(inputPattern);
             if(inputPattern.length() == 0){
                 inputPattern = "*";
                 Log.e(TAG,"Setting input Pattern to " + inputPattern + "~" + inputPattern.length());
