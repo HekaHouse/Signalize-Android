@@ -104,7 +104,8 @@ public class FileUtility extends org.alicebot.ab.FileUtils{
         for(int i=0;i<patterns.getLength();++i){
             Node item = patterns.item(i);
             String pat = item.getTextContent();
-            if(pat.equalsIgnoreCase(pattern.trim())){
+
+            if(pat.trim().equalsIgnoreCase(pattern.trim().toLowerCase())){
                 ele =  item.getParentNode();
                 Log.e("PARENT NODE","PARENT");
                 FileUtility.xmltoString(ele);

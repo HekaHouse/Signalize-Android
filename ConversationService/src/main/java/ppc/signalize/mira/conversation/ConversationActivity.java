@@ -59,7 +59,7 @@ public class ConversationActivity extends Activity {
                     edit.commit();
                     currentStorage.setText(FileUtils.STORAGE_TYPE.EXTERNAL_STORAGE.name());
                 } else if (text.contains(getString(R.string.radio_internal_storage))) {
-                    Ghost.setInternalStorage(true);
+                    Ghost.setInternalStorage();
                     FileUtils.copyAssetsToStorage();
                     Log.d("Conversation Activity", "Selected Internal Storage");
                     Toast.makeText(getApplicationContext(), "Selected Internal Storage", Toast.LENGTH_LONG).show();

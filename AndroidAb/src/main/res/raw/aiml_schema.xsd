@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- AIML Schema confirm with AIML 2.0 specifications
+Needs more work on exactt AIML schema mapping
     https://docs.google.com/document/d/1wNT25hJRyupcG51aO89UcQEiG-HkXRXusukADpFnDs4/pub
 -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"

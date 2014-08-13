@@ -6,7 +6,10 @@ import android.content.Intent;
 import android.util.Log;
 
 /**
+ * @author mukundan
  * Created by mukundan on 6/2/14.
+ *
+ * A simple braodcast receiver which starts the service on receiving the required broadcast
  */
 public class StartServiceReciever extends BroadcastReceiver{
     private boolean startService = false;

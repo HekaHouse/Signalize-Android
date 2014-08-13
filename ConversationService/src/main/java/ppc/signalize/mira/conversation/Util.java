@@ -8,6 +8,7 @@ import org.alicebot.ab.Ghost;
 
 /**
  * Created by mukundan on 5/28/14.
+ * A utility class providing static methods.
  */
 public class Util {
 

@@ -36,43 +36,81 @@ public class Ghost extends Bot {
 
     }
 
+    /**
+     * Checks whether the storageType selected is internal storage
+     * @return True on Internal Storage else false
+     */
+
     public static boolean isInternalStorage() {
         if(FileUtils.getStorageType() == FileUtils.STORAGE_TYPE.INTERNAL_STORAGE)
             return true;
         return false;
     }
 
+    /**
+     * Sets the static FileUtils field storageType to the ASSETS_STORAGE enum value
+     */
+
     public static void setAssetsStorage(){
         FileUtils.setStorageType(FileUtils.STORAGE_TYPE.ASSETS_STORAGE);
     }
 
-    public static void setInternalStorage(boolean internalStorage) {
+    /**
+     * Sets the static FileUtils field storageType to the INTERNAL_STORAGE enum value
+     */
+
+    public static void setInternalStorage() {
         FileUtils.setStorageType(FileUtils.STORAGE_TYPE.INTERNAL_STORAGE);
     }
+
+    /**
+     * Sets the static FileUtils field storageType to the EXTERNAL_STORAGE enum value
+     */
 
     public static void setExternalStorage(){
         FileUtils.setStorageType(FileUtils.STORAGE_TYPE.EXTERNAL_STORAGE);
     }
 
+    /**
+     * Function to return the AssetsManager associated with the context
+     * @return AssetManager associated with the context field
+     */
+
     public AssetManager getAssets(){
         Log.d(TAG,"Assets DIR");
         return Ghost.context.getAssets();
     }
+
+    /**
+     * Function to return the File object associated with the current context
+     * @return File object representing the internal storage associated with the context
+     */
     public static File getFilesDir(){
         Log.d(TAG,"Files DIR");
         return context.getFilesDir();
     }
 
+    /**
+     * Setter method for the context field
+     * @param context : The current context using the Ghost class methods/functions
+     */
+
     public static void setContext(Context context){
         Ghost.context = context;
     }
+
+    /**
+     * Setter method for the context field and the storageType field
+     * @param context : The current context using the Ghost class methods/functions
+     * @param storageType : The user selected storageType value
+     */
     public static void setContext(Context context, FileUtils.STORAGE_TYPE storageType){
         Ghost.context = context;
         if(storageType == FileUtils.STORAGE_TYPE.EXTERNAL_STORAGE){
             Ghost.setExternalStorage();
         }
         else if(storageType == FileUtils.STORAGE_TYPE.INTERNAL_STORAGE){
-            Ghost.setInternalStorage(true);
+            Ghost.setInternalStorage();
         }
     }
     /**
@@ -155,6 +193,12 @@ public class Ghost extends Bot {
         }
     }
 
+    /**
+     * Overridden method to set all paths in Android standard
+     * @param root : The root of the Chatbot
+     * @param name : The name of the Chatbot
+     */
+
     @Override
     public void setAllPaths(String root, String name) {
         MagicStrings.bot_path = "";
@@ -190,6 +234,12 @@ public class Ghost extends Bot {
         System.out.println(MagicStrings.sets_path);
         System.out.println(MagicStrings.maps_path);
     }
+
+    /**
+     * Add more categories from file
+     * @param file : name of the file to be read
+     * @param moreCategories : an ArrayList of categories
+     */
 
     @Override
     void addMoreCategories(String file, ArrayList<Category> moreCategories) {

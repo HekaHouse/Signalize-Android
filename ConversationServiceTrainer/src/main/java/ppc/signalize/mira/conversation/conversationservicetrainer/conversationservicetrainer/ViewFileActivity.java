@@ -34,7 +34,12 @@ public class ViewFileActivity extends Activity {
             inputStream.close();
             String text = new String(buffer);
             Log.d(TAG,"" + text.contains(FileUtility.changedString));
-            FileUtility.setColor(textView, text, FileUtility.changedString, Color.GREEN);
+            if(text.contains(FileUtility.changedString)) {
+                FileUtility.setColor(textView, text, FileUtility.changedString, Color.GREEN);
+            }
+            else{
+                Log.d(TAG,"No string was changed in the file / Not able to find the changed string");
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

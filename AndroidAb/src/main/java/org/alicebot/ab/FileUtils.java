@@ -83,6 +83,12 @@ public class FileUtils {
         }
     }
 
+    /**
+     * A function that checks whether the current brain store exists. Can be used to check if files need to
+     * be copied into the directory or not.
+     * @return true if directories and files exists false otherwise
+     */
+
     public static boolean storeExists(){
         if(FileUtils.getStorageType() == STORAGE_TYPE.INTERNAL_STORAGE){
             File dir = new File(context.getFilesDir(),MIRAdir);
@@ -94,6 +100,10 @@ public class FileUtils {
         }
         return false;
     }
+
+    /**
+     * A method to copy all non empty directories to External Storage.
+     */
 
     private static void copyNonEmptyDirectoriesToExternalStorage() {
         AssetManager assetManager = context.getAssets();
@@ -129,6 +139,13 @@ public class FileUtils {
             e.printStackTrace();
         }
     }
+
+    /**
+     * http://stackoverflow.com/a/21270373 modified a bit to suit this code
+     * @param Input Input File Stream that needs to be copied
+     * @param Output Output File Stream that needs to be copied into
+     * @throws IOException
+     */
     private static void CopyStream(InputStream Input, OutputStream Output) throws IOException {
         byte[] buffer = new byte[5120];
         int length = Input.read(buffer);
@@ -137,6 +154,11 @@ public class FileUtils {
             length = Input.read(buffer);
         }
     }
+
+    /**
+     * A function which returns the current writable storage directory
+     * @return Returns the storage directory either in the internal or the external storage else null.
+     */
 
     public static File getStorageDirectory(){
         if(storageType == STORAGE_TYPE.INTERNAL_STORAGE){
@@ -148,13 +170,30 @@ public class FileUtils {
         return null;
     }
 
+    /**
+     * Set the storage type field
+     * @param s : ENUM value to be either INTERNAL_STORAGE or EXTERNAL_STORAGE or ASSETS_STORAGE
+     */
     public static void setStorageType(STORAGE_TYPE s){
         storageType = s;
     }
 
+    /**
+     * Getter method for storageType field
+     * @return RETURNS THE ENUM VALUE
+     */
+
     public static STORAGE_TYPE getStorageType(){
         return storageType;
     }
+
+    /**
+     * A function which lists the files in the current path specified by path
+     * @param context : The context associated with the function call
+     * @param path : The path that needs to be listed
+     * @return Returns a string array of all the files in the specified path
+     * @throws IOException
+     */
 
     public static String[] listFiles(Context context, String path) throws IOException {
         String[] listOfFiles;

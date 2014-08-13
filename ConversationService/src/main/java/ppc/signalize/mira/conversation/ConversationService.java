@@ -16,7 +16,10 @@ import android.widget.Toast;
 import java.util.List;
 
 /**
+ * @author mukundan
  * Created by mukundan on 5/28/14.
+ *
+ * The class which implements the Service
  */
 public class ConversationService extends Service{
     Conversation conversation;
@@ -26,6 +29,10 @@ public class ConversationService extends Service{
 
     private final String TAG = "ConversationService";
     private NotificationManager notificationManager;
+
+    /**
+     * A method to set the notification and disable the broadcast receiver on successful creation
+     */
     @Override
     public void onCreate() {
         super.onCreate();
@@ -51,7 +58,9 @@ public class ConversationService extends Service{
     }
 
 
-
+    /**
+     * On the service being destroyed, the notification is removed and the broadcast receiver is enabled again
+     */
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -68,11 +77,19 @@ public class ConversationService extends Service{
         started = false;
     }
 
+
+
     @Override
     public boolean onUnbind(Intent intent) {
         Log.d(TAG,"The service is now unbound from the application");
         return super.onUnbind(intent);
     }
+
+    /**
+     * On bind, returns the Binder object of the Proxy of the IConversation Interface
+     * @param intent : The current calling intent
+     * @return Ibinder of the proxy object
+     */
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -96,6 +113,10 @@ public class ConversationService extends Service{
         }
         return null;
     }
+
+    /**
+     * A class the etends the Stub of the IConversation interface
+     */
     class Proxy extends IConversation.Stub{
 
 
