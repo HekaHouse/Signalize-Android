@@ -27,6 +27,10 @@ public class FileUtils {
     public static void setContext(Context context){
         FileUtils.context = context;
     }
+
+    /**
+     * A method to copy the files in Assets folder to the corresponding storage
+     */
     public static void copyAssetsToStorage(){
         if(storageType == STORAGE_TYPE.INTERNAL_STORAGE) {
             Log.d(TAG,"Going to copy to internal storage");
@@ -39,6 +43,11 @@ public class FileUtils {
             copyNonEmptyDirectoriesToExternalStorage();
         }
     }
+
+    /**
+     *
+     * A method to copy the directories and files to the Internal Storage
+     */
     private static void copyNonEmptyDirectoriesToInternalStorage() {
         AssetManager assetManager = context.getAssets();
         String []files;

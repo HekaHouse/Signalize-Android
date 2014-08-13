@@ -67,10 +67,19 @@ public class AndroidAIML {
         filenames = new ArrayList<String>();
         inputs = new ArrayList<String>();
     }
+
+    /**
+     * Initialize the fields of filenames and inputs
+     */
     public void initialize(){
         filenames = new ArrayList<String>();
         inputs = new ArrayList<String>();
     }
+
+    /**
+     * Returns a delimited string response of the filename
+     * @return delimited string representation of the Filenames
+     */
     public String strFileNames(){
         StringBuilder builder = new StringBuilder();
         String names;
@@ -81,6 +90,11 @@ public class AndroidAIML {
         names = builder.toString();
         return names;
     }
+
+    /**
+     * Returns a delimited string response of the inputs so far
+     * @return a delimited string representation of the input values in recursive calls
+     */
     public String strInputs(){
         StringBuilder builder = new StringBuilder();
         String inps;

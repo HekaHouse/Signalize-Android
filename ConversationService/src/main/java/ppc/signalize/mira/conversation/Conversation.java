@@ -99,7 +99,7 @@ public final class Conversation {
 
 
     private void getNodemapper(String input){
-        nodemapper = session.getNodemapper(input);
+        nodemapper = session.getNodemapper();
 
         if(nodemapper != null) {
             Log.d(TAG,"GOT NODEMAPPER");

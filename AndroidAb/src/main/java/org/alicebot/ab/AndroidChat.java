@@ -11,7 +11,12 @@ public class AndroidChat extends Chat {
     public AndroidChat(Bot bot) {
         super(bot);
     }
-    public Nodemapper getNodemapper(String request){
+
+    /**
+     * Returns the Nodemapper object of the last inputs node
+     * @return Nodemapper object of the last input value's matching node
+     */
+    public Nodemapper getNodemapper(){
         inputHistory.printHistory();
         String input = inputHistory.get(0);
         History hist = thatHistory.get(0);
