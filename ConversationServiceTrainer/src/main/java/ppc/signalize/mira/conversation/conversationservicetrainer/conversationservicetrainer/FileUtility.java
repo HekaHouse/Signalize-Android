@@ -39,6 +39,7 @@ import ppc.signalize.mira.conversation.IConversation;
 
 /**
  * Created by mukundan on 6/26/14.
+ * A class of static methods to perform file functions
  */
 public class FileUtility extends org.alicebot.ab.FileUtils{
     private static String TAG = "File Utils";
@@ -46,7 +47,11 @@ public class FileUtility extends org.alicebot.ab.FileUtils{
     static String changedString = "";
     protected static XMLState xmlstate = new XMLState();
 
-
+    /**
+     * A function to get the Node as an XML string
+     * @param responseText The current response node
+     * @return XML String representing that node
+     */
     protected static String getChangedNodeString(Node responseText){
         String response = xmltoString(responseText);
         Log.d(TAG,""+response.indexOf("?>"));
@@ -56,6 +61,14 @@ public class FileUtility extends org.alicebot.ab.FileUtils{
 
         return response;
     }
+
+    /**
+     * A method to setColor to a substring in a Text View
+     * @param textView the required textview
+     * @param text the full text
+     * @param subString the required substring
+     * @param color the specified color
+     */
     protected static void setColor(TextView textView, String text, String subString, int color) {
         textView.setText(text, TextView.BufferType.SPANNABLE);
         Spannable span = (Spannable) textView.getText();
@@ -63,9 +76,21 @@ public class FileUtility extends org.alicebot.ab.FileUtils{
         span.setSpan(new ForegroundColorSpan(color), i, i+subString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 
+    /**
+     * Method to remove the node element from the XML document
+     * @param element The node to be removed
+     * @return The changed XML Document
+     */
+
     protected static Node removeNode(Node element){
         return element.getParentNode().removeChild(element);
     }
+
+    /**
+     * The function to get the required response node based on the pattern
+     * @param strPattern The pattern to be searched for
+     * @return The response node
+     */
 
     protected static Node getReqResponse(String strPattern){
         Node responseElement = null;
@@ -81,6 +106,15 @@ public class FileUtility extends org.alicebot.ab.FileUtils{
         return responseElement;
     }
 
+
+    /**
+     * Based on
+     * http://stackoverflow.com/a/508446
+     *
+     * Utility function to convert XML document to String
+     * @param element The xml element
+     * @return String representation of XML
+     */
     protected static String xmltoString(Node element){
         StringWriter str = new StringWriter();
         TransformerFactory tf = TransformerFactory.newInstance();
@@ -98,6 +132,13 @@ public class FileUtility extends org.alicebot.ab.FileUtils{
         System.out.println(str.toString());
         return str.toString();
     }
+
+    /**
+     * Function to get the category node
+     * @param root The root of the document
+     * @param pattern The required pattern
+     * @return The corresponding category node
+     */
     protected static Node getRequiredResponse(Element root, String pattern){
         Node ele = null;
         NodeList patterns = root.getElementsByTagName("pattern");
@@ -115,6 +156,13 @@ public class FileUtility extends org.alicebot.ab.FileUtils{
         }
         return null;
     }
+
+    /**
+     * Function to create a file
+     * @param filename Filename
+     * @param content The content of the file in string format
+     * @return True if file created successfully else false
+     */
     protected static boolean createFile(String filename, String content){
         try {
             PrintWriter file = new PrintWriter(new File(org.alicebot.ab.FileUtils.getStorageDirectory(), AIMLdir + "/" + filename));
@@ -127,6 +175,16 @@ public class FileUtility extends org.alicebot.ab.FileUtils{
         }
         return true;
     }
+
+    /**
+     * A function to add a reduction to an existing XML document
+     * @param strFileName Exisiting filename
+     * @param newReduction new Reduction string
+     * @return String representation of the file
+     * @throws IOException
+     * @throws SAXException
+     * @throws TransformerException
+     */
 
     protected static String addReduction(String strFileName, String newReduction) throws IOException, SAXException, TransformerException {
         Node response = appendXmlFragment(XMLState.docRoot,newReduction);
@@ -141,6 +199,11 @@ public class FileUtility extends org.alicebot.ab.FileUtils{
         Toast.makeText(context, "Wrote to file",Toast.LENGTH_LONG).show();
         return FileUtility.xmltoString(response);
     }
+
+    /**
+     * Method to open a file and build the parser object
+     * @param filename Existing filename
+     */
 
     protected static void openFile(String filename){
         if(xmlstate.dom == null) {
@@ -170,6 +233,17 @@ public class FileUtility extends org.alicebot.ab.FileUtils{
         }
     }
 
+    /**
+     * Based on
+     * http://stackoverflow.com/a/729668
+     * @param parent
+     *          node to add fragment to
+     * @param fragment
+     *          a well formed XML fragment
+     * @return The updated fragment
+     * @throws IOException
+     * @throws SAXException
+     */
     protected static Node appendXmlFragment(Node parent,String fragment) throws IOException, SAXException {
         Document doc = parent.getOwnerDocument();
         Node fragmentNode = XMLState.builder.parse(
@@ -179,6 +253,16 @@ public class FileUtility extends org.alicebot.ab.FileUtils{
         parent.appendChild(fragmentNode);
         return fragmentNode;
     }
+
+    /**
+     * The function to set the response element value ( add new child )
+     * @param responseElement The response node
+     * @param newResponse The new response string
+     * @param strFileName The corresponding filename
+     * @return String representation of the updated response node
+     * @throws IOException
+     * @throws SAXException
+     */
 
     protected static String setAdvancedResponseElement(Node responseElement, String newResponse, String strFileName) throws IOException, SAXException {
         Node parent = responseElement.getParentNode();
@@ -206,6 +290,13 @@ public class FileUtility extends org.alicebot.ab.FileUtils{
     }
 
 
+    /**
+     * Set the response node value
+     * @param responseElement The response node
+     * @param newResponse The new response string
+     * @param strFileName The corresponding filename
+     * @return String representation of the updated response element
+     */
     protected static String setResponseElement(Node responseElement, String newResponse, String strFileName){
         NodeList childNodes = responseElement.getChildNodes();
         Node child = null;
@@ -244,6 +335,11 @@ public class FileUtility extends org.alicebot.ab.FileUtils{
         return FileUtility.xmltoString(responseElement);
     }
 
+    /**
+     * Method to save file
+     * @param strFileName The filename
+     * @throws TransformerException
+     */
     protected static void saveFile(String strFileName) throws TransformerException {
         TransformerFactory transformerFactory;
         Transformer transformer;
@@ -258,52 +354,12 @@ public class FileUtility extends org.alicebot.ab.FileUtils{
 
     }
 
-    private static boolean containsSrai(Node element){
-        if(element.hasChildNodes()) {
-            NodeList childNodes = element.getChildNodes();
-            Node child;
-            for(int i =0; i < childNodes.getLength(); ++i){
-                child = childNodes.item(i);
-                if(child.getNodeName().equals("srai")){
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-    protected static boolean isRecursiveResponse(Node responseElement){
-        return containsSrai(responseElement);
-    }
-    private static boolean hasContent(Node element){
-        if(element.getNodeName().equals("#text")){
-            return true;
-        }
-        return false;
-    }
-    private static String getContent(Node element){
-        if(hasContent(element)){
-            return element.getNodeValue();
-        }
-        return null;
-    }
-    protected static String getSraiContent(Node responseElement){
-        if(responseElement.hasChildNodes()) {
-            NodeList childNodes = responseElement.getChildNodes();
-            Node child;
-            for(int i =0; i < childNodes.getLength(); ++i){
-                child = childNodes.item(i);
-                if(child.getNodeName().equals("srai")){
-                    return getContent(child);
-                }
-            }
-        }
-        return null;
-    }
-    protected static String getRecursiveFileName(IConversation service, String pattern) throws RemoteException {
-        service.process(pattern);
-        return service.getFilename();
-    }
 }
+
+/**
+ * @author mukundan
+ * A class for building and storing the XML Document parser
+ */
 class XMLState{
     protected static DocumentBuilderFactory factory;
     protected static DocumentBuilder builder;
@@ -325,56 +381,4 @@ class XMLState{
         builder = factory.newDocumentBuilder();
     }
 
-}
-class GenericAIMLValidator {
-    private final String TAG="Generic AIML Validator";
-    protected DocumentBuilderFactory factory= null;
-    protected DocumentBuilder builder = null;
-    protected Document dom = null;
-    protected Element docRoot;
-    protected void setDom(String xml) throws IOException, SAXException {
-        InputSource inputSource = new InputSource(new StringReader(xml));
-        dom = builder.parse(inputSource);
-        docRoot = dom.getDocumentElement();
-    }
-    protected void init() throws ParserConfigurationException {
-            factory = DocumentBuilderFactory.newInstance();
-            builder = factory.newDocumentBuilder();
-    }
-    public GenericAIMLValidator() throws ParserConfigurationException {
-        init();
-    }
-    public GenericAIMLValidator(String xml) throws IOException, SAXException, ParserConfigurationException {
-        factory = DocumentBuilderFactory.newInstance();
-        builder = factory.newDocumentBuilder();
-        setDom(xml);
-    }
-    public boolean isValidChild(String root, String []childrenInOrder){
-
-        if(docRoot.getNodeName().equalsIgnoreCase(root)){
-            Node node = getNextElementNode(docRoot.getFirstChild());
-            for(int i=0;i<childrenInOrder.length;++i,node = getNextElementNode(node.getNextSibling())){
-                String child = childrenInOrder[i];
-                Log.d(TAG,node.getNodeName());
-                if(node.getNodeName().equalsIgnoreCase(child)){
-                    Log.d(TAG,"EQUAL");
-                    if(i == childrenInOrder.length-1){
-                        return true;
-                    }
-                }
-                else{
-                    return false;
-                }
-            }
-        }
-        return false;
-    }
-    private Node getNextElementNode(Node node){
-        while(node != docRoot.getLastChild() && node.getNodeType() == Node.TEXT_NODE ){
-            Log.d(TAG,"TEXT CONTENT" + node.getTextContent());
-            node = node.getNextSibling();
-        }
-        Log.d(TAG,"Next Element node " + node.getNodeName());
-        return node;
-    }
 }

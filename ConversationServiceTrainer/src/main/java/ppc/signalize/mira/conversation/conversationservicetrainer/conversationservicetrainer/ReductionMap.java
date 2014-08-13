@@ -6,6 +6,10 @@ import java.util.ArrayList;
 
 /**
  * Created by mukundan on 8/6/14.
+ * A simple reduction map class that checks if the required reduction is in the top of the list or not
+ * Needs more work on perfect safe deletion
+ * Need to get the mappings of the patterns based on srai from the service and based on that map check if
+ * the reduction is save to delete
  */
 public class ReductionMap {
 

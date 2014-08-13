@@ -12,6 +12,7 @@ import static ppc.signalize.mira.conversation.conversationservicetrainer.convers
 
 /**
  * Created by mukundan on 8/1/14.
+ * A class which performs actions related to the top connection bar.
  */
 public class TopServiceConnectionBarActions {
 

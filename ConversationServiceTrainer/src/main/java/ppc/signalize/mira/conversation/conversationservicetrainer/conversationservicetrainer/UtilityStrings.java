@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 /**
  * Created by mukundan on 7/22/14.
+ * A class which contains most of the string used in the Application
  */
 public class UtilityStrings {
     protected static final String cannot_modify_text = "Internal/Assets Storage selected!! Cannot create/modify files!! READ ONLY";

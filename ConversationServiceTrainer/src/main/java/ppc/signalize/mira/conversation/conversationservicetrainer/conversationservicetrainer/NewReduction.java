@@ -22,6 +22,11 @@ import java.util.Collections;
 import aiml.aimlValidate.AIMLValidate;
 import ppc.signalize.mira.conversation.conversationservicetrainer.conversationservicetrainer.R;
 
+/**
+ * @author mukundan
+ * An activity for handling the addition of new reduction similar to advanced settings activity
+ */
+
 public class NewReduction extends Activity implements View.OnClickListener{
     protected final String newReductionPrefix = "<category><pattern>";
     protected final String newReductionPostPattern = "</pattern><template>";
@@ -112,6 +117,11 @@ public class NewReduction extends Activity implements View.OnClickListener{
         }
     }
 }
+
+/**
+ * @author mukundan
+ * A class for handling the New Reduction Dialog box
+ */
 class NewReductionDialog extends Dialog implements View.OnClickListener {
     TrainerActivity activity;
     int position;

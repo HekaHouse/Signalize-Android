@@ -14,6 +14,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * @author mukundan
+ * An activity which is used for viewing the entire AIML file.
+ */
+
 public class ViewFileActivity extends Activity {
     private final String TAG = "ViewFileActivity";
 

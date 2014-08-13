@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 /**
  * Created by mukundan on 7/3/14.
+ * A List adapter class
  */
 public class LazyListAdapter extends BaseAdapter {
     private Activity activity;
@@ -49,6 +50,13 @@ public class LazyListAdapter extends BaseAdapter {
         return position;
     }
 
+    /**
+     * Inflating the required view and displaying the list in the TrainerActivity Activity.
+     * @param position position
+     * @param convertView ConvertView
+     * @param parent parent
+     * @return The inflated view
+     */
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         View vi = convertView;

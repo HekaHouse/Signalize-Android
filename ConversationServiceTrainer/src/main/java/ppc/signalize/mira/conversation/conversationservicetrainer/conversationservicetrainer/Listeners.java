@@ -11,6 +11,7 @@ import org.alicebot.ab.Ghost;
 
 /**
  * Created by mukundan on 7/24/14.
+ * A class of listeners to the corresponding buttons
  */
 public class Listeners {
     static class AddTagListener implements View.OnClickListener{

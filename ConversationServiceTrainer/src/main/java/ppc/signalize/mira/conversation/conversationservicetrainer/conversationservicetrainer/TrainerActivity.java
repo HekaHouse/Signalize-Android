@@ -37,6 +37,10 @@ import java.util.Arrays;
 import ppc.signalize.mira.conversation.IConversation;
 
 
+/**
+ * @author mukundan
+ * This is the base activity for the trainer
+ */
 public class TrainerActivity extends Activity implements View.OnClickListener,ServiceConnection,AdapterView.OnItemClickListener{
 
     private Menu menu;
@@ -56,7 +60,10 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
     Button sendText,addReduction;
     TextView response;
 
-
+    /**
+     * On Creation, the layout is set and form objects are created and listeners are added.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,6 +135,15 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
 
     }
 
+    /**
+     * This is the listener method for the ListView
+     * On click call the FileActivity Activity with the respective file names and pattern
+     * @param parent parent
+     * @param view view
+     * @param position position
+     * @param id id
+     */
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         strFilename = listNames.get(position);
@@ -139,7 +155,9 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
     }
 
 
-
+    /**
+     * Class for handling the input EditText focus change
+     */
     private class EditTextFocusChangeListener implements View.OnFocusChangeListener{
 
         @Override
@@ -169,9 +187,21 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
         return result;
     }
 
+    /**
+     * Class for removing punctuations like ., ? and ! .
+     * @param line inout text
+     * @return normalized line
+     */
+
     private String removePunctuations(String line){
         return line.replace(".","").replace("?","").replace("!","");
     }
+
+    /**
+     * OnClick method for the Get Response Button
+     * The service is requested for a response, filenames, input patterns etc. The list view dataset is set.
+     * @param v View
+     */
     @Override
     public void onClick(View v) {
         String responseFromService;
@@ -239,6 +269,10 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
         }
     }
 
+
+    /**
+     * On Destroy, the activity unbinds from the service
+     */
     @Override
     protected void onDestroy(){
 
@@ -261,6 +295,10 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
 
     }
 
+    /**
+     * A method to connect to the Service.
+     */
+
     private void connectToService() {
         Intent intent;
         intent = new Intent(UtilityStrings.ConversationServiceTAG);
@@ -269,6 +307,8 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
         Log.d(TAG, "The Service will be connected soon! ");
         bar.connectionStart();
     }
+
+
 
 
     @Override
@@ -311,6 +351,10 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * A method to disable the UI.
+     */
+
     protected void disableUI(){
         input.setEnabled(false);
         sendText.setEnabled(false);
@@ -318,6 +362,10 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
         Toast.makeText(getApplicationContext(),"Starting Resync UI Disabled",Toast.LENGTH_LONG).show();
 
     }
+
+    /**
+     * A method to enable the UI.
+     */
 
     protected void enableUI(){
         Log.d(TAG,"Enabling UI");
@@ -336,6 +384,9 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
     }
 
 
+    /**
+     * A Dialog class for getting the file name of the new file.
+     */
 
     private class CreateFileDialog extends Dialog implements View.OnClickListener{
 
@@ -352,6 +403,10 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
             cancel.setOnClickListener(this);
         }
 
+        /**
+         * When ok is clicked, the dialog is dismissed and file creation activity is called else the dialog is dismissed.
+         * @param v
+         */
         @Override
         public void onClick(View v) {
             if(v.getId() == R.id.create_file_dialog_ok_button){
@@ -375,6 +430,9 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
         }
     }
 
+    /**
+     * A class which extends the AsyncTask to perform the sync operation in the background
+     */
     private class LongResync extends AsyncTask<Void,Void,Void>{
 
         private EditText input;
@@ -403,6 +461,10 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
         }
     }
 
+    /**
+     * A method to request the service for the List of patterns associated with the bot
+     */
+
     protected void setListOfPatterns(){
        listOfPatterns = new ArrayList<String>();
         try {
@@ -418,6 +480,13 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
 
     }
 
+
+    /**
+     * An overridden callback which is called when the service is connected
+     * The UI is enabled
+     * @param name Name of the component
+     * @param service IBinder of the proxy object
+     */
     @Override
     public void onServiceConnected(ComponentName name, IBinder service) {
         Log.d(TAG, "The service is now connected");
@@ -437,6 +506,11 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
         }
     }
 
+    /**
+     * Callback when the service is successfully disconnected
+     * @param name Name of the component
+     */
+
     @Override
     public void onServiceDisconnected(ComponentName name) {
         Log.d(TAG,"Disconnected from the service");
@@ -444,6 +518,11 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
         bar.notConnected();
         enableConnectToService(true);
     }
+
+    /**
+     * A method to enable/disable the Connect To Service action button
+     * @param flag
+     */
 
     private void enableConnectToService(final boolean flag){
         if(menu == null){
@@ -467,6 +546,12 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
         }
     }
 
+    /**
+     * Called on deletion of a reduction to update the list adapter's dataset change
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

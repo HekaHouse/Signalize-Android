@@ -17,7 +17,10 @@ import org.alicebot.ab.FileUtils;
 import org.w3c.dom.Node;
 
 
-
+/**
+ * @author mukundan
+ * Activity to view the current response and set new response
+ */
 public class FileActivity extends Activity implements View.OnClickListener{
     private TextView pattern;
     private TextView currentResponse;
@@ -109,9 +112,6 @@ public class FileActivity extends Activity implements View.OnClickListener{
         }
     }
 
-    public static void init(Context context){
-        FileUtility.setContext(context);
-    }
 
     @Override
     protected void onPause() {

@@ -31,6 +31,10 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import aiml.aimlValidate.AIMLValidate;
 
+/**
+ * @author mukundan
+ * An activity for Advanced Settings
+ */
 public class AdvancedSettings extends Activity implements View.OnClickListener{
 
     protected final String TAG = "Advanced Setting Activity";
@@ -40,6 +44,11 @@ public class AdvancedSettings extends Activity implements View.OnClickListener{
     Button setResponse,viewAIMLTags;
     AutoCompleteTextView addSraiTv;
     AddButtons addButtons;
+
+    /**
+     * The layout is set correspondingly and the buttons are added
+     * @param savedInstanceState Saved State
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -140,6 +149,12 @@ public class AdvancedSettings extends Activity implements View.OnClickListener{
         }
         return super.onOptionsItemSelected(item);
     }
+
+    /**
+     * Static method to show error Toast in red
+     * @param context The Calling context
+     * @param message The required message
+     */
     public static void showErrorToast(Context context, String message){
         Toast toast = Toast.makeText(context,message,Toast.LENGTH_LONG);
         toast.getView().setBackground(context.getResources().getDrawable(R.drawable.toast_bg_red));
@@ -147,6 +162,12 @@ public class AdvancedSettings extends Activity implements View.OnClickListener{
         textView.setTextColor(Color.YELLOW);
         toast.show();
     }
+
+    /**
+     * Static method to show valid Toast in green
+     * @param context The Calling context
+     * @param message The required message
+     */
     public static void showValidToast(Context context, String message){
         Toast toast = Toast.makeText(context,message,Toast.LENGTH_LONG);
         toast.getView().setBackground(context.getResources().getDrawable(R.drawable.toast_bg_green));
@@ -162,7 +183,9 @@ public class AdvancedSettings extends Activity implements View.OnClickListener{
         * On click method for the Set Response Button.
         * On click method for the Create New File Button
         * */
-        if(newFile == null) {
+
+         if(newFile == null) {
+            // Set Response
             FileUtility.openFile(strFileName);
             Node responseElement = FileUtility.getReqResponse(strPattern);
             try {
@@ -199,6 +222,7 @@ public class AdvancedSettings extends Activity implements View.OnClickListener{
             }
         }
         else if(newFile!=null){
+             //Create New File
             AIMLValidate aimlValidate = new AIMLValidate(this.getApplicationContext());
             boolean valid = false;
             try {

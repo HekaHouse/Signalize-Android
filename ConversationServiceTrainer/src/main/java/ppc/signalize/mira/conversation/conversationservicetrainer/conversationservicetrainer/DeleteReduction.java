@@ -15,8 +15,11 @@ import org.w3c.dom.Node;
 
 import javax.xml.transform.TransformerException;
 
+
+
 /**
  * Created by mukundan on 8/1/14.
+ * Headless activity to delete a reduction
  */
 public class DeleteReduction extends Activity{
 
@@ -46,6 +49,10 @@ public class DeleteReduction extends Activity{
         finish();
     }
 }
+
+/**
+ * A for the delete reduction dialog box.
+ */
 class DeleteReductionDialog extends Dialog implements View.OnClickListener {
     TrainerActivity activity;
     int position;

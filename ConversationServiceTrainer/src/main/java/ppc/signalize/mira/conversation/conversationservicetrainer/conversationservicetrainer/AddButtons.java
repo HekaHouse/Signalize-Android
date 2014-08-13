@@ -14,7 +14,9 @@ import java.util.Map;
 
 
 /**
+ *
  * Created by mukundan on 7/24/14.
+ * A class to add all the required buttons and corresponding listeners for the tags in the given root view
  */
 public class AddButtons {
 
