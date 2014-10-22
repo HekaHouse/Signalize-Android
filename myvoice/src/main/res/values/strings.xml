@@ -12,11 +12,31 @@
     <string name="mira_header">MIRA\r\nat your service</string>
     <string name="mira_initial_greeting">Hello, my name is Mira.</string>
     <string name="hello_world">Hello World</string>
-    
+
+    <string name="my_care_team">My Care Team</string>
+    <string name="my_personal_visit_record">My Personal Visit Record</string>
+    <string name="my_personal_medical_record">My Personal Medical Record</string>
     <string name="request_assistance">Request Assistance</string>
     <string name="care_schedule">Care Schedule</string>
     <string name="treatment_plan">Treatment Plan</string>
     <string name="dining">Dining</string>
     <string name="entertainment">Entertainment</string>
     <string name="how_are_we_doing">How are we doing?</string>
+
+    <string name="ken_dobular">Kenneth J. Dobuler, MD</string>
+    <string name="jeanne_herrmann">Jeanne Herrmann, PA</string>
+    <string name="jim_lepich">James Lepich, APRN</string>
+    <string name="sarah_anderson">Sarah Anderson</string>
+    <string name="elizabeth_kimtis">Elizabeth Kimtis, RN, MS, APRN</string>
+
+    <string name="empty"></string>
+    <string name="sarah_anderson_specialty">Dietitian</string>
+    <string name="jeanne_herrmann_specialty">Orthopedics</string>
+    <string name="jim_lepich_specialty">Family Nurse Practitioner</string>
+    <string name="ken_dobular_specialty">Preventive Medicine</string>
+
+    <string name="jim_lepich_experience">Joined staff in 2013</string>
+    <string name="sarah_anderson_experience">Joined staff in 2006</string>
+    <string name="jeanne_herrmann_experience">Joined staff in 2009</string>
+    <string name="ken_dobular_experience">In Practice Since 1981</string>
 </resources>

@@ -27,6 +27,7 @@ public class FlingAwayDetector extends GestureDetector.SimpleOnGestureListener {
                 // nothing
             }  else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
                 AnimatePane.hideSlidingContent();
+                return true;
             }
         } catch (Exception e) {
             // nothing
