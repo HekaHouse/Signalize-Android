@@ -5,6 +5,7 @@ import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
@@ -19,14 +20,15 @@ public class AnimatePane implements View.OnClickListener{
     protected static View vi = null;
     protected static Context context;
     protected static FrameLayout parent;
-
+    protected static TextView _content;
 
     private GestureDetector gestureDetector;
 
     View.OnTouchListener gestureListener;
 
-    public AnimatePane(Context context){
+    public AnimatePane(Context context, TextView mira_content){
         this.context = context;
+        _content = mira_content;
         // Gesture detection
         gestureDetector = new GestureDetector(context, new FlingAwayDetector(this));
         gestureListener = new View.OnTouchListener() {
@@ -44,7 +46,13 @@ public class AnimatePane implements View.OnClickListener{
         }
 
         TextView contentHeading = (TextView)vi.findViewById(R.id.content_heading);
-        ListAdapter.setTextView(null,contentHeading,context,position);
+        FrameLayout contentFrame = (FrameLayout)vi.findViewById(R.id.sliding_content_frame);
+        contentFrame.removeView(_content);
+        contentFrame.addView(_content);
+        if (position >=0)
+            ListAdapter.setTextView(null,contentHeading,context,position);
+        else
+            contentHeading.setText("MIRA");
         AnimatePane.parent = parent;
         vi.setOnClickListener(this);
         vi.setOnTouchListener(gestureListener);
@@ -96,6 +104,7 @@ public class AnimatePane implements View.OnClickListener{
                 // to GONE once the Animation is finished
                 vi.setVisibility(View.GONE);
                 parent.removeView(vi);
+                MyVoiceActivity.isDialogDisplayed = false;
             }
 
             @Override

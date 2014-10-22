@@ -68,6 +68,7 @@ public abstract class MiraAbstractActivity extends
     private boolean isListeningForActivation;
 
     private boolean wasListeningForActivation;
+    public static boolean isDialogDisplayed=false;
 
 
     @Override
@@ -115,7 +116,7 @@ public abstract class MiraAbstractActivity extends
 
     public void init() {
         ttsInit = new TextToSpeechInitializer(this, Locale.getDefault(), this);
-        mira.init(true);
+
     }
 
     @Override
@@ -132,6 +133,7 @@ public abstract class MiraAbstractActivity extends
         ttsLive = true;
         this.tts = tts;
         setTtsListener();
+        mira.init(true);
     }
 
     private void setTtsListener() {
@@ -458,4 +460,5 @@ public abstract class MiraAbstractActivity extends
 
     public abstract boolean canListen();
 
+    public abstract void displayDialog();
 }

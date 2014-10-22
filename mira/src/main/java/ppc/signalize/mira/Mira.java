@@ -98,7 +98,6 @@ public class Mira implements Runnable,ServiceConnection {
         sendBroadcasttoService();
         withPrompt = prompt_when_done;
 
-        new Thread(this).start();
     }
 
     public Context getApplicationContext() {
@@ -122,6 +121,8 @@ public class Mira implements Runnable,ServiceConnection {
         return null;
     }
 
+
+
     public void listen() {
         new AsyncMouth(_world, true).execute("Hello");
     }
@@ -135,6 +136,7 @@ public class Mira implements Runnable,ServiceConnection {
     public void onServiceConnected(ComponentName name, IBinder service) {
         Log.d(TAG,"The service is now connected");
         Toast.makeText(context, "The service is now connected", Toast.LENGTH_LONG).show();
+        allLoaded();
         this.service = IConversation.Stub.asInterface(service);
     }
 

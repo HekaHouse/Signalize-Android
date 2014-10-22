@@ -66,7 +66,7 @@ public class MyVoiceActivity extends MiraAbstractActivity implements AdapterView
     SVGImageView mic;
     static int micClick = 0;
     FrameLayout parent;
-
+    private TextView mira_content;
 
 
     @Override
@@ -75,7 +75,10 @@ public class MyVoiceActivity extends MiraAbstractActivity implements AdapterView
         setContentView(R.layout.main_list_menu);
         parent = (FrameLayout)findViewById(R.id.main_frame);
         ListAdapter listAdapter = new ListAdapter(getApplicationContext());
-
+        LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        FrameLayout framed = (FrameLayout)inflater.inflate(R.layout.mira_text,null);
+        mira_content = (TextView)(framed.findViewById(R.id.mira_text));
+        framed.removeView(mira_content);
         listView = (ListView)findViewById(R.id.menu_list);
         listView.setAdapter(listAdapter);
         listView.setOnItemClickListener(this);
@@ -84,32 +87,81 @@ public class MyVoiceActivity extends MiraAbstractActivity implements AdapterView
         mic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ++micClick;
-                Toast.makeText(getApplicationContext(),"Clicked mic " + micClick + "time(s)",Toast.LENGTH_SHORT).show();
+                micClick++;
+                if (micClick % 2 == 0) {
+                    mic.setImageResource(R.drawable.microphone);
+                    mira.stop_listen();
+                }
+                else {
+                    mic.setImageResource(R.drawable.microphone_on);
+                    mira.listen();
+                }
             }
         });
+        init();
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            parent.setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
     @Override
     public Spannable createSpan(String words, int aligned) {
-        return null;
+        Spannable wordtoSpan = new SpannableString("\r\n" + words + "\r\n");
+        int end = wordtoSpan.length();
+        if (aligned == ALIGN_MIRA)
+            wordtoSpan.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_NORMAL), 0, end, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+        else
+            wordtoSpan.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_OPPOSITE), 0, end, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+
+        return colorSpan(wordtoSpan, aligned);
     }
+
+    public Spannable colorSpan(Spannable span, int color) {
+        int end = span.length();
+        if (color == ALIGN_MIRA)
+            span.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.mira_text)), 0, end, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+        else
+            span.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.voice_text)), 0, end, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+        return span;
+    }
+
+
 
     @Override
     public void prependMiraText(String toSpan, int aligned) {
-
+        Spannable span = createSpan(toSpan, aligned);
+        Spannable currentText = new SpannableString(mira_content.getText());
+        CharSequence newText = TextUtils.concat(span, currentText);
+        mira_content.setText(newText);
     }
 
     @Override
     protected void startListening() {
-
+        if (micClick % 2 == 0)
+            mic.callOnClick();
     }
 
     @Override
     public boolean canListen() {
-        return false;
+
+        return (micClick % 2 > 0);
     }
 
+    @Override
+    public void displayDialog() {
+        new AnimatePane(getApplicationContext(),mira_content).animateContentPane( -1, this.parent);
+        isDialogDisplayed=true;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -132,7 +184,7 @@ public class MyVoiceActivity extends MiraAbstractActivity implements AdapterView
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        new AnimatePane(getApplicationContext()).animateContentPane( position, this.parent);
+        new AnimatePane(getApplicationContext(),mira_content).animateContentPane( position, this.parent);
     }
 
     @Override

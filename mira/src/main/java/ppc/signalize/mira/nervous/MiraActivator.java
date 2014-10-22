@@ -117,6 +117,8 @@ public class MiraActivator implements SpeechActivator, RecognitionListener {
         } else {
             if (activation) {
                 Log.d(TAG, "making considerate response");
+                if (!context.isDialogDisplayed())
+                    context.displayDialog();
 
                 new AsyncMiraResponse(context).execute(heard.get(0));
             } else {

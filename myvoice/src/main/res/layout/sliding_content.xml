@@ -14,27 +14,27 @@
         android:layout_height="match_parent"
         android:layout_weight="3"
         android:background="@color/semi_dark">
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical"
-        android:background="@color/white"
-        android:layout_marginLeft="2dp">
-        <TextView
-        android:id="@+id/content_heading"
-        android:text="Content Heading"
-        android:gravity="center"
-        android:textAllCaps="true"
-        android:textColor="@color/primary_dark"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:textColor="@color/primary_dark"
-
-        android:text="Content comes here"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:background="@color/white"
+            android:layout_marginLeft="2dp"
+            android:weightSum="10">
+            <TextView
+                android:id="@+id/content_heading"
+                android:text="Content Heading"
+                android:gravity="center"
+                android:textAllCaps="true"
+                android:textColor="@color/primary_dark"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"/>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="8"
+                android:id="@+id/sliding_content_frame"></FrameLayout>
+        </LinearLayout>
     </FrameLayout>
 </LinearLayout>

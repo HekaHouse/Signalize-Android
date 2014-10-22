@@ -73,6 +73,8 @@ public class Voice extends UtteranceProgressListener {
             new AsyncConsciousness(maActive, words, aligned).execute("");
     }
 
+
+
     /**
      * Changed by Mukundan on 7/9/14. Removed the brain functionality.
      * */
@@ -268,4 +270,11 @@ public class Voice extends UtteranceProgressListener {
     }
 
 
+    public boolean isDialogDisplayed() {
+        return maActive.isDialogDisplayed;
+    }
+
+    public void displayDialog() {
+        maActive.displayDialog();
+    }
 }

@@ -75,7 +75,7 @@ public class Test_Activity extends Activity implements AdapterView.OnItemClickLi
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        new AnimatePane(getApplicationContext()).animateContentPane( position, this.parent);
+        new AnimatePane(getApplicationContext(),null).animateContentPane( position, this.parent);
     }
 
     @Override
