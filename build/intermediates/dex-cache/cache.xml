@@ -18,7 +18,37 @@
         jar="C:\Users\Aron\Documents\GitHub\Signalize\myvoice\build\intermediates\exploded-aar\Signalize\mira\unspecified\classes.jar"
         jumboMode="false"
         revision="19.1.0"
-        sha1="36a0b84af0fbac927a9bd39f6e2333e30347db81"/>
+        sha1="5d283904c6af6722b24cf8746803999d4a77e031"/>
+    <item
+        dex="C:\Users\Aron\Documents\GitHub\Signalize\myvoice\build\intermediates\pre-dexed\debug\lucene-snowball-3.0.3-de202af5361d8b837d8b6a827091fc71ab76774b.jar"
+        jar="C:\Users\Aron\.gradle\caches\modules-2\files-2.1\org.apache.lucene\lucene-snowball\3.0.3\e0c15cc6929e29cc7908246cc8e2c906ff2c1cc6\lucene-snowball-3.0.3.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="e0c15cc6929e29cc7908246cc8e2c906ff2c1cc6"/>
+    <item
+        dex="C:\Users\Aron\Documents\GitHub\Signalize\myvoice\build\intermediates\pre-dexed\debug\jsr305-1.3.7-094e6fec665b41692936b0cb9f51def957b45954.jar"
+        jar="C:\Users\Aron\.gradle\caches\modules-2\files-2.1\com.google.code.findbugs\jsr305\1.3.7\516c03b21d50a644d538de0f0369c620989cd8f0\jsr305-1.3.7.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="516c03b21d50a644d538de0f0369c620989cd8f0"/>
+    <item
+        dex="C:\Users\Aron\Documents\GitHub\Signalize\myvoice\build\intermediates\pre-dexed\debug\classes-09d1bdc7ce441f15ed32bc28b307616d81dc4c45.jar"
+        jar="C:\Users\Aron\Documents\GitHub\Signalize\myvoice\build\intermediates\exploded-aar\com.android.support\palette-v7\21.0.0\classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="b65c2fede61220ed2b6a063f11ca13160910089e"/>
+    <item
+        dex="C:\Users\Aron\Documents\GitHub\Signalize\myvoice\build\intermediates\pre-dexed\debug\classes-4dd68d75a23f170bae19f15687a4cc0f769d869e.jar"
+        jar="C:\Users\Aron\Documents\GitHub\Signalize\myvoice\build\intermediates\exploded-aar\com.github.gabrielemariotti.cards\library\1.4.2\classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="abab2edd835ac7473153ee44e75c2679c75c2371"/>
+    <item
+        dex="C:\Users\Aron\Documents\GitHub\Signalize\myvoice\build\intermediates\pre-dexed\debug\lucene-core-3.0.3-2a3c91789c1291c4ee8294443425669daf42df3f.jar"
+        jar="C:\Users\Aron\.gradle\caches\modules-2\files-2.1\org.apache.lucene\lucene-core\3.0.3\335f7ea0e28a4a1358aa745f4bd2037e8afe44fc\lucene-core-3.0.3.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="335f7ea0e28a4a1358aa745f4bd2037e8afe44fc"/>
     <item
         dex="C:\Users\Aron\Documents\GitHub\Signalize\myvoice\build\intermediates\pre-dexed\debug\javax-annotation-1.3.7-201002241900-21eaf6cf704a5331433d7d931456a0cf0ecfb217.jar"
         jar="C:\Users\Aron\.gradle\caches\modules-2\files-2.1\com.kenai.nbpwr\javax-annotation\1.3.7-201002241900\808b42bad27d03cc91f143440e7d11bc4811aff4\javax-annotation-1.3.7-201002241900.nbm"
@@ -38,18 +68,6 @@
         revision="19.1.0"
         sha1="ca065efb4346c2cbc7dbf6ce8a299110f7e1b996"/>
     <item
-        dex="C:\Users\Aron\Documents\GitHub\Signalize\myvoice\build\intermediates\pre-dexed\debug\lucene-snowball-3.0.3-de202af5361d8b837d8b6a827091fc71ab76774b.jar"
-        jar="C:\Users\Aron\.gradle\caches\modules-2\files-2.1\org.apache.lucene\lucene-snowball\3.0.3\e0c15cc6929e29cc7908246cc8e2c906ff2c1cc6\lucene-snowball-3.0.3.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="e0c15cc6929e29cc7908246cc8e2c906ff2c1cc6"/>
-    <item
-        dex="C:\Users\Aron\Documents\GitHub\Signalize\myvoice\build\intermediates\pre-dexed\debug\jsr305-1.3.7-094e6fec665b41692936b0cb9f51def957b45954.jar"
-        jar="C:\Users\Aron\.gradle\caches\modules-2\files-2.1\com.google.code.findbugs\jsr305\1.3.7\516c03b21d50a644d538de0f0369c620989cd8f0\jsr305-1.3.7.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="516c03b21d50a644d538de0f0369c620989cd8f0"/>
-    <item
         dex="C:\Users\Aron\Documents\GitHub\Signalize\myvoice\build\intermediates\pre-dexed\debug\bcprov-jdk15-140-5e134798883d5904ec294eb397c8357b847b1cac.jar"
         jar="C:\Users\Aron\.gradle\caches\modules-2\files-2.1\bouncycastle\bcprov-jdk15\140\83933f3f3312473afbe42a232392b3feffaadc36\bcprov-jdk15-140.jar"
         jumboMode="false"
@@ -62,35 +80,17 @@
         revision="19.1.0"
         sha1="1a578b9607b36266c63d43a4fa0ab5664dbe911e"/>
     <item
-        dex="C:\Users\Aron\Documents\GitHub\Signalize\myvoice\build\intermediates\pre-dexed\debug\classes-09d1bdc7ce441f15ed32bc28b307616d81dc4c45.jar"
-        jar="C:\Users\Aron\Documents\GitHub\Signalize\myvoice\build\intermediates\exploded-aar\com.android.support\palette-v7\21.0.0\classes.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="b65c2fede61220ed2b6a063f11ca13160910089e"/>
-    <item
         dex="C:\Users\Aron\Documents\GitHub\Signalize\myvoice\build\intermediates\pre-dexed\debug\classes-aa28efeca04c733bbac8c0eeefd014611c2f8109.jar"
         jar="C:\Users\Aron\Documents\GitHub\Signalize\myvoice\build\intermediates\exploded-aar\com.android.support\cardview-v7\21.0.0\classes.jar"
         jumboMode="false"
         revision="19.1.0"
         sha1="7d2525cba8ed61fff102977caed964fc22061e34"/>
     <item
-        dex="C:\Users\Aron\Documents\GitHub\Signalize\myvoice\build\intermediates\pre-dexed\debug\classes-4dd68d75a23f170bae19f15687a4cc0f769d869e.jar"
-        jar="C:\Users\Aron\Documents\GitHub\Signalize\myvoice\build\intermediates\exploded-aar\com.github.gabrielemariotti.cards\library\1.4.2\classes.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="abab2edd835ac7473153ee44e75c2679c75c2371"/>
-    <item
-        dex="C:\Users\Aron\Documents\GitHub\Signalize\myvoice\build\intermediates\pre-dexed\debug\lucene-core-3.0.3-2a3c91789c1291c4ee8294443425669daf42df3f.jar"
-        jar="C:\Users\Aron\.gradle\caches\modules-2\files-2.1\org.apache.lucene\lucene-core\3.0.3\335f7ea0e28a4a1358aa745f4bd2037e8afe44fc\lucene-core-3.0.3.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="335f7ea0e28a4a1358aa745f4bd2037e8afe44fc"/>
-    <item
         dex="C:\Users\Aron\Documents\GitHub\Signalize\myvoice\build\intermediates\pre-dexed\debug\classes-fed9691cb78347a4dc1753de4c6d6850c253b6f3.jar"
         jar="C:\Users\Aron\Documents\GitHub\Signalize\myvoice\build\intermediates\exploded-aar\Signalize\androidSVG_12\unspecified\classes.jar"
         jumboMode="false"
         revision="19.1.0"
-        sha1="bad78e2c7a24fb76e3cad340810a19a2ba7b500a"/>
+        sha1="f9b1860261e7ab1d18d9ad88d4a6677f2b90f285"/>
     <item
         dex="C:\Users\Aron\Documents\GitHub\Signalize\myvoice\build\intermediates\pre-dexed\debug\internal_impl-21.0.0-5c4b94aec06be1c752eaa7a261f7ff2a7f811f36.jar"
         jar="C:\Users\Aron\Documents\GitHub\Signalize\myvoice\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.0\libs\internal_impl-21.0.0.jar"
