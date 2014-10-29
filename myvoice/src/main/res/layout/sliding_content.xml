@@ -1,23 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:weightSum="11">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/accent_off"
-        android:layout_weight="10"></LinearLayout>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:svgimageview="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
      <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:background="@color/white"
             android:id="@+id/content_area"
-            android:layout_marginLeft="2dp"
+            android:layout_marginLeft="85dp"
+            android:paddingLeft="35dp"
+            android:layout_gravity="right|bottom"
             android:translationZ="5dp"
             android:elevation="5dp">
-
-        </FrameLayout>
-</LinearLayout>
+    </FrameLayout>
+    <FrameLayout
+        android:id="@+id/icon"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginLeft="35dp"
+        android:focusable="true"
+        android:clickable="true"
+        android:stateListAnimator="@anim/menu_list_selection"
+        android:elevation="7dp"
+        android:layout_gravity="bottom"
+        android:translationZ="7dp"
+        android:onClick="close_content"
+        android:background="@drawable/circle_button_ripple" >
+        <com.caverock.androidsvg.SVGImageView
+            android:layout_gravity="center"
+            android:id="@+id/menu_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            svgimageview:svg="@drawable/slide_away" />
+    </FrameLayout>
+</FrameLayout>

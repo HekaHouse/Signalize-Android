@@ -268,4 +268,7 @@ public class Voice extends UtteranceProgressListener {
     }
 
 
+    public void delegateOob(String oob) {
+
+    }
 }

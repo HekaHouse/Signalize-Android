@@ -21,7 +21,7 @@ public class AsyncMiraResponse extends AsyncMouth {
             if (s.length() > 0) {
                 mWorld.appendText(s, MiraAbstractActivity.ALIGN_VOICE);
                 Consideration considered = mWorld.getMira().consider(s);
-                spoken = speechCycle(considered.mResponse);
+                spoken = speechCycle(considered.mResponse,considered.mOob);
             }
         }
         return 0L;

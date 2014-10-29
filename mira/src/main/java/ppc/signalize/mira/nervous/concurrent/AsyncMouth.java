@@ -79,6 +79,38 @@ public class AsyncMouth extends AsyncTask<String, Integer, Long> {
         return considered;
     }
 
+    public String speechCycle(String considered,String oob) {
+
+
+        if (oob != null) {
+            mWorld.delegateOob(oob);
+        }
+        while (!mWorld.hasTTS() || mWorld.getTTS().isSpeaking() || speech_cycle_active) {
+            mWorld.pause(10);
+        }
+        speech_cycle_active = true;
+        Log.d(TAG, "begin speech cycle");
+        HashMap params = new HashMap();
+        //AudioManager.STREAM_MUSIC
+        params.put("streamType", "3");
+        params.put("utteranceId", "MIR_Response");
+        params.put("embeddedTts", "true");
+
+
+        mWorld.appendText(considered, MiraAbstractActivity.ALIGN_MIRA);
+
+        mWorld.getTTS().speak(considered, TextToSpeech.QUEUE_FLUSH, params);
+
+        while (mWorld.getTTS().isSpeaking()) {
+            mWorld.pause(10);
+        }
+
+        Log.d(TAG, "end speech cycle");
+        mWorld.pause(500);
+        speech_cycle_active = false;
+        return considered;
+    }
+
     @Override
     protected void onPostExecute(Long result) {
         if (withPrompt)

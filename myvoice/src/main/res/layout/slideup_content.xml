@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:svgimageview="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+        <LinearLayout android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:orientation="horizontal"
+            android:elevation="1dp"
+            android:translationZ="1dp"
+            android:clipChildren="false"
+            android:background="@color/primary_light"
+            android:layout_weight="9">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="75dp"
+                android:layout_marginTop="10dp"
+                android:gravity="left|top"
+                android:focusable="true"
+                android:clickable="true"
+                android:textColor="@color/black"
+                android:textSize="36sp"
+                android:id="@+id/slide_up_title"/>
+        </LinearLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="75dp"
+            android:background="@color/white"
+            android:id="@+id/content_area">
+        </FrameLayout>
+    <FrameLayout
+        android:id="@+id/icon"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="left|top"
+        android:focusable="true"
+        android:clickable="true"
+        android:stateListAnimator="@anim/menu_list_selection"
+        android:elevation="7dp"
+        android:translationZ="7dp"
+        android:onClick="close_note"
+        android:background="@drawable/circle_button_ripple" >
+        <com.caverock.androidsvg.SVGImageView
+            android:layout_gravity="center"
+            android:id="@+id/menu_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            svgimageview:svg="@drawable/drop_down" />
+    </FrameLayout>
+    </FrameLayout>

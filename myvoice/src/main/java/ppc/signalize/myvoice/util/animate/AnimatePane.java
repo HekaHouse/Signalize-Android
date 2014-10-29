@@ -1,4 +1,4 @@
-package ppc.signalize.myvoice;
+package ppc.signalize.myvoice.util.animate;
 
 import android.content.Context;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -11,20 +11,19 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
-import android.widget.StackView;
 
-import java.util.ArrayList;
-
+import ppc.signalize.myvoice.MyVoiceActivity;
+import ppc.signalize.myvoice.R;
 import ppc.signalize.myvoice.model.careteam.CareTeamManager;
-import ppc.signalize.myvoice.model.careteam.CareTeamMember;
 import ppc.signalize.myvoice.util.adapter.CareTeamAdapter;
+import ppc.signalize.myvoice.util.fling.FlingAwayDetector;
 
 /**
  * Created by Aron on 7/27/2014.
  */
 public class AnimatePane implements View.OnClickListener{
     private static boolean once = false;
-    protected static View vi = null;
+    public static View vi = null;
     protected static FrameLayout parent;
     private static MyVoiceActivity my_voice;
 
@@ -38,14 +37,14 @@ public class AnimatePane implements View.OnClickListener{
     public AnimatePane(MyVoiceActivity mv){
         my_voice = mv;
         // Gesture detection
-        gestureDetector = new GestureDetector(my_voice, new FlingAwayDetector(this));
+        gestureDetector = new GestureDetector(my_voice, new FlingAwayDetector());
         gestureListener = new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 return gestureDetector.onTouchEvent(event);
             }
         };
     }
-    protected void animateContentPaneQueued(int position, FrameLayout parent) {
+    public void animateContentPaneQueued(int position, FrameLayout parent) {
         LayoutInflater inflater = (LayoutInflater)my_voice.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if(queue == null){
             queue = inflater.inflate(R.layout.sliding_content,null);
@@ -101,7 +100,7 @@ public class AnimatePane implements View.OnClickListener{
         AnimatePane.parent = parent;
         queued = true;
     }
-    protected void animateContentPane(int position, FrameLayout parent){
+    public void animateContentPane(int position, FrameLayout parent){
 
 
         LayoutInflater inflater = (LayoutInflater)my_voice.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -166,7 +165,7 @@ public class AnimatePane implements View.OnClickListener{
         revealSlidingContent();
     }
 
-    protected static void revealSlidingContent() {
+    public static void revealSlidingContent() {
         Animation hide = AnimationUtils.loadAnimation(my_voice, R.anim.content_reveal);
         hide.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -192,13 +191,14 @@ public class AnimatePane implements View.OnClickListener{
         vi.startAnimation(hide);
     }
 
-    protected static void hideSlidingContent() {
+    public static void hideSlidingContent() {
 
         Animation hide = AnimationUtils.loadAnimation(my_voice, R.anim.content_hide);
         hide.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-                my_voice.clearSelection();
+                if (!queued)
+                    my_voice.clearSelection();
             }
 
             @Override

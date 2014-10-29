@@ -2,6 +2,7 @@ package ppc.signalize.myvoice;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,9 +19,12 @@ import android.widget.Toast;
 
 import com.caverock.androidsvg.SVGImageView;
 
+import ppc.signalize.mira.Mira;
 import ppc.signalize.mira.face.MiraAbstractActivity;
 import ppc.signalize.myvoice.model.menu.MyMenuManager;
 import ppc.signalize.myvoice.util.adapter.MyMenuAdapter;
+import ppc.signalize.myvoice.util.animate.AnimatePane;
+import ppc.signalize.myvoice.util.animate.VerticalAnimatePane;
 
 
 public class MyVoiceActivity extends MiraAbstractActivity implements RecyclerView.OnItemTouchListener {
@@ -28,20 +32,21 @@ public class MyVoiceActivity extends MiraAbstractActivity implements RecyclerVie
     public static final String TAG = "MyVoiceActivity";
     Handler updateConversationHandler;
     static RecyclerView menuView;
-    SVGImageView mic;
-    static int micClick = 0;
+
     FrameLayout parent;
     private MyMenuAdapter mAdapter;
     private GestureDetectorCompat gesturedetector;
     private AnimatePane animated;
-
+    private VerticalAnimatePane v_animated;
+    private FrameLayout mic;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_list_menu);
+        setContentView(R.layout.my_voice_menu);
+        init();
         parent = (FrameLayout)findViewById(R.id.main_frame);
-        mAdapter = new MyMenuAdapter(new MyMenuManager().getItems(), R.layout.main_list_menu_row, this);
+        mAdapter = new MyMenuAdapter(new MyMenuManager().getItems(), R.layout.my_voice_menu_row, this);
 
         menuView = (RecyclerView)findViewById(R.id.menu_list);
         menuView.setLayoutManager(new LinearLayoutManager(this));
@@ -53,16 +58,8 @@ public class MyVoiceActivity extends MiraAbstractActivity implements RecyclerVie
         gesturedetector = new GestureDetectorCompat(this, new MyOnGestureListener());
 //        menuView.setAdapter(listAdapter);
 //        menuView.setOnItemClickListener(this);
-        mic = (SVGImageView)findViewById(R.id.svg_mic);
-        mic.setClickable(true);
-        mic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ++micClick;
-                Toast.makeText(getApplicationContext(),"Clicked mic " + micClick + "time(s)",Toast.LENGTH_SHORT).show();
-            }
-        });
 
+        mic = (FrameLayout)findViewById(R.id.mic_box);
 
 
     }
@@ -95,7 +92,7 @@ public class MyVoiceActivity extends MiraAbstractActivity implements RecyclerVie
 
     @Override
     public boolean canListen() {
-        return false;
+        return true;
     }
 
 
@@ -150,7 +147,7 @@ public class MyVoiceActivity extends MiraAbstractActivity implements RecyclerVie
         @Override
         public boolean onSingleTapConfirmed(MotionEvent e) {
             View view = menuView.findChildViewUnder(e.getX(), e.getY());
-
+            clearSelection();
             if(AnimatePane.vi != null &&AnimatePane.vi.getVisibility() != View.GONE){
                 mAdapter.clearSelections();
                 AnimatePane.hideSlidingContent();
@@ -169,17 +166,100 @@ public class MyVoiceActivity extends MiraAbstractActivity implements RecyclerVie
 
             return super.onSingleTapConfirmed(e);
         }
-
-
-
-
     }
 
+    public void take_visitation_note(View v) {
+        switch (v.getId()){
+            case R.id.scheduling_note:
+                v_animated = new VerticalAnimatePane(MyVoiceActivity.this);
+                v_animated.animateContentPane(getString(R.string.personal_visit_schedule_text), R.layout.my_personal_visit_note, MyVoiceActivity.this.parent);
+                break;
+            case R.id.dining_note:
+
+                break;
+
+        }
+        // Obtain MotionEvent object
+//        long downTime = SystemClock.uptimeMillis();
+//        long eventTime = SystemClock.uptimeMillis() + 100;
+//        float x = mic.getX()+(mic.getWidth()/2);
+//        float y = mic.getY()+(mic.getHeight()/2);
+//        int metaState = 0;
+//        MotionEvent motionEvent = MotionEvent.obtain(
+//                downTime,
+//                eventTime,
+//                MotionEvent.ACTION_DOWN,
+//                x,
+//                y,
+//                metaState
+//        );
+//
+//        mic.dispatchTouchEvent(motionEvent);
+        start_mic(v);
+    }
+    public void close_note(View v) {
+        // Obtain MotionEvent object
+//        long downTime = SystemClock.uptimeMillis();
+//        long eventTime = SystemClock.uptimeMillis() + 100;
+//        float x = mic.getX()+(mic.getWidth()/2);
+//        float y = mic.getY()+(mic.getHeight()/2);
+//        int metaState = 0;
+//        MotionEvent motionEvent = MotionEvent.obtain(
+//                downTime,
+//                eventTime,
+//                MotionEvent.ACTION_UP,
+//                x,
+//                y,
+//                metaState
+//        );
+//
+//        mic.dispatchTouchEvent(motionEvent);
+        VerticalAnimatePane.hideSlidingContent();
+        if (mic.isSelected())
+            mic.performClick();
+    }
+    public void close_content(View v) {
+        AnimatePane.hideSlidingContent();
+    }
     public void clearSelection() {
         for (int i = 0; i < menuView.getChildCount(); i++) {
             menuView.findViewHolderForPosition(i).itemView.setSelected(false);
 
         }
+    }
+    public void start_mic(View v) {
+
+        //if mic is already on
+        if (mic.isSelected()) {
+
+            //if clicking the button brought you here
+            if (v.getId() == R.id.mic_box) {
+                mic.setSelected(false);
+                myVoice.getMira().stop_listen("");
+            }
+            //if mic is off and a note brought you here
+            else {
+                myVoice.getMira().consider(getTopicForNote(v));
+                myVoice.getMira().listen("What would you like to say?");
+            }
+        //if mic is off and clicking the button brought you here
+        } else if (v.getId() == R.id.mic_box) {
+            mic.setSelected(true);
+            myVoice.getMira().listen("How can I help you?");
+        //if mic is off and a note brought you here
+        } else {
+            mic.setSelected(true);
+            myVoice.getMira().consider(getTopicForNote(v));
+            myVoice.getMira().listen("What would you like to say?");
+        }
+    }
+
+    private String getTopicForNote(View v) {
+        switch (v.getId()) {
+            case R.id.scheduling_note :
+                return Mira.buildTopicTag("scheduling note");
+        }
+        return "";
     }
 }
 

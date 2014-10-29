@@ -122,25 +122,40 @@ public class Mira implements Runnable,ServiceConnection {
         return null;
     }
 
+    @Deprecated
     public void listen() {
-        new AsyncMouth(_world, true).execute("Hello");
+        listen("Hello");
+    }
+    public void listen(String greeting) {
+        new AsyncMouth(_world, true).execute(greeting);
     }
 
+    @Deprecated
     public void stop_listen() {
-        new AsyncMouth(_world, false).execute("Goodbye");
+        stop_listen("Goodbye");
+    }
+
+    public void stop_listen(String closing) {
+        new AsyncMouth(_world, false).execute(closing);
     }
 
 
     @Override
-    public void onServiceConnected(ComponentName name, IBinder service) {
+    public void onServiceConnected(ComponentName name, IBinder sBind) {
+
+        service = IConversation.Stub.asInterface(sBind);
         Log.d(TAG,"The service is now connected");
         Toast.makeText(context, "The service is now connected", Toast.LENGTH_LONG).show();
-        this.service = IConversation.Stub.asInterface(service);
     }
 
     @Override
     public void onServiceDisconnected(ComponentName name) {
         Log.d(TAG,"Disconnected from the service");
 
+    }
+
+
+    public static String buildTopicTag(String s) {
+        return "<set name=\""+s+"\"/>";
     }
 }

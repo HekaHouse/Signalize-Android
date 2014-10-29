@@ -95,18 +95,18 @@ public abstract class MiraAbstractActivity extends
     public void onResume() {
         super.onResume();
 
-        boolean recognizerIntent = SpeechRecognitionUtil.isSpeechAvailable(this);
-        if (!recognizerIntent) {
-            speechNotAvailable();
-        }
-        boolean direct = SpeechRecognizer.isRecognitionAvailable(this);
-        if (!direct) {
-            directSpeechNotAvailable();
-        }
-        myVoice = new Voice(this);
-        isListeningForActivation = false;
-        speechActivator = new MiraActivator(myVoice, this, new String[]{INITIATE, END_CONVERSATION});
-        mira = new Mira(myVoice);
+//        boolean recognizerIntent = SpeechRecognitionUtil.isSpeechAvailable(this);
+//        if (!recognizerIntent) {
+//            speechNotAvailable();
+//        }
+//        boolean direct = SpeechRecognizer.isRecognitionAvailable(this);
+//        if (!direct) {
+//            directSpeechNotAvailable();
+//        }
+//        myVoice = new Voice(this);
+//        isListeningForActivation = false;
+//        speechActivator = new MiraActivator(myVoice, this, new String[]{INITIATE, END_CONVERSATION});
+//        mira = new Mira(myVoice);
     }
 
     public abstract Spannable createSpan(String words, int aligned);
@@ -115,7 +115,7 @@ public abstract class MiraAbstractActivity extends
 
     public void init() {
         ttsInit = new TextToSpeechInitializer(this, Locale.getDefault(), this);
-        mira.init(true);
+        mira.init(false);
     }
 
     @Override

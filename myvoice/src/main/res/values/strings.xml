@@ -39,4 +39,11 @@
     <string name="sarah_anderson_experience">Joined staff in 2006</string>
     <string name="jeanne_herrmann_experience">Joined staff in 2009</string>
     <string name="ken_dobular_experience">In Practice Since 1981</string>
+    <string name="personal_visit_schedule_text">scheduling</string>
+    <string name="personal_visit_dining_text">dining</string>
+    <string name="personal_visit_entertainment_text">entertainment</string>
+    <string name="personal_visit_treatment_text">treatment</string>
+    <string name="personal_visit_education_text">education</string>
+    <string name="personal_visit_prescriptions_text">prescriptions</string>
+    <string name="personal_visit_caregiver_text">caregivers</string>
 </resources>

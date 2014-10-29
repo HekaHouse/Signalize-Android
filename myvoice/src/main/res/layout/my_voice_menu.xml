@@ -63,8 +63,9 @@
             android:id="@+id/mic_box"
             android:clickable="true"
             android:focusable="true"
+            android:onClick="start_mic"
             android:clipChildren="false"
-            android:background="@drawable/circle_button"
+            android:background="@drawable/mic_button_ripple"
             android:layout_gravity="end"
             android:elevation="5dp"
             android:translationZ="5dp">

@@ -18,19 +18,29 @@
         android:layout_height="135dp"
         android:elevation="5dp"
         android:translationZ="5dp"
-        android:layout_margin="10dp">
+        android:layout_margin="10dp"
+        android:clickable="true"
+        android:onClick="take_visitation_note"
+        android:id="@+id/scheduling_note">
         <LinearLayout
-            android:orientation="horizontal" android:layout_width="match_parent"
+            android:orientation="vertical" android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginRight="2dp"
-            android:layout_marginTop="2dp"
+            android:weightSum="10"
             android:background="@drawable/card_ripple"
             android:stateListAnimator="@anim/menu_list_selection">
             <com.caverock.androidsvg.SVGImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="10dp"
+                android:layout_weight="3"
                 svgimageview:svg="@drawable/care_schedule"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="7"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:text="@string/personal_visit_schedule_text"/>
         </LinearLayout>
     </android.support.v7.widget.CardView>
     <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -39,19 +49,29 @@
         android:layout_height="135dp"
         android:elevation="5dp"
         android:translationZ="5dp"
-        android:layout_margin="10dp">
+        android:layout_margin="10dp"
+        android:clickable="true"
+        android:onClick="take_visitation_note"
+        android:id="@+id/dining_note">
         <LinearLayout
-            android:orientation="horizontal" android:layout_width="match_parent"
+            android:orientation="vertical" android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginRight="2dp"
-            android:layout_marginTop="2dp"
+            android:weightSum="10"
             android:background="@drawable/card_ripple"
             android:stateListAnimator="@anim/menu_list_selection">
             <com.caverock.androidsvg.SVGImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="10dp"
+                android:layout_weight="3"
                 svgimageview:svg="@drawable/dining"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="7"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:text="@string/personal_visit_dining_text"/>
         </LinearLayout>
     </android.support.v7.widget.CardView>
     <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -60,19 +80,27 @@
         android:layout_height="135dp"
         android:elevation="5dp"
         android:translationZ="5dp"
-        android:layout_margin="10dp">
+        android:layout_margin="10dp"
+        android:clickable="true">
         <LinearLayout
-            android:orientation="horizontal" android:layout_width="match_parent"
+            android:orientation="vertical" android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginRight="2dp"
-            android:layout_marginTop="2dp"
+            android:weightSum="10"
             android:background="@drawable/card_ripple"
             android:stateListAnimator="@anim/menu_list_selection">
             <com.caverock.androidsvg.SVGImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="10dp"
+                android:layout_weight="3"
                 svgimageview:svg="@drawable/entertainment"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="7"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:text="@string/personal_visit_entertainment_text"/>
         </LinearLayout>
     </android.support.v7.widget.CardView>
     <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -81,19 +109,27 @@
         android:layout_height="135dp"
         android:elevation="5dp"
         android:translationZ="5dp"
-        android:layout_margin="10dp">
+        android:layout_margin="10dp"
+        android:clickable="true">
         <LinearLayout
-            android:orientation="horizontal" android:layout_width="match_parent"
+            android:orientation="vertical" android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginRight="2dp"
-            android:layout_marginTop="2dp"
+            android:weightSum="10"
             android:background="@drawable/card_ripple"
             android:stateListAnimator="@anim/menu_list_selection">
             <com.caverock.androidsvg.SVGImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="10dp"
+                android:layout_weight="3"
                 svgimageview:svg="@drawable/meds"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="7"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:text="@string/personal_visit_treatment_text"/>
         </LinearLayout>
     </android.support.v7.widget.CardView>
     <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -102,19 +138,27 @@
         android:layout_height="135dp"
         android:elevation="5dp"
         android:translationZ="5dp"
-        android:layout_margin="10dp">
+        android:layout_margin="10dp"
+        android:clickable="true">
         <LinearLayout
-            android:orientation="horizontal" android:layout_width="match_parent"
+            android:orientation="vertical" android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginRight="2dp"
-            android:layout_marginTop="2dp"
+            android:weightSum="10"
             android:background="@drawable/card_ripple"
             android:stateListAnimator="@anim/menu_list_selection">
             <com.caverock.androidsvg.SVGImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="10dp"
+                android:layout_weight="3"
                 svgimageview:svg="@drawable/books"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="7"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:text="@string/personal_visit_education_text"/>
         </LinearLayout>
     </android.support.v7.widget.CardView>
     <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -123,19 +167,27 @@
         android:layout_height="135dp"
         android:elevation="5dp"
         android:translationZ="5dp"
-        android:layout_margin="10dp">
+        android:layout_margin="10dp"
+        android:clickable="true">
         <LinearLayout
-            android:orientation="horizontal" android:layout_width="match_parent"
+            android:orientation="vertical" android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginRight="2dp"
-            android:layout_marginTop="2dp"
+            android:weightSum="10"
             android:background="@drawable/card_ripple"
             android:stateListAnimator="@anim/menu_list_selection">
             <com.caverock.androidsvg.SVGImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="10dp"
+                android:layout_weight="3"
                 svgimageview:svg="@drawable/scripts"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="7"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:text="@string/personal_visit_prescriptions_text"/>
         </LinearLayout>
     </android.support.v7.widget.CardView>
     <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -144,19 +196,27 @@
         android:layout_height="135dp"
         android:elevation="5dp"
         android:translationZ="5dp"
-        android:layout_margin="10dp">
+        android:layout_margin="10dp"
+        android:clickable="true">
         <LinearLayout
-            android:orientation="horizontal" android:layout_width="match_parent"
+            android:orientation="vertical" android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginRight="2dp"
-            android:layout_marginTop="2dp"
+            android:weightSum="10"
             android:background="@drawable/card_ripple"
             android:stateListAnimator="@anim/menu_list_selection">
             <com.caverock.androidsvg.SVGImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="10dp"
+                android:layout_weight="3"
                 svgimageview:svg="@drawable/my_care_team"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="7"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:text="@string/personal_visit_caregiver_text"/>
         </LinearLayout>
     </android.support.v7.widget.CardView>
 </GridLayout>
