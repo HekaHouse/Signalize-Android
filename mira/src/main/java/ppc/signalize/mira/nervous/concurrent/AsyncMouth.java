@@ -65,7 +65,7 @@ public class AsyncMouth extends AsyncTask<String, Integer, Long> {
         params.put("embeddedTts", "true");
 
 
-        mWorld.appendText(considered, MiraAbstractActivity.ALIGN_MIRA);
+        //mWorld.appendText(considered, MiraAbstractActivity.ALIGN_MIRA);
 
         mWorld.getTTS().speak(considered, TextToSpeech.QUEUE_FLUSH, params);
 
@@ -97,7 +97,7 @@ public class AsyncMouth extends AsyncTask<String, Integer, Long> {
         params.put("embeddedTts", "true");
 
 
-        mWorld.appendText(considered, MiraAbstractActivity.ALIGN_MIRA);
+        //mWorld.appendText(considered, MiraAbstractActivity.ALIGN_MIRA);
 
         mWorld.getTTS().speak(considered, TextToSpeech.QUEUE_FLUSH, params);
 

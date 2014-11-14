@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml>
+    <category><pattern>RECORD A * NOTE</pattern>
+        <template><set name="topic">RECORD A NOTE</set><srai>RECORDING NOTE <star/></srai></template>
+    </category>
+
+    <category>
+        <topic>RECORD A NOTE</topic>
+        <pattern>RECORDING NOTE *</pattern>
+        <template>What would you like to say about <star/>? <oob><personal_visit_note><star/></personal_visit_note></oob></template>
+    </category>
+</aiml>

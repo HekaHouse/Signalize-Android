@@ -11,6 +11,7 @@ import java.util.List;
 
 import ppc.signalize.mira.Voice;
 import ppc.signalize.mira.nervous.concurrent.AsyncMiraResponse;
+import ppc.signalize.mira.nervous.concurrent.AsyncRecordNote;
 import ppc.signalize.mira.util.text.MiraWordList;
 import root.gast.speech.SpeechRecognitionUtil;
 import root.gast.speech.activation.SpeechActivationListener;
@@ -28,6 +29,7 @@ public class MiraActivator implements SpeechActivator, RecognitionListener {
     private Class mService;
     private SpeechActivationListener resultListener;
     private boolean activation = false;
+    private boolean noting;
 
     public MiraActivator(Voice context, SpeechActivationListener resultListener, String... targetWords) {
         this.context = context;
@@ -119,6 +121,10 @@ public class MiraActivator implements SpeechActivator, RecognitionListener {
                 Log.d(TAG, "making considerate response");
 
                 new AsyncMiraResponse(context).execute(heard.get(0));
+            } else if (context.isNoting()) {
+                Log.d(TAG, "recording a note");
+
+                new AsyncRecordNote(context).execute(heard.get(0));
             } else {
                 Log.d(TAG, "ignoring because inactive");
                 new AsyncMiraResponse(context).execute("");

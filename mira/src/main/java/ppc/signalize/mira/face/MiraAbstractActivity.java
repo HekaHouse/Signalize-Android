@@ -56,7 +56,7 @@ public abstract class MiraAbstractActivity extends
     private static final String WAS_LISTENING_STATE = "WAS_LISTENING";
     public static int ALIGN_MIRA = 0;
     public static int ALIGN_VOICE = 1;
-    public SpeechActivator speechActivator;
+    public MiraActivator speechActivator;
     public Voice myVoice;
     public Mira mira;
     public TextToSpeechInitializer ttsInit;
@@ -69,6 +69,7 @@ public abstract class MiraAbstractActivity extends
 
     private boolean wasListeningForActivation;
 
+    private boolean isNoting;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -456,6 +457,13 @@ public abstract class MiraAbstractActivity extends
         isListeningForActivation = false;
     }
 
+    public void isNoting(boolean b) {
+        isNoting = b;
+    }
+
     public abstract boolean canListen();
 
+    public boolean isNoting() {
+        return isNoting;
+    }
 }

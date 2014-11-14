@@ -2,7 +2,6 @@ package ppc.signalize.myvoice;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,10 +13,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
-
-import com.caverock.androidsvg.SVGImageView;
 
 import ppc.signalize.mira.Mira;
 import ppc.signalize.mira.face.MiraAbstractActivity;
@@ -25,6 +21,7 @@ import ppc.signalize.myvoice.model.menu.MyMenuManager;
 import ppc.signalize.myvoice.util.adapter.MyMenuAdapter;
 import ppc.signalize.myvoice.util.animate.AnimatePane;
 import ppc.signalize.myvoice.util.animate.VerticalAnimatePane;
+import ppc.signalize.myvoice.views.LinedEditText;
 
 
 public class MyVoiceActivity extends MiraAbstractActivity implements RecyclerView.OnItemTouchListener {
@@ -82,7 +79,11 @@ public class MyVoiceActivity extends MiraAbstractActivity implements RecyclerVie
 
     @Override
     public void prependMiraText(String toSpan, int aligned) {
-
+        View v = findViewById(R.id.note_text);
+        if (v != null) {
+            LinedEditText myText = (LinedEditText)v;
+            myText.setText(myText.getText()+"\n"+toSpan);
+        }
     }
 
     @Override
@@ -170,12 +171,41 @@ public class MyVoiceActivity extends MiraAbstractActivity implements RecyclerVie
 
     public void take_visitation_note(View v) {
         switch (v.getId()){
-            case R.id.scheduling_note:
+            case R.id.admission_note:
                 v_animated = new VerticalAnimatePane(MyVoiceActivity.this);
-                v_animated.animateContentPane(getString(R.string.personal_visit_schedule_text), R.layout.my_personal_visit_note, MyVoiceActivity.this.parent);
+                v_animated.animateContentPane(getString(R.string.admission_note_text), R.drawable.admission, MyVoiceActivity.this.parent);
                 break;
-            case R.id.dining_note:
-
+            case R.id.room_note:
+                v_animated = new VerticalAnimatePane(MyVoiceActivity.this);
+                v_animated.animateContentPane(getString(R.string.room_note_text), R.drawable.room, MyVoiceActivity.this.parent);
+                break;
+            case R.id.meals_note:
+                v_animated = new VerticalAnimatePane(MyVoiceActivity.this);
+                v_animated.animateContentPane(getString(R.string.meals_note_text), R.drawable.meals, MyVoiceActivity.this.parent);
+                break;
+            case R.id.nurses_note:
+                v_animated = new VerticalAnimatePane(MyVoiceActivity.this);
+                v_animated.animateContentPane(getString(R.string.nurses_note_text), R.drawable.nurses, MyVoiceActivity.this.parent);
+                break;
+            case R.id.visitors_note:
+                v_animated = new VerticalAnimatePane(MyVoiceActivity.this);
+                v_animated.animateContentPane(getString(R.string.visitors_note_text), R.drawable.visitors, MyVoiceActivity.this.parent);
+                break;
+            case R.id.special_services_note:
+                v_animated = new VerticalAnimatePane(MyVoiceActivity.this);
+                v_animated.animateContentPane(getString(R.string.special_services_note_text), R.drawable.special_services, MyVoiceActivity.this.parent);
+                break;
+            case R.id.phys_note:
+                v_animated = new VerticalAnimatePane(MyVoiceActivity.this);
+                v_animated.animateContentPane(getString(R.string.phys_note_text), R.drawable.physician, MyVoiceActivity.this.parent);
+                break;
+            case R.id.rehab_note:
+                v_animated = new VerticalAnimatePane(MyVoiceActivity.this);
+                v_animated.animateContentPane(getString(R.string.rehab_note_text), R.drawable.rehab, MyVoiceActivity.this.parent);
+                break;
+            case R.id.personal_note:
+                v_animated = new VerticalAnimatePane(MyVoiceActivity.this);
+                v_animated.animateContentPane(getString(R.string.personal_note_text), R.drawable.personal, MyVoiceActivity.this.parent);
                 break;
 
         }
@@ -217,6 +247,8 @@ public class MyVoiceActivity extends MiraAbstractActivity implements RecyclerVie
         VerticalAnimatePane.hideSlidingContent();
         if (mic.isSelected())
             mic.performClick();
+        if(isNoting())
+            isNoting(false);
     }
     public void close_content(View v) {
         AnimatePane.hideSlidingContent();
@@ -239,25 +271,41 @@ public class MyVoiceActivity extends MiraAbstractActivity implements RecyclerVie
             }
             //if mic is off and a note brought you here
             else {
-                myVoice.getMira().consider(getTopicForNote(v));
-                myVoice.getMira().listen("What would you like to say?");
+                isNoting(true);
+                myVoice.getMira().listen(myVoice.getMira().consider(getTopicForNote(v)).mResponse);
+                mic.setSelected(true);
             }
         //if mic is off and clicking the button brought you here
         } else if (v.getId() == R.id.mic_box) {
-            mic.setSelected(true);
             myVoice.getMira().listen("How can I help you?");
-        //if mic is off and a note brought you here
-        } else {
             mic.setSelected(true);
-            myVoice.getMira().consider(getTopicForNote(v));
-            myVoice.getMira().listen("What would you like to say?");
+        } else {
+            isNoting(true);
+            myVoice.getMira().listen(myVoice.getMira().consider(getTopicForNote(v)).mResponse);
+            mic.setSelected(true);
         }
     }
 
     private String getTopicForNote(View v) {
         switch (v.getId()) {
-            case R.id.scheduling_note :
-                return Mira.buildTopicTag("scheduling note");
+            case R.id.admission_note:
+                return Mira.buildTopicTag("RECORD A YOUR ADMISSION NOTE");
+            case R.id.room_note:
+                return Mira.buildTopicTag("RECORD A YOUR ROOM NOTE");
+            case R.id.meals_note:
+                return Mira.buildTopicTag("RECORD A YOUR MEALS NOTE");
+            case R.id.nurses_note:
+                return Mira.buildTopicTag("RECORD A YOUR NURSES NOTE");
+            case R.id.visitors_note:
+                return Mira.buildTopicTag("RECORD A YOUR VISITORS NOTE");
+            case R.id.special_services_note:
+                return Mira.buildTopicTag("RECORD A YOUR SERVICES NOTE");
+            case R.id.rehab_note:
+                return Mira.buildTopicTag("RECORD A YOUR REHABILITATION NOTE");
+            case R.id.phys_note:
+                return Mira.buildTopicTag("RECORD A YOUR PHYSICIAN NOTE");
+            case R.id.personal_note:
+                return Mira.buildTopicTag("RECORD A ANYTHING NOTE");
         }
         return "";
     }

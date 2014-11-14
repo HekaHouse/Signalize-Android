@@ -10,23 +10,24 @@
             android:orientation="vertical"
             android:background="@color/white"
             android:id="@+id/content_area"
-            android:layout_marginLeft="85dp"
+            android:layout_marginLeft="105dp"
             android:paddingLeft="35dp"
             android:layout_gravity="right|bottom"
-            android:translationZ="5dp"
-            android:elevation="5dp">
+            android:translationZ="4dp"
+            android:elevation="4dp">
     </FrameLayout>
     <FrameLayout
         android:id="@+id/icon"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:layout_marginLeft="35dp"
+        android:layout_marginLeft="55dp"
+        android:layout_marginBottom="10dp"
         android:focusable="true"
         android:clickable="true"
         android:stateListAnimator="@anim/menu_list_selection"
-        android:elevation="7dp"
+        android:elevation="4dp"
         android:layout_gravity="bottom"
-        android:translationZ="7dp"
+        android:translationZ="4dp"
         android:onClick="close_content"
         android:background="@drawable/circle_button_ripple" >
         <com.caverock.androidsvg.SVGImageView

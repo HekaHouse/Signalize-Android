@@ -156,6 +156,7 @@ public class Mira implements Runnable,ServiceConnection {
 
 
     public static String buildTopicTag(String s) {
-        return "<set name=\""+s+"\"/>";
+        return s;
     }
+
 }

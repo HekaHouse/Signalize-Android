@@ -22,7 +22,9 @@ public class Consideration {
     public String mExtra;
     public String mOrig;
     public String mRaw;
+    public String mTopic;
     public Pattern oobTag = Pattern.compile(".*?(<oob>.*</oob>).*", Pattern.DOTALL);
+    public Pattern topicTag = Pattern.compile(".*?(\\^.*\\^).*", Pattern.DOTALL);
     public Pattern extraTag = Pattern.compile(".*?(<.*>).*", Pattern.DOTALL);
 
     public Consideration(JointClassification sent, JointClassification sever, Voice mv, String raw_resp, String orig) {
@@ -32,10 +34,13 @@ public class Consideration {
         mOrig = orig;
         mVoice = mv;
         Matcher match_oob = oobTag.matcher(mRaw);
-
+        Matcher match_topic = topicTag.matcher(mRaw);
         if (match_oob.matches()) {
             mOob = match_oob.group(1);
             mResponse = mRaw.replace(mOob, "");
+        } else if (match_topic.matches()) {
+            mTopic = match_topic.group(1);
+            mResponse = mRaw.replace(mTopic, "");
         } else
             mResponse = mRaw;
 

@@ -15,12 +15,12 @@
         android:layout_weight="19"
         android:background="@color/primary"
         android:clipChildren="false"
-        android:elevation="5dp"
-        android:translationZ="5dp">
+        android:elevation="3dp"
+        android:translationZ="3dp">
         <com.caverock.androidsvg.SVGImageView
             android:id="@+id/svg_logo"
             svgimageview:svg="@drawable/signalize"
-            android:layout_width="330dp"
+            android:layout_width="430dp"
             android:layout_height="wrap_content"
             android:paddingTop="0dp"
             android:paddingBottom="0dp"
@@ -53,7 +53,7 @@
 </LinearLayout>
 
         <FrameLayout
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="60dp"
             android:layout_marginRight="25dp"
             android:layout_width="120dp"
             android:layout_height="120dp"
@@ -67,8 +67,8 @@
             android:clipChildren="false"
             android:background="@drawable/mic_button_ripple"
             android:layout_gravity="end"
-            android:elevation="5dp"
-            android:translationZ="5dp">
+            android:elevation="3dp"
+            android:translationZ="3dp">
             <com.caverock.androidsvg.SVGImageView
                 android:id="@+id/svg_mic"
                 svgimageview:svg="@drawable/microphone"

@@ -9,8 +9,7 @@ package com.caverock.androidsvg;
 
 public final class R {
     public static final class attr {
-        /**  Location of the SVG document. 
-         <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+        /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
          */
@@ -23,7 +22,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #SVGImageView_svg com.caverock.androidsvg:svg}</code></td><td> Location of the SVG document.</td></tr>
+           <tr><td><code>{@link #SVGImageView_svg com.caverock.androidsvg:svg}</code></td><td></td></tr>
            </table>
            @see #SVGImageView_svg
          */
@@ -31,15 +30,13 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
             0x7f010000
         };
         /**
-          <p>
-          @attr description
-           Location of the SVG document. 
+          <p>This symbol is the offset where the {@link com.caverock.androidsvg.R.attr#svg}
+          attribute's value can be found in the {@link #SVGImageView} array.
 
 
           <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
-          <p>This is a private symbol.
           @attr name com.caverock.androidsvg:svg
         */
         public static final int SVGImageView_svg = 0;

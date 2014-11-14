@@ -271,4 +271,9 @@ public class Voice extends UtteranceProgressListener {
     public void delegateOob(String oob) {
 
     }
+
+
+    public boolean isNoting() {
+        return maActive.isNoting();
+    }
 }
