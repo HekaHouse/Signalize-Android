@@ -49,4 +49,5 @@
     <string name="rehab_note_text">Rehabilitation</string>
     <string name="phys_note_text">Physician</string>
     <string name="personal_note_text">Personal Issues</string>
+    <string name="touch_to_type">Touch to begin typing</string>
 </resources>

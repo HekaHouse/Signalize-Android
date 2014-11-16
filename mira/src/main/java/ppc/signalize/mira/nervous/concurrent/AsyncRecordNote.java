@@ -1,5 +1,6 @@
 package ppc.signalize.mira.nervous.concurrent;
 
+import ppc.signalize.mira.R;
 import ppc.signalize.mira.Voice;
 import ppc.signalize.mira.face.MiraAbstractActivity;
 import ppc.signalize.mira.brain.Consideration;
@@ -22,6 +23,12 @@ public class AsyncRecordNote extends AsyncMouth {
                 mWorld.appendText(s, MiraAbstractActivity.ALIGN_VOICE);
             }
         }
+
         return 0L;
+    }
+
+    @Override
+    protected void onPostExecute(Long result) {
+        new AsyncMouth(mWorld,true).execute(mWorld.getString(R.string.anything_else_to_say));
     }
 }

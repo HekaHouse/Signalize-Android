@@ -269,11 +269,21 @@ public class Voice extends UtteranceProgressListener {
 
 
     public void delegateOob(String oob) {
-
+        if (oob.contains("<close_personal_visit_note/>")) {
+            maActive.close_note();
+        }
+        if (oob.contains("<open_section>")) {
+            oob = oob.replaceAll("<open_section>","");
+            oob = oob.replaceAll("</open_section>","");
+        }
     }
 
 
     public boolean isNoting() {
         return maActive.isNoting();
+    }
+
+    public void isNoting(boolean b) {
+        maActive.isNoting(b);
     }
 }

@@ -108,11 +108,12 @@ public class MiraActivator implements SpeechActivator, RecognitionListener {
 
         if (heardTargetWord) {
             Log.d(TAG, "heard target word");
-            if (recognized.contains("hello"))
+            if (recognized.contains("yes"))
                 activation = true;
-            else
+            else {
                 activation = false;
-
+                recognized = "CLOSE NOTE TAKING";
+            }
             new AsyncMiraResponse(context).execute(recognized);
             //stop();
             //resultListener.activated(true);
@@ -123,7 +124,6 @@ public class MiraActivator implements SpeechActivator, RecognitionListener {
                 new AsyncMiraResponse(context).execute(heard.get(0));
             } else if (context.isNoting()) {
                 Log.d(TAG, "recording a note");
-
                 new AsyncRecordNote(context).execute(heard.get(0));
             } else {
                 Log.d(TAG, "ignoring because inactive");

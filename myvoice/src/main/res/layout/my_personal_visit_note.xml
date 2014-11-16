@@ -14,6 +14,7 @@
             android:textSize="24sp"
             android:layout_marginLeft="75dp"
             android:id="@+id/note_text"
+            android:hint="@string/touch_to_type"
             android:layout_weight="1"/>
         <TextView
             android:layout_width="match_parent"

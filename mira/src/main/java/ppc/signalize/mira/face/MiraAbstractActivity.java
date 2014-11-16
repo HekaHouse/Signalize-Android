@@ -61,8 +61,8 @@ public abstract class MiraAbstractActivity extends
     public Mira mira;
     public TextToSpeechInitializer ttsInit;
     public TextToSpeech tts;
-    public String INITIATE = "Hello Mira";
-    public String END_CONVERSATION = "Goodbye Mira";
+    public String INITIATE = "Yes";
+    public String END_CONVERSATION = "No";
     public boolean ttsLive = false;
 
     private boolean isListeningForActivation;
@@ -466,4 +466,6 @@ public abstract class MiraAbstractActivity extends
     public boolean isNoting() {
         return isNoting;
     }
+
+    public abstract void close_note();
 }

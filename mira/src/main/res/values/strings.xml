@@ -10,5 +10,6 @@
     <string name="respond_to_goodbye">goodbye</string>
     <string name="title_activity_mira">Mira</string>
     <string name="blank_links">\n\n\n\n\n</string>
+    <string name="anything_else_to_say">Do you have anything else you would like to say?</string>
 
 </resources>

@@ -18,7 +18,7 @@ public class AsyncMouth extends AsyncTask<String, Integer, Long> {
     private static boolean speech_cycle_active = false;
     public final boolean withPrompt;
     protected final Voice mWorld;
-
+    public String oob;
     /**
      * Override this method to perform a computation on a background thread. The
      * specified parameters are the parameters passed to {@link #execute}
@@ -82,9 +82,7 @@ public class AsyncMouth extends AsyncTask<String, Integer, Long> {
     public String speechCycle(String considered,String oob) {
 
 
-        if (oob != null) {
-            mWorld.delegateOob(oob);
-        }
+        this.oob = oob;
         while (!mWorld.hasTTS() || mWorld.getTTS().isSpeaking() || speech_cycle_active) {
             mWorld.pause(10);
         }
@@ -113,7 +111,11 @@ public class AsyncMouth extends AsyncTask<String, Integer, Long> {
 
     @Override
     protected void onPostExecute(Long result) {
+        if (oob != null) {
+            mWorld.delegateOob(oob);
+        }
         if (withPrompt)
             new AsyncEarOpener(mWorld).execute(mWorld.getString(R.string.all_loaded));
+
     }
 }

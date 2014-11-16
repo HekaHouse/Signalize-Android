@@ -3,6 +3,9 @@ package org.alicebot.ab;
 
 import android.util.Log;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Created by mukundan on 6/17/14.
  */
@@ -65,9 +68,10 @@ public class AndroidChat extends Chat {
         String response;
         inputHistory.add(input);
         response = AIMLProcessor.respond(input, that, topic, this);
-
-        if (response.startsWith(topic))
-            response = response.replaceFirst(topic,"");
+        Pattern topicMatch = Pattern.compile("XXX.+XXX");
+        Matcher matched = topicMatch.matcher(response);
+        if (matched.find())
+            response = matched.replaceFirst("");
         //MagicBooleans.trace("in chat.respond(), response: " + response);
         String normResponse = bot.preProcessor.normalize(response);
         //MagicBooleans.trace("in chat.respond(), normResponse: " + normResponse);

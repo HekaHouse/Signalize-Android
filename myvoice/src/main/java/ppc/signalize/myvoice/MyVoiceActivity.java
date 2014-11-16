@@ -209,46 +209,19 @@ public class MyVoiceActivity extends MiraAbstractActivity implements RecyclerVie
                 break;
 
         }
-        // Obtain MotionEvent object
-//        long downTime = SystemClock.uptimeMillis();
-//        long eventTime = SystemClock.uptimeMillis() + 100;
-//        float x = mic.getX()+(mic.getWidth()/2);
-//        float y = mic.getY()+(mic.getHeight()/2);
-//        int metaState = 0;
-//        MotionEvent motionEvent = MotionEvent.obtain(
-//                downTime,
-//                eventTime,
-//                MotionEvent.ACTION_DOWN,
-//                x,
-//                y,
-//                metaState
-//        );
-//
-//        mic.dispatchTouchEvent(motionEvent);
         start_mic(v);
     }
     public void close_note(View v) {
-        // Obtain MotionEvent object
-//        long downTime = SystemClock.uptimeMillis();
-//        long eventTime = SystemClock.uptimeMillis() + 100;
-//        float x = mic.getX()+(mic.getWidth()/2);
-//        float y = mic.getY()+(mic.getHeight()/2);
-//        int metaState = 0;
-//        MotionEvent motionEvent = MotionEvent.obtain(
-//                downTime,
-//                eventTime,
-//                MotionEvent.ACTION_UP,
-//                x,
-//                y,
-//                metaState
-//        );
-//
-//        mic.dispatchTouchEvent(motionEvent);
         VerticalAnimatePane.hideSlidingContent();
         if (mic.isSelected())
             mic.performClick();
         if(isNoting())
             isNoting(false);
+    }
+
+    @Override
+    public void close_note() {
+        close_note(null);
     }
     public void close_content(View v) {
         AnimatePane.hideSlidingContent();
