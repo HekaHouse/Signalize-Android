@@ -163,10 +163,10 @@ public class Voice extends UtteranceProgressListener {
 
     private void mutePrompt() {
 
-        if (!mIsStreamSolo && doneSpeaking) {
-            mAudioManager.setStreamSolo(AudioManager.STREAM_VOICE_CALL, true);
-            mIsStreamSolo = true;
-        }
+//        if (!mIsStreamSolo && doneSpeaking) {
+//            mAudioManager.setStreamSolo(AudioManager.STREAM_VOICE_CALL, true);
+//            mIsStreamSolo = true;
+//        }
     }
 
     private void unmutePrompt() {

@@ -1,28 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <aiml>
     <category><pattern>RECORD A * NOTE</pattern>
-        <set name="topic">RECORD A NOTE</set>
-        <template><set name="topic">RECORD A NOTE</set><srai>RECORDING NOTE <star/></srai></template>
+        <template><set name="topic">XXXRECORD A NOTEXXX</set><srai>RECORDING NOTE <star/></srai></template>
     </category>
     <category><pattern>OPEN *</pattern>
-        <set name="topic">OPEN SECTION</set>
-        <template>Here is <star/><oob><open_section><star/></open_section></oob></template>
+        <template><set name="topic">XXXOPEN SECTIONXXX</set>Here is <star/><oob><open_section><star/></open_section></oob></template>
     </category>
     <category>
-        <topic>RECORD A NOTE</topic>
+        <topic>XXXRECORD A NOTEXXX</topic>
         <pattern>CLOSE NOTE TAKING</pattern>
-        <set name="topic">CLOSE NOTE TAKING</set>
-        <template><srai>CLOSE NOTE</srai></template>
+        <template><set name="topic">unknown</set>closing note<oob><close_personal_visit_note/></oob></template>
     </category>
     <category>
-        <topic>RECORD A NOTE</topic>
+        <topic>XXXRECORD A NOTEXXX</topic>
         <pattern>RECORDING NOTE *</pattern>
         <template>What would you like to say about <star/>? <oob><personal_visit_note><star/></personal_visit_note></oob></template>
-    </category>
-    <category>
-        <topic>CLOSE NOTE TAKING</topic>
-        <pattern>CLOSE NOTE</pattern>
-        <set name="topic">unknown</set>
-        <template><oob><close_personal_visit_note/></oob></template>
     </category>
 </aiml>

@@ -74,7 +74,7 @@ public class AsyncMouth extends AsyncTask<String, Integer, Long> {
         }
 
         Log.d(TAG, "end speech cycle");
-        mWorld.pause(500);
+        mWorld.pause(100);
         speech_cycle_active = false;
         return considered;
     }
