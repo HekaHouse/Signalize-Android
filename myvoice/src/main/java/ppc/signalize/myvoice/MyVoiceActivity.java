@@ -36,6 +36,7 @@ public class MyVoiceActivity extends MiraAbstractActivity implements RecyclerVie
     private AnimatePane animated;
     private VerticalAnimatePane v_animated;
     private FrameLayout mic;
+    private MyMenuManager myMenuManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,7 +44,8 @@ public class MyVoiceActivity extends MiraAbstractActivity implements RecyclerVie
         setContentView(R.layout.my_voice_menu);
         init();
         parent = (FrameLayout)findViewById(R.id.main_frame);
-        mAdapter = new MyMenuAdapter(new MyMenuManager().getItems(), R.layout.my_voice_menu_row, this);
+        myMenuManager = new MyMenuManager();
+        mAdapter = new MyMenuAdapter(myMenuManager.getItems(), R.layout.my_voice_menu_row, this);
 
         menuView = (RecyclerView)findViewById(R.id.menu_list);
         menuView.setLayoutManager(new LinearLayoutManager(this));
@@ -149,23 +151,27 @@ public class MyVoiceActivity extends MiraAbstractActivity implements RecyclerVie
         public boolean onSingleTapConfirmed(MotionEvent e) {
             View view = menuView.findChildViewUnder(e.getX(), e.getY());
             clearSelection();
-            if(AnimatePane.vi != null &&AnimatePane.vi.getVisibility() != View.GONE){
-                mAdapter.clearSelections();
-                AnimatePane.hideSlidingContent();
-                int idx = menuView.getChildPosition(view);
-                animated = new AnimatePane(MyVoiceActivity.this);
-                animated.animateContentPaneQueued( idx, MyVoiceActivity.this.parent);
-                mAdapter.toggleSelection(idx);
-            } else {
-                int idx = menuView.getChildPosition(view);
-                animated = new AnimatePane(MyVoiceActivity.this);
-                animated.animateContentPane( idx, MyVoiceActivity.this.parent);
-                mAdapter.toggleSelection(idx);
-            }
+            animateView(view);
             
             menuView.findViewHolderForPosition(menuView.getChildPosition(view)).itemView.setSelected(true);
 
             return super.onSingleTapConfirmed(e);
+        }
+    }
+
+    private void animateView(View view) {
+        if(AnimatePane.vi != null &&AnimatePane.vi.getVisibility() != View.GONE){
+            mAdapter.clearSelections();
+            AnimatePane.hideSlidingContent();
+            int idx = menuView.getChildPosition(view);
+            animated = new AnimatePane(MyVoiceActivity.this);
+            animated.animateContentPaneQueued( idx, MyVoiceActivity.this.parent);
+            mAdapter.toggleSelection(idx);
+        } else {
+            int idx = menuView.getChildPosition(view);
+            animated = new AnimatePane(MyVoiceActivity.this);
+            animated.animateContentPane( idx, MyVoiceActivity.this.parent);
+            mAdapter.toggleSelection(idx);
         }
     }
 
@@ -223,8 +229,24 @@ public class MyVoiceActivity extends MiraAbstractActivity implements RecyclerVie
     public void close_note() {
         close_note(null);
     }
-    public void close_content(View v) {
+
+    @Override
+    public void openSection(String toOpen) {
+        int idx = myMenuManager.getMyIndex(toOpen);
+        if (idx > -1) {
+            View view = menuView.getChildAt(idx);
+            clearSelection();
+            animateView(view);
+        }
+    }
+
+    @Override
+    public void close_content() {
         AnimatePane.hideSlidingContent();
+    }
+
+    public void close_content(View v) {
+        close_content();
     }
     public void clearSelection() {
         for (int i = 0; i < menuView.getChildCount(); i++) {

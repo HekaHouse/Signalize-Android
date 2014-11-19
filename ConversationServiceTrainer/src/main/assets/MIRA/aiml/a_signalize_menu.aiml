@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml>
+    <category>
+        <pattern>RECORD A * NOTE</pattern>
+        <template><set name="topic">XXXRECORD A NOTEXXX</set><srai>RECORDING NOTE <star/></srai></template>
+    </category>
+    <category>
+        <pattern>DON'T CARE</pattern>
+        <template><srai>OPEN MY CARE TEAM</srai></template>
+    </category>
+    <category>
+        <pattern>HOPE MY *</pattern>
+        <template><srai>OPEN <star/></srai></template>
+    </category>
+    <category>
+        <pattern>SHOW ME *</pattern>
+        <template><srai>OPEN <star/></srai></template>
+    </category>
+    <category>
+        <pattern>OPEN MY CAROTENE</pattern>
+        <template><srai>OPEN MY CARE TEAM</srai></template>
+    </category>
+    <category>
+        <pattern>OPEN MY KERATIN</pattern>
+        <template><srai>OPEN MY CARE TEAM</srai></template>
+    </category>
+    <category>
+        <pattern>OPEN MY RECORD</pattern>
+        <template><srai>OPEN MY MEDICAL RECORD</srai></template>
+    </category>
+    <category>
+        <pattern>OPEN MY RECORDS</pattern>
+        <template><srai>OPEN MY MEDICAL RECORD</srai></template>
+    </category>
+    <category>
+        <pattern>OPEN MY MEDICAL RECORDS</pattern>
+        <template><srai>OPEN MY MEDICAL RECORD</srai></template>
+    </category>
+    <category>
+        <pattern>OPEN MY SECURITY</pattern>
+        <template><srai>OPEN MY CARE TEAM</srai></template>
+    </category>
+    <category>
+        <pattern>OPEN *</pattern>
+        <template><set name="topic">XXXOPEN SECTIONXXX</set><oob><open_section><star/></open_section></oob></template>
+    </category>
+    <category>
+        <pattern>OPEN *</pattern>
+        <template><set name="topic">XXXOPEN SECTIONXXX</set><oob><open_section><star/></open_section></oob></template>
+    </category>
+    <category>
+        <pattern>OPEN *</pattern>
+        <template><set name="topic">XXXOPEN SECTIONXXX</set><oob><open_section><star/></open_section></oob></template>
+    </category>
+    <category>
+        <topic>XXXOPEN SECTIONXXX</topic>
+        <pattern>CLOSE *</pattern>
+        <set name="topic">unknown</set>
+        <template><oob><close_section/></oob></template>
+    </category>
+</aiml>

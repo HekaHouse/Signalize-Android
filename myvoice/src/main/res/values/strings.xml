@@ -14,8 +14,8 @@
     <string name="hello_world">Hello World</string>
 
     <string name="my_care_team">My Care Team</string>
-    <string name="my_personal_visit_record">My Personal Visit Record</string>
-    <string name="my_personal_medical_record">My Personal Medical Record</string>
+    <string name="my_journal">My Journal</string>
+    <string name="my_medical_record">My Medical Record</string>
     <string name="request_assistance">Request Assistance</string>
     <string name="care_schedule">Care Schedule</string>
     <string name="treatment_plan">Treatment Plan</string>

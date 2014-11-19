@@ -8,7 +8,6 @@ import java.util.HashMap;
 
 import ppc.signalize.mira.Voice;
 import ppc.signalize.mira.R;
-import ppc.signalize.mira.face.MiraAbstractActivity;
 
 /**
  * Created by Aron on 3/17/14.
@@ -32,6 +31,9 @@ public class AsyncMouth extends AsyncTask<String, Integer, Long> {
      * @see #onPostExecute
      * @see #publishProgress
      */
+
+    int cycle_delay = 50;
+
     public AsyncMouth(Voice mv, boolean p) {
         mWorld = mv;
         withPrompt = p;
@@ -39,8 +41,7 @@ public class AsyncMouth extends AsyncTask<String, Integer, Long> {
 
     @Override
     protected void onPreExecute() {
-        if (mWorld.isSpeechRecognitionServiceActive)
-            new AsyncEarCloser(mWorld).execute(mWorld.getString(R.string.all_loaded));
+        new AsyncEarCloser(mWorld).execute("");
     }
 
     @Override
@@ -52,31 +53,7 @@ public class AsyncMouth extends AsyncTask<String, Integer, Long> {
     }
 
     public String speechCycle(String considered) {
-
-        while (!mWorld.hasTTS() || mWorld.getTTS().isSpeaking() || speech_cycle_active) {
-            mWorld.pause(10);
-        }
-        speech_cycle_active = true;
-        Log.d(TAG, "begin speech cycle");
-        HashMap params = new HashMap();
-        //AudioManager.STREAM_MUSIC
-        params.put("streamType", "3");
-        params.put("utteranceId", "MIR_Response");
-        params.put("embeddedTts", "true");
-
-
-        //mWorld.appendText(considered, MiraAbstractActivity.ALIGN_MIRA);
-
-        mWorld.getTTS().speak(considered, TextToSpeech.QUEUE_FLUSH, params);
-
-        while (mWorld.getTTS().isSpeaking()) {
-            mWorld.pause(10);
-        }
-
-        Log.d(TAG, "end speech cycle");
-        mWorld.pause(100);
-        speech_cycle_active = false;
-        return considered;
+        return speechCycle(considered,null);
     }
 
     public String speechCycle(String considered,String oob) {
@@ -104,7 +81,7 @@ public class AsyncMouth extends AsyncTask<String, Integer, Long> {
         }
 
         Log.d(TAG, "end speech cycle");
-        mWorld.pause(500);
+        mWorld.pause(cycle_delay);
         speech_cycle_active = false;
         return considered;
     }
@@ -115,7 +92,10 @@ public class AsyncMouth extends AsyncTask<String, Integer, Long> {
             mWorld.delegateOob(oob);
         }
         if (withPrompt)
-            new AsyncEarOpener(mWorld).execute(mWorld.getString(R.string.all_loaded));
+            new AsyncEarOpener(mWorld,false).execute(mWorld.getString(R.string.all_loaded));
+        else
+            new AsyncEarOpener(mWorld,true).execute(mWorld.getString(R.string.all_loaded));
+
 
     }
 }

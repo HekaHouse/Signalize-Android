@@ -305,7 +305,6 @@ public abstract class MiraAbstractActivity extends
 
     public void startActivator() {
         if (isListeningForActivation) {
-
             Log.d(TAG, "activator not started, already started");
             // only activate once
             return;
@@ -468,4 +467,7 @@ public abstract class MiraAbstractActivity extends
     }
 
     public abstract void close_note();
+
+    public abstract void openSection(String toOpen);
+    public abstract void close_content();
 }

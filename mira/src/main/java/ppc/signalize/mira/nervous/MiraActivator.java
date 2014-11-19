@@ -91,48 +91,19 @@ public class MiraActivator implements SpeechActivator, RecognitionListener {
     }
 
     private void receiveWhatWasHeard(List<String> heard, float[] scores) {
-        Log.d(TAG, "processing " + heard.get(0));
+
         boolean heardTargetWord = false;
         // find the target word
-        String recognized = "";
-        for (String possible : heard) {
-            Log.d(TAG, possible);
-            MiraWordList wordList = new MiraWordList(possible);
-            if (matcher.isIn(new String[]{possible})) {
-                Log.d(TAG, "HEARD IT!");
-                heardTargetWord = true;
-                recognized = possible;
-                break;
-            }
-        }
+        String recognized = heard.get(0);
+        Log.d(TAG, "processing " + recognized);
 
-        if (heardTargetWord) {
-            Log.d(TAG, "heard target word");
-            if (recognized.contains("yes"))
-                activation = true;
-            else {
-                activation = false;
-                recognized = "CLOSE NOTE TAKING";
-            }
-            new AsyncMiraResponse(context).execute(recognized);
-            //stop();
-            //resultListener.activated(true);
-        } else {
-            if (activation) {
-                Log.d(TAG, "making considerate response");
 
-                new AsyncMiraResponse(context).execute(heard.get(0));
-            } else if (context.isNoting()) {
-                Log.d(TAG, "recording a note");
-                new AsyncRecordNote(context).execute(heard.get(0));
-            } else {
-                Log.d(TAG, "ignoring because inactive");
-                new AsyncMiraResponse(context).execute("");
-            }
-            //context.appendTextAndPrompt(heard.get(0));
-
-            // keep going
-            //recognizeSpeechDirectly();
+        if (!context.isNoting()) {
+            Log.d(TAG, "making considerate response");
+            new AsyncMiraResponse(context,activation).execute(recognized);
+        } else if (context.isNoting()) {
+            Log.d(TAG, "recording a note");
+            new AsyncRecordNote(context).execute(recognized);
         }
     }
 

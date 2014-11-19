@@ -29,6 +29,8 @@ public class AsyncRecordNote extends AsyncMouth {
 
     @Override
     protected void onPostExecute(Long result) {
+        mWorld.isNoting(false);
+        mWorld.getMira().consider(mWorld.getString(R.string.anything_else_to_say));
         new AsyncMouth(mWorld,true).execute(mWorld.getString(R.string.anything_else_to_say));
     }
 }

@@ -13,7 +13,7 @@ public class MyMenuManager extends AbstractManager {
 
 
     public MyMenuManager() {
-        menuArray = new String[]{"My Care Team", "My Personal Visit Record", "My Personal Medical Record", "Request Assistance"};
+        menuArray = new String[]{"My Care Team", "My Journal", "My Medical Record", "Request Assistance"};
 
     }
     @Override
@@ -30,5 +30,16 @@ public class MyMenuManager extends AbstractManager {
         }
 
         return  menu_items;
+    }
+    public int getMyIndex(String item) {
+        int idx = -1;
+        int found = idx;
+        for (String menu_item : menuArray) {
+            idx++;
+            if (menu_item.toLowerCase().trim().equals(item.toLowerCase().trim()))
+                found=idx;
+        }
+
+        return found;
     }
 }

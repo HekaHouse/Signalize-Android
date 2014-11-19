@@ -10,9 +10,10 @@ import ppc.signalize.mira.Voice;
  */
 public class AsyncEarOpener extends AsyncTask<String,Integer,Long> {
     private final Voice mWorld;
+    private final boolean mPassive;
 
-    public AsyncEarOpener(Voice mv) {
-
+    public AsyncEarOpener(Voice mv, boolean passive) {
+        mPassive = passive;
         mWorld = mv;
 
 
@@ -38,7 +39,7 @@ public class AsyncEarOpener extends AsyncTask<String,Integer,Long> {
     @Override
     protected void onPostExecute(Long result) {
         if (mWorld.canListen()) {
-            mWorld.startSpeechRecognitionService();
+            mWorld.startSpeechRecognitionService(mPassive);
         }
     }
 }

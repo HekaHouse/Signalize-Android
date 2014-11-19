@@ -148,9 +148,12 @@ public class Voice extends UtteranceProgressListener {
         return mActive().getAssets();
     }
 
-    public void startSpeechRecognitionService() {
+    public void startSpeechRecognitionService(boolean passive) {
         isSpeechRecognitionServiceActive = true;
-        mutePrompt();
+        if (passive)
+            mutePrompt();
+        else
+            unmutePrompt();
 
         startActivator();
     }
@@ -163,10 +166,10 @@ public class Voice extends UtteranceProgressListener {
 
     private void mutePrompt() {
 
-//        if (!mIsStreamSolo && doneSpeaking) {
-//            mAudioManager.setStreamSolo(AudioManager.STREAM_VOICE_CALL, true);
-//            mIsStreamSolo = true;
-//        }
+        if (!mIsStreamSolo && doneSpeaking) {
+            mAudioManager.setStreamSolo(AudioManager.STREAM_VOICE_CALL, true);
+            mIsStreamSolo = true;
+        }
     }
 
     private void unmutePrompt() {
@@ -271,10 +274,12 @@ public class Voice extends UtteranceProgressListener {
     public void delegateOob(String oob) {
         if (oob.contains("<close_personal_visit_note/>")) {
             maActive.close_note();
-        }
-        if (oob.contains("<open_section>")) {
-            oob = oob.replaceAll("<open_section>","");
-            oob = oob.replaceAll("</open_section>","");
+        } else if (oob.contains("<open_section>")) {
+            String toOpen = oob.replaceAll("<oob><open_section>","");
+            toOpen = toOpen.replaceAll("</open_section></oob>","");
+            maActive.openSection(toOpen);
+        } else if (oob.contains("<close_section/>")) {
+            maActive.close_content();
         }
     }
 

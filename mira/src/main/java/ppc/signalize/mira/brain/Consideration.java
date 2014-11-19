@@ -24,7 +24,7 @@ public class Consideration {
     public String mRaw;
     public String mTopic;
     public Pattern oobTag = Pattern.compile(".*?(<oob>.*</oob>).*", Pattern.DOTALL);
-    public Pattern topicTag = Pattern.compile(".*?(\\^.*\\^).*", Pattern.DOTALL);
+    public Pattern topicTag = Pattern.compile("(XXX(.*)XXX).*", Pattern.DOTALL);
     public Pattern extraTag = Pattern.compile(".*?(<.*>).*", Pattern.DOTALL);
 
     public Consideration(JointClassification sent, JointClassification sever, Voice mv, String raw_resp, String orig) {
@@ -38,12 +38,15 @@ public class Consideration {
         if (match_oob.matches()) {
             mOob = match_oob.group(1);
             mResponse = mRaw.replace(mOob, "");
-        } else if (match_topic.matches()) {
-            mTopic = match_topic.group(1);
-            mResponse = mRaw.replace(mTopic, "");
-        } else
-            mResponse = mRaw;
-
+        }  else {
+            mResponse=mRaw;
+        }
+        if (match_topic.matches()) {
+            mTopic = match_topic.group(2);
+            mResponse = mRaw.replaceFirst(match_topic.group(1), "");
+        } else {
+            mTopic="unknown";
+        }
         Matcher match_extra = extraTag.matcher(mResponse);
         if (match_extra.matches()) {
             mExtra = match_extra.group(1);
@@ -53,6 +56,7 @@ public class Consideration {
         //Log.i(TAG, mSentiment.bestCategory() + ":" + String.valueOf(mSentiment.conditionalProbability(mSentiment.bestCategory())));
         //Log.i(TAG, mSeverity.bestCategory() + ":" + String.valueOf(mSeverity.conditionalProbability(mSeverity.bestCategory())));
         Log.i(TAG, "to consider:" + mOrig);
+        Log.i(TAG, "topic:" + mTopic);
         Log.i(TAG, "response:" + mResponse);
 
     }

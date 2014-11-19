@@ -9,11 +9,11 @@
         <dex dex="C:\Users\Aron\Documents\GitHub\Signalize\ConversationService\build\intermediates\pre-dexed\debug\classes-c2fabd9bc9bbb4bedcd8dd99f15666c6cfe66f48.jar" />
     </item>
     <item
-        jar="C:\Users\Aron\Documents\GitHub\Signalize\ConversationService\build\intermediates\exploded-aar\Signalize\AndroidAb\unspecified\libs\Ab.jar"
+        jar="C:\Users\Aron\Documents\GitHub\Signalize\myvoice\build\intermediates\exploded-aar\Signalize\mira\unspecified\classes.jar"
         jumboMode="false"
         revision="19.1.0"
-        sha1="af7496189919b4d17d8edff988421623653cc8b1">
-        <dex dex="C:\Users\Aron\Documents\GitHub\Signalize\ConversationService\build\intermediates\pre-dexed\debug\Ab-a5c5035b788f25df16bc7321883410e57dc34c5f.jar" />
+        sha1="7f5f82b9c9d3cafc9f8e0c52200d9e0f1baa1e24">
+        <dex dex="C:\Users\Aron\Documents\GitHub\Signalize\myvoice\build\intermediates\pre-dexed\debug\classes-b79b5a3f715c813f2f4687f0b9282e1eacf127e2.jar" />
     </item>
     <item
         jar="C:\Users\Aron\AppData\Local\Android\android-studio\sdk\extras\android\m2repository\com\android\support\support-v4\19.1.0\support-v4-19.1.0.jar"
@@ -23,24 +23,17 @@
         <dex dex="C:\Users\Aron\Documents\GitHub\Signalize\ConversationService\build\intermediates\pre-dexed\debug\support-v4-19.1.0-d9f98b91472337bdbd1e66a16b893fd19e36859e.jar" />
     </item>
     <item
-        jar="C:\Users\Aron\Documents\GitHub\Signalize\ConversationServiceTrainer\libs\Ab.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="af7496189919b4d17d8edff988421623653cc8b1">
-        <dex dex="C:\Users\Aron\Documents\GitHub\Signalize\ConversationServiceTrainer\build\intermediates\pre-dexed\debug\Ab-8ecb1a8dd36c01df7d7c0621dc44160d0c35d72c.jar" />
-    </item>
-    <item
         jar="C:\Users\Aron\Documents\GitHub\Signalize\ConversationService\build\intermediates\exploded-aar\Signalize\AndroidAb\unspecified\classes.jar"
         jumboMode="false"
         revision="19.1.0"
-        sha1="465d03f0dfb76f7a8e41e916b37c3fa303cd9340">
+        sha1="b0edc4cc0551432acfc7ac8eac4931320aa19366">
         <dex dex="C:\Users\Aron\Documents\GitHub\Signalize\ConversationService\build\intermediates\pre-dexed\debug\classes-8a173f8ba14546c75288cfbb17e453afe04dcbf6.jar" />
     </item>
     <item
         jar="C:\Users\Aron\Documents\GitHub\Signalize\ConversationServiceTrainer\build\intermediates\exploded-aar\Signalize\AndroidAb\unspecified\classes.jar"
         jumboMode="false"
         revision="19.1.0"
-        sha1="465d03f0dfb76f7a8e41e916b37c3fa303cd9340">
+        sha1="b0edc4cc0551432acfc7ac8eac4931320aa19366">
         <dex dex="C:\Users\Aron\Documents\GitHub\Signalize\ConversationServiceTrainer\build\intermediates\pre-dexed\debug\classes-a226979ecd9bc72fb63a2ac27528242a01a2ee66.jar" />
     </item>
 

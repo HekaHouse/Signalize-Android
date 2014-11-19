@@ -10,9 +10,10 @@ import ppc.signalize.mira.brain.Consideration;
 public class AsyncMiraResponse extends AsyncMouth {
 
     String spoken = "";
+    private Consideration considered;
 
-    public AsyncMiraResponse(Voice mv) {
-        super(mv, true);
+    public AsyncMiraResponse(Voice mv, boolean withPrompt) {
+        super(mv, withPrompt);
     }
 
     @Override
@@ -20,10 +21,12 @@ public class AsyncMiraResponse extends AsyncMouth {
         for (String s : params) {
             if (s.length() > 0) {
                 mWorld.appendText(s, MiraAbstractActivity.ALIGN_VOICE);
-                Consideration considered = mWorld.getMira().consider(s);
-                spoken = speechCycle(considered.mResponse,considered.mOob);
+                considered = mWorld.getMira().consider(s);
+                spoken = speechCycle(considered.mResponse, considered.mOob);
             }
         }
         return 0L;
     }
+
+
 }

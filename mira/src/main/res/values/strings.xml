@@ -6,10 +6,10 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="respond_to_target_word">Hello</string>
     <string name="mira_activation_notification_title">Talk to MIRA</string>
-    <string name="all_loaded">ready to go</string>
+    <string name="all_loaded"></string>
     <string name="respond_to_goodbye">goodbye</string>
     <string name="title_activity_mira">Mira</string>
     <string name="blank_links">\n\n\n\n\n</string>
-    <string name="anything_else_to_say">Do you have anything else you would like to say?</string>
+    <string name="anything_else_to_say">anything else to say?</string>
 
 </resources>

@@ -68,10 +68,7 @@ public class AndroidChat extends Chat {
         String response;
         inputHistory.add(input);
         response = AIMLProcessor.respond(input, that, topic, this);
-        Pattern topicMatch = Pattern.compile("XXX.+XXX");
-        Matcher matched = topicMatch.matcher(response);
-        if (matched.find())
-            response = matched.replaceFirst("");
+
         //MagicBooleans.trace("in chat.respond(), response: " + response);
         String normResponse = bot.preProcessor.normalize(response);
         //MagicBooleans.trace("in chat.respond(), normResponse: " + normResponse);

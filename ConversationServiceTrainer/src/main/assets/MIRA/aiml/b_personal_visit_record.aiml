@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml>
+    <category>
+        <topic>XXXARE YOU DONEXXX</topic>
+        <pattern>Im done *</pattern>
+        <template><srai>No</srai></template>
+    </category>
+    <category>
+        <topic>XXXARE YOU DONEXXX</topic>
+        <pattern>no Im done *</pattern>
+        <template><srai>No</srai></template>
+    </category>
+    <category>
+        <topic>XXXARE YOU DONEXXX</topic>
+        <pattern>I dont *</pattern>
+        <template><srai>No</srai></template>
+    </category>
+    <category>
+        <topic>XXXARE YOU DONEXXX</topic>
+        <pattern>no I *</pattern>
+        <template><srai>No</srai></template>
+    </category>
+    <category>
+        <topic>XXXARE YOU DONEXXX</topic>
+        <pattern>no more *</pattern>
+        <template><srai>No</srai></template>
+    </category>
+    <category>
+        <topic>XXXARE YOU DONEXXX</topic>
+        <pattern>no more *</pattern>
+        <template><srai>No</srai></template>
+    </category>
+    <category>
+        <topic>XXXARE YOU DONEXXX</topic>
+        <pattern>nope</pattern>
+        <template><srai>No</srai></template>
+    </category>
+    <category>
+        <topic>XXXARE YOU DONEXXX</topic>
+        <pattern>no</pattern>
+        <template><set name="topic">XXXOPEN SECTIONXXX</set><oob><close_personal_visit_note/></oob></template>
+    </category>
+    <category>
+        <topic>XXXRECORD A NOTEXXX</topic>
+        <pattern>anything else to say</pattern>
+        <template><set name="topic">XXXARE YOU DONEXXX</set></template>
+    </category>
+    <category>
+        <topic>XXXRECORD A NOTEXXX</topic>
+        <pattern>RECORDING NOTE *</pattern>
+        <template>What would you like to say about <star/>? <oob><personal_visit_note><star/></personal_visit_note></oob></template>
+    </category>
+</aiml>
