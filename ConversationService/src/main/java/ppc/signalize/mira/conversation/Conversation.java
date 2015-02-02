@@ -5,7 +5,7 @@ import android.util.Log;
 
 import org.alicebot.ab.AndroidAIML;
 import org.alicebot.ab.AndroidChat;
-import org.alicebot.ab.AIMLBrainCompiler;
+import org.alicebot.ab.AndroidBot;
 import org.alicebot.ab.Nodemapper;
 
 /**
@@ -13,7 +13,7 @@ import org.alicebot.ab.Nodemapper;
  */
 public final class Conversation {
     private String TAG = "ConversationClass";
-    public static AIMLBrainCompiler ghost=null;
+    public static AndroidBot androidBot =null;
     private AndroidChat session=null;
     private Nodemapper nodemapper;
     private static boolean resync = false;
@@ -22,9 +22,9 @@ public final class Conversation {
 
 
     private Conversation(Context context) {
-        AIMLBrainCompiler.setContext(context, Util.storageType);
-        if(resync || ghost==null) ghost = new AIMLBrainCompiler(Util._name, Util._AIML_path);
-        session = new AndroidChat(ghost);
+        AndroidBot.setContext(context, Util.storageType);
+        if(resync || androidBot ==null) androidBot = new AndroidBot(Util._name, Util._AIML_path);
+        session = new AndroidChat(androidBot);
         androidAIML = new AndroidAIML();
     }
 
@@ -44,7 +44,7 @@ public final class Conversation {
 
     public void writeAIMLOut(){
         Log.d(TAG,"Writing AIMLIF Files");
-        ghost.writeAIMLIFFiles();
+        androidBot.writeAIMLIFFiles();
 
     }
     public String getPatterns(){

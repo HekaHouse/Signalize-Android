@@ -19,7 +19,7 @@ import java.util.HashMap;
  * Created by Aron on 3/9/14.
  * Changed by Mukundan on 6/28/14.
  */
-public class AIMLBrainCompiler extends Bot {
+public class AndroidBot extends Bot {
 
     private static Context context;
     public static ArrayList<String> listOfPatterns = new ArrayList<String>();
@@ -27,7 +27,7 @@ public class AIMLBrainCompiler extends Bot {
     public static String TAG = "Ghost";
     private HashMap<String, ArrayList<Category>> categoryQueue = new HashMap<String, ArrayList<Category>>();
 
-    public AIMLBrainCompiler(String _name, String _path) {
+    public AndroidBot(String _name, String _path) {
 
 
         super(_name, _path, "auto");
@@ -51,7 +51,7 @@ public class AIMLBrainCompiler extends Bot {
 
     public AssetManager getAssets(){
         Log.d(TAG,"Assets DIR");
-        return AIMLBrainCompiler.context.getAssets();
+        return AndroidBot.context.getAssets();
     }
     public static File getFilesDir(){
         Log.d(TAG,"Files DIR");
@@ -59,15 +59,15 @@ public class AIMLBrainCompiler extends Bot {
     }
 
     public static void setContext(Context context){
-        AIMLBrainCompiler.context = context;
+        AndroidBot.context = context;
     }
     public static void setContext(Context context, FileUtils.STORAGE_TYPE storageType){
-        AIMLBrainCompiler.context = context;
+        AndroidBot.context = context;
         if(storageType == FileUtils.STORAGE_TYPE.EXTERNAL_STORAGE){
-            AIMLBrainCompiler.setExternalStorage();
+            AndroidBot.setExternalStorage();
         }
         else if(storageType == FileUtils.STORAGE_TYPE.INTERNAL_STORAGE){
-            AIMLBrainCompiler.setInternalStorage(true);
+            AndroidBot.setInternalStorage(true);
         }
     }
     /**

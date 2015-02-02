@@ -21,7 +21,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.alicebot.ab.AIMLBrainCompiler;
+import org.alicebot.ab.AndroidBot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,7 +48,7 @@ public class TrainerActivity extends Activity implements View.OnClickListener,Se
 
         setContentView(R.layout.activity_trainer);
         //Ghost.setInternalStorage(true);
-        AIMLBrainCompiler.setExternalStorage();
+        AndroidBot.setExternalStorage();
         if(!FileUtility.storeExists()){
         FileUtility.copyAssetsToStorage();
         }

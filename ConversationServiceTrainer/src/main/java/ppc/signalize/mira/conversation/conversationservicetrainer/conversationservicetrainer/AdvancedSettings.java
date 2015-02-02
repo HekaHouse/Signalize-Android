@@ -18,7 +18,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.alicebot.ab.AIMLBrainCompiler;
+import org.alicebot.ab.AndroidBot;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
@@ -89,13 +89,13 @@ public class AdvancedSettings extends Activity implements View.OnClickListener{
             }
         });
         addSraiTag = (Spinner) findViewById(R.id.add_srai_tag);
-        Collections.sort(AIMLBrainCompiler.listOfPatterns);
-        if(!AIMLBrainCompiler.listOfPatterns.contains(getString(R.string.select_srai))){
-            AIMLBrainCompiler.listOfPatterns.add(0,getString(R.string.select_srai));
+        Collections.sort(AndroidBot.listOfPatterns);
+        if(!AndroidBot.listOfPatterns.contains(getString(R.string.select_srai))){
+            AndroidBot.listOfPatterns.add(0,getString(R.string.select_srai));
         }
         addSraiTag.setOnItemSelectedListener(new Listeners.SraiSelected(this,UtilityStrings.TAGTOADD.SRAI,currentResponseET));
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,
-                AIMLBrainCompiler.listOfPatterns);
+                AndroidBot.listOfPatterns);
         addSraiTag.setAdapter(arrayAdapter);
 
 
