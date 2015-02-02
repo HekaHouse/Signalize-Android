@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.os.Environment;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -20,7 +19,7 @@ import java.util.HashMap;
  * Created by Aron on 3/9/14.
  * Changed by Mukundan on 6/28/14.
  */
-public class Ghost extends Bot {
+public class AIMLBrainCompiler extends Bot {
 
     private static Context context;
     public static ArrayList<String> listOfPatterns = new ArrayList<String>();
@@ -28,7 +27,7 @@ public class Ghost extends Bot {
     public static String TAG = "Ghost";
     private HashMap<String, ArrayList<Category>> categoryQueue = new HashMap<String, ArrayList<Category>>();
 
-    public Ghost(String _name, String _path) {
+    public AIMLBrainCompiler(String _name, String _path) {
 
 
         super(_name, _path, "auto");
@@ -52,7 +51,7 @@ public class Ghost extends Bot {
 
     public AssetManager getAssets(){
         Log.d(TAG,"Assets DIR");
-        return Ghost.context.getAssets();
+        return AIMLBrainCompiler.context.getAssets();
     }
     public static File getFilesDir(){
         Log.d(TAG,"Files DIR");
@@ -60,15 +59,15 @@ public class Ghost extends Bot {
     }
 
     public static void setContext(Context context){
-        Ghost.context = context;
+        AIMLBrainCompiler.context = context;
     }
     public static void setContext(Context context, FileUtils.STORAGE_TYPE storageType){
-        Ghost.context = context;
+        AIMLBrainCompiler.context = context;
         if(storageType == FileUtils.STORAGE_TYPE.EXTERNAL_STORAGE){
-            Ghost.setExternalStorage();
+            AIMLBrainCompiler.setExternalStorage();
         }
         else if(storageType == FileUtils.STORAGE_TYPE.INTERNAL_STORAGE){
-            Ghost.setInternalStorage(true);
+            AIMLBrainCompiler.setInternalStorage(true);
         }
     }
     /**

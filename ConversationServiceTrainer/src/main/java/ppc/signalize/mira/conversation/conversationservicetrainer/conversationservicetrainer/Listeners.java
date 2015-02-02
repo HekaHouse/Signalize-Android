@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 
-import org.alicebot.ab.Ghost;
+import org.alicebot.ab.AIMLBrainCompiler;
 
 /**
  * Created by mukundan on 7/24/14.
@@ -396,7 +396,7 @@ public class Listeners {
             }
             else{
 
-                String tag = "<srai>" + Ghost.listOfPatterns.get(position) + "</srai>";
+                String tag = "<srai>" + AIMLBrainCompiler.listOfPatterns.get(position) + "</srai>";
                 addTag(tag,">");
             }
         }

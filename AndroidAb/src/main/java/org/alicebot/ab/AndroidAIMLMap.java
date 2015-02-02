@@ -26,7 +26,7 @@ public class AndroidAIMLMap extends AIMLMap {
     public void readAIMLMap(Bot bot) {
         System.out.println("Reading AIML Map " + MagicStrings.maps_path + "/" + mapName + ".txt");
         try {
-            Ghost ghost = (Ghost) bot;
+            AIMLBrainCompiler ghost = (AIMLBrainCompiler) bot;
             readAIMLMapFromInputStream(ghost.getAssets().open(MagicStrings.maps_path + "/" + mapName + ".txt"), ghost);
         } catch (Exception e) {//Catch exception if any
             System.err.println("Error: " + e.getMessage());

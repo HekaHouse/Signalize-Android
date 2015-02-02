@@ -7,12 +7,12 @@ import java.util.ArrayList;
  * A part of Signalize for Project Patient Care
  */
 public class AsyncAIML implements Runnable {
-    private final Ghost myGhost;
+    private final AIMLBrainCompiler myGhost;
     private final String myFile;
     private ArrayList<Category> moreCategories = new ArrayList<Category>();
     private String file = null;
 
-    public AsyncAIML(Ghost g, String filed) {
+    public AsyncAIML(AIMLBrainCompiler g, String filed) {
         myFile = filed;
         myGhost = g;
     }

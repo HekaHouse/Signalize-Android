@@ -5,7 +5,7 @@ import android.util.Log;
 
 import org.alicebot.ab.AndroidAIML;
 import org.alicebot.ab.AndroidChat;
-import org.alicebot.ab.Ghost;
+import org.alicebot.ab.AIMLBrainCompiler;
 import org.alicebot.ab.Nodemapper;
 
 /**
@@ -13,7 +13,7 @@ import org.alicebot.ab.Nodemapper;
  */
 public final class Conversation {
     private String TAG = "ConversationClass";
-    public static Ghost ghost=null;
+    public static AIMLBrainCompiler ghost=null;
     private AndroidChat session=null;
     private Nodemapper nodemapper;
     private static boolean resync = false;
@@ -22,8 +22,8 @@ public final class Conversation {
 
 
     private Conversation(Context context) {
-        Ghost.setContext(context,Util.storageType);
-        if(resync || ghost==null) ghost = new Ghost(Util._name, Util._AIML_path);
+        AIMLBrainCompiler.setContext(context, Util.storageType);
+        if(resync || ghost==null) ghost = new AIMLBrainCompiler(Util._name, Util._AIML_path);
         session = new AndroidChat(ghost);
         androidAIML = new AndroidAIML();
     }

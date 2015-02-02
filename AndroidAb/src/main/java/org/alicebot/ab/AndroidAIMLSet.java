@@ -20,7 +20,7 @@ public class AndroidAIMLSet extends AIMLSet {
     @Override
     public void readAIMLSet(Bot bot) {
         System.out.println("Reading AIML Set " + MagicStrings.sets_path + "/" + setName + ".txt");
-        Ghost ghost = (Ghost) bot;
+        AIMLBrainCompiler ghost = (AIMLBrainCompiler) bot;
         try {
 
             readAIMLSetFromInputStream(ghost.getAssets().open(MagicStrings.sets_path + "/" + setName + ".txt"), bot);
